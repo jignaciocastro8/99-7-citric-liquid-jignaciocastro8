@@ -14,15 +14,14 @@ import java.util.Set;
  * @version 1.0.6-rc.2
  * @since 1.0
  */
-public class Panel {
+public abstract class Panel {
+  private Set<Player> players = new HashSet<>();
   private final PanelType type;
   private final Set<Panel> nextPanels = new HashSet<>();
 
   /**
-   * Creates a new panel.
-   *
-   * @param type
-   *     the type of the panel.
+   * Create a Panel of type type.
+   * @param type: a type from PanelType.
    */
   public Panel(final PanelType type) {
     this.type = type;
@@ -75,21 +74,17 @@ public class Panel {
   }
 
   /**
-   * Executes the appropriate action to the player according to this panel's type.
+   * Adds a new Player to de panel's set of players.
+   * @param player: the player to be added.
    */
-  public void activatedBy(final Player player) {
-    switch (type) {
-      case BONUS:
-        applyBonusTo(player);
-        break;
-      case DROP:
-        applyDropTo(player);
-        break;
-      case HOME:
-        applyHealTo(player);
-        break;
-      case NEUTRAL:
-        break;
-    }
+  public void addPlayer(Player player) {
+    this.players.add(player);
   }
+
+  /**
+   * Abstract method, executes the appropriate action to the player according to the
+   * panel's type.
+   * @param player: the player that activates the panel.
+   */
+  public abstract void activatedBy(final Player player);
 }
