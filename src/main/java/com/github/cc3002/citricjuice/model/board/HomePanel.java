@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.Player;
+import com.github.cc3002.citricjuice.model.characters.Player;
 
 /**
  * Class that represents a HomePanel.
@@ -9,13 +9,26 @@ public class HomePanel extends Panel {
     private Player playerOwner;
 
     /**
-     * Creates a Home Panel and adds the playerOwner to the panel set of players.
-     * @param playerOwner: the player that starts in this panel.
+     * Creates a Home Panel.
      */
-    public HomePanel(Player playerOwner) {
+    public HomePanel() {
         super(PanelType.HOME);
-        this.playerOwner = playerOwner;
-        this.addPlayer(playerOwner);
+    }
+
+    /**
+     * Set the player that owns this panel.
+     * @param player the player that starts in this panel.
+     */
+    public void setPlayerOwner(Player player) {
+        this.playerOwner = player;
+    }
+
+    /**
+     * Return this panel owner.
+     * @return a Player.
+     */
+    public Player getPlaterOwner() {
+        return this.playerOwner;
     }
 
     /**
@@ -29,11 +42,12 @@ public class HomePanel extends Panel {
     }
 
     /**
-     *
-     * @param player
+     * Executes the norma check event.
+     * IT'S NOT COMPLETED
+     * @param player the player that reaches the panel.
      */
-    private void normaCheck(Player player){
-        
+    private void normaCheck(Player player) {
+        int stars = player.getStars();
     }
 
 }

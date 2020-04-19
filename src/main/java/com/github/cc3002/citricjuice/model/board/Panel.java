@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.Player;
+import com.github.cc3002.citricjuice.model.characters.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -25,28 +25,6 @@ public abstract class Panel {
    */
   public Panel(final PanelType type) {
     this.type = type;
-  }
-
-  /**
-   * Restores a player's HP in 1.
-   */
-  private static void applyHealTo(final @NotNull Player player) {
-    player.setCurrentHP(player.getCurrentHP() + 1);
-  }
-
-  /**
-   * Reduces the player's star count by the D6 roll multiplied by the player's norma level.
-   */
-  private static void applyDropTo(final @NotNull Player player) {
-    player.reduceStarsBy(player.roll() * player.getNormaLevel());
-  }
-
-  /**
-   * Reduces the player's star count by the D6 roll multiplied by the maximum between the player's
-   * norma level and three.
-   */
-  private static void applyBonusTo(final @NotNull Player player) {
-    player.increaseStarsBy(player.roll() * Math.min(player.getNormaLevel(), 3));
   }
 
   /**
@@ -82,7 +60,7 @@ public abstract class Panel {
   }
 
   /**
-   * Abstract method, executes the appropriate action to the player according to the
+   * Abstract method, executes the appropriate action to the player/game according to the
    * panel's type.
    * @param player: the player that activates the panel.
    */

@@ -1,4 +1,7 @@
-package com.github.cc3002.citricjuice.model;
+package com.github.cc3002.citricjuice.model.characters;
+
+import com.github.cc3002.citricjuice.model.board.HomePanel;
+import com.github.cc3002.citricjuice.model.board.Panel;
 
 import java.util.Random;
 
@@ -20,6 +23,7 @@ public class Player {
   private int normaLevel;
   private int stars;
   private int currentHP;
+  private final HomePanel homePanel;
 
   /**
    * Creates a new character.
@@ -36,7 +40,7 @@ public class Player {
    *     the base evasion of the character.
    */
   public Player(final String name, final int hp, final int atk, final int def,
-                final int evd) {
+                final int evd, HomePanel homePanel) {
     this.name = name;
     this.maxHP = currentHP = hp;
     this.atk = atk;
@@ -44,6 +48,7 @@ public class Player {
     this.evd = evd;
     normaLevel = 1;
     random = new Random();
+    this.homePanel = homePanel;
   }
 
   /**
@@ -71,7 +76,7 @@ public class Player {
   }
 
   /**
-   * Returns a uniformly distributed random value in [1, 6]
+   * Returns a uniformly distributed random value in {1,..., 6}
    */
   public int roll() {
     return random.nextInt(6) + 1;
@@ -174,6 +179,6 @@ public class Player {
    * Returns a copy of this character.
    */
   public Player copy() {
-    return new Player(name, maxHP, atk, def, evd);
+    return new Player(name, maxHP, atk, def, evd, homePanel);
   }
 }
