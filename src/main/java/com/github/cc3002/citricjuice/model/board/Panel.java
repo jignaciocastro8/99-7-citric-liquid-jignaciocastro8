@@ -8,11 +8,6 @@ import java.util.Set;
 
 /**
  * Class that represents a panel in the board of the game.
- *
- * @author <a href="mailto:ignacio.slater@ug.uchile.cl">Ignacio Slater
- *     Muñoz</a>.
- * @version 1.0.6-rc.2
- * @since 1.0
  */
 public abstract class Panel {
   private Set<Player> players = new HashSet<>();
