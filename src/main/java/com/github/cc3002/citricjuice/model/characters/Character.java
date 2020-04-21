@@ -2,7 +2,7 @@ package com.github.cc3002.citricjuice.model.characters;
 
 import java.util.Random;
 
-public abstract class Character {
+public abstract class Character implements CharacterInterface {
     protected final String name;
     protected final int maxHp;
     protected final int atk;
