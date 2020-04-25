@@ -1,5 +1,6 @@
-package com.github.cc3002.citricjuice.model;
+package com.github.cc3002.citricjuice.model.character;
 
+import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.characters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -17,6 +18,35 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 public class PlayerTest {
+    HomePanel testHomePanel = new HomePanel();
+    private final static String PLAYER_NAME = "Vale";
+    private final static int BASE_HP = 4;
+    private final static int BASE_ATK = 1;
+    private final static int BASE_DEF = -1;
+    private final static int BASE_EVD = 2;
+    private Player testPlayer;
+
+    @BeforeEach
+    public void setUp() {
+        testPlayer = new Player("Vale", BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, testHomePanel);
+    }
+    @Test
+    public void constructorTest() {
+        HomePanel newHomePanel = new HomePanel();
+        Player vale = new Player("Vale", 4, 1, -1, 2, newHomePanel);
+        assertTrue(testPlayer.equals(vale));
+    }
+    @Test
+    public void normaTest() {
+        assertEquals(1, testPlayer.getNormaLevel());
+    }
+    @Test
+    public void normaClearTest() {
+        int currentNorma = testPlayer.getNormaLevel();
+        testPlayer.normaClear();
+        assertEquals(currentNorma + 1, testPlayer.getNormaLevel());
+    }
+  /*
   private final static String PLAYER_NAME = "Suguri";
   private Player suguri;
 
@@ -104,5 +134,5 @@ public class PlayerTest {
                roll + "is not in [1, 6]" + System.lineSeparator()
                + "Test failed with random seed: " + testSeed);
   }
-  // endregion
+  // endregion*/
 }

@@ -104,7 +104,7 @@ public abstract class Character implements CharacterInterface {
      * Decreases the character's star count by an amount. A character can't have a negative number of stars.
      * @param amount: the amount to be subtracted.
      */
-    public void decreaseStarsBy(final int amount) {
+    public void reduceStarsBy(final int amount) {
         this.stars = Math.max(0, this.getStars() - amount);
     }
 

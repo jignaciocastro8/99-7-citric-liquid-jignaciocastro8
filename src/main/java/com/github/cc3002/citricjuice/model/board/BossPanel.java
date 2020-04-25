@@ -7,7 +7,7 @@ public class BossPanel extends Panel {
      * Creates a Encounter panel.
      */
     public BossPanel() {
-        super(PanelType.ENCOUNTER);
+        super(PanelType.BOSS);
     }
 
     /**
