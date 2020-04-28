@@ -13,8 +13,8 @@ public class BonusPanel extends Panel {
     /**
      * Creates a bonus panel.
      */
-    public BonusPanel() {
-        super(PanelType.BONUS);
+    public BonusPanel(int[] coordinates) {
+        super(PanelType.BONUS, coordinates);
         random = new Random();
     }
 

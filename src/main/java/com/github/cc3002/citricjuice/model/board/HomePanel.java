@@ -11,8 +11,8 @@ public class HomePanel extends Panel {
     /**
      * Creates a Home Panel.
      */
-    public HomePanel() {
-        super(PanelType.HOME);
+    public HomePanel(int[] coordinates) {
+        super(PanelType.HOME, coordinates);
     }
 
     /**

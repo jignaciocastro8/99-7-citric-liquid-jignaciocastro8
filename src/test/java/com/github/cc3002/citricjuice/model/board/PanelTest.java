@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -17,61 +18,41 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @since 1.0
  */
 class PanelTest {
-  private final static String PLAYER_NAME = "Suguri";
+  private final static String PLAYER_NAME = "NAME";
   private final static int BASE_HP = 4;
   private final static int BASE_ATK = 1;
   private final static int BASE_DEF = -1;
   private final static int BASE_EVD = 2;
-  private Panel testHomePanel;
-  private Panel testNeutralPanel;
-  private Panel testBonusPanel;
-  private Panel testDropPanel;
-  private Panel testEncounterPanel;
-  private Panel testBossPanel;
-  private Player suguri;
+  private Panel[][] panels = new Panel[1][2];
+  private Board board;
+  private Player testPlayer;
   private long testSeed;
 
   @BeforeEach
   public void setUp() {
-    testBonusPanel = new BonusPanel();
-    testBossPanel = new BossPanel();
-    testDropPanel = new DropPanel();
-    testEncounterPanel = new EncounterPanel();
-    testHomePanel = new HomePanel();
-    testNeutralPanel = new NeutralPanel();
-    testSeed = new Random().nextLong();
-    suguri = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, (HomePanel) testHomePanel);
+    panels[0][0] = new HomePanel(new int[]{0, 0});
+    panels[0][1] = new NeutralPanel(new int[]{0, 1});
+    board = new Board(panels);
+    testPlayer = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, (HomePanel) panels[0][0]);
   }
 
   @Test
   public void constructorTest() {
-    assertEquals(PanelType.BONUS, testBonusPanel.getType());
-    assertEquals(PanelType.BOSS, testBossPanel.getType());
-    assertEquals(PanelType.DROP, testDropPanel.getType());
-    assertEquals(PanelType.ENCOUNTER, testEncounterPanel.getType());
-    assertEquals(PanelType.HOME, testHomePanel.getType());
-    assertEquals(PanelType.NEUTRAL, testNeutralPanel.getType());
+
   }
-/*
   @Test
   public void nextPanelTest() {
-    assertTrue(testNeutralPanel.getNextPanels().isEmpty());
-    final var expectedPanel1 = new Panel(PanelType.NEUTRAL);
-    final var expectedPanel2 = new Panel(PanelType.NEUTRAL);
-
-    testNeutralPanel.addNextPanel(expectedPanel1);
-    assertEquals(1, testNeutralPanel.getNextPanels().size());
-
-    testNeutralPanel.addNextPanel(expectedPanel2);
-    assertEquals(2, testNeutralPanel.getNextPanels().size());
-
-    testNeutralPanel.addNextPanel(expectedPanel2);
-    assertEquals(2, testNeutralPanel.getNextPanels().size());
-
-    assertEquals(Set.of(expectedPanel1, expectedPanel2),
-                 testNeutralPanel.getNextPanels());
+    assertTrue(panels[0][0].getNextPanels().isEmpty());
+    panels[0][0].addNextPanel(panels[0][1]);
+    panels[0][1].addNextPanel(panels[0][0]);
+    HashSet<Panel> expected = new HashSet<Panel>();
+    expected.add(panels[0][1]);
+    assertEquals(expected, panels[0][0].getNextPanels());
+    HashSet<Panel> expected1 = new HashSet<Panel>();
+    expected1.add(panels[0][0]);
+    assertEquals(expected1, panels[0][1].getNextPanels());
   }
-
+  /*
   @Test
   public void homePanelTest() {
     assertEquals(suguri.getMaxHP(), suguri.getCurrentHP());

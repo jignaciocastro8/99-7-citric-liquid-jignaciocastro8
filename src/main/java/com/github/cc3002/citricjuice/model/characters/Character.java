@@ -9,8 +9,9 @@ public abstract class Character implements CharacterInterface {
     protected final int def;
     protected final int evd;
     protected final Random random;
-    protected int stars;
+    private int stars;
     protected int currentHP;
+    private int victories;
 
     /**
      * Creates a general character.
@@ -27,6 +28,7 @@ public abstract class Character implements CharacterInterface {
         this.def = def;
         this.evd = evd;
         this.stars = 0;
+        this.victories = 0;
         this.random = new Random();
     }
 
@@ -77,15 +79,21 @@ public abstract class Character implements CharacterInterface {
     public int getStars() {
         return this.stars;
     }
+
     /**
-     * Return the current hp of the character.
+     * Returns the number of victories of the character.
+     * @return
+     */
+    public int getVictories() {return this.victories;}
+    /**
+     * Returns the current hp of the character.
      * @return current hp.
      */
     public int getCurrentHP() {
         return this.currentHP;
     }
     /**
-     * Set the HP of the character.
+     * Sets the HP of the character.
      * @param currentHP: the new hp.
      */
     public void setCurrentHP(final int currentHP) {
@@ -109,6 +117,11 @@ public abstract class Character implements CharacterInterface {
     }
 
     /**
+     *
+     * @param amount: the amount to be added.
+     */
+    public void increaseVictoriesBy(int amount) {this.victories += amount;}
+    /**
      * Rolls the character's own dices represented by his/hers Random object.
      * @return a number in {1,...,6}.
      */
@@ -124,5 +137,7 @@ public abstract class Character implements CharacterInterface {
     public void setSeed(final long seed) {
         this.random.setSeed(seed);
     }
+
+    public abstract void defeatedBy(Character character);
 
 }

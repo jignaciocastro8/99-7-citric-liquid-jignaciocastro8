@@ -13,8 +13,8 @@ public class DropPanel extends Panel {
     /**
      * Creates a Drop panel.
      */
-    public DropPanel() {
-        super(PanelType.DROP);
+    public DropPanel(int[] coordinates) {
+        super(PanelType.DROP, coordinates);
         random = new Random();
     }
 

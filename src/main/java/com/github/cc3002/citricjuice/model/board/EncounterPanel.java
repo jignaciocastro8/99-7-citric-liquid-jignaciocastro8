@@ -9,8 +9,8 @@ public class EncounterPanel extends Panel {
     /**
      * Creates a Encounter panel.
      */
-    public EncounterPanel() {
-        super(PanelType.ENCOUNTER);
+    public EncounterPanel(int[] coordinates) {
+        super(PanelType.ENCOUNTER, coordinates);
     }
 
     /**

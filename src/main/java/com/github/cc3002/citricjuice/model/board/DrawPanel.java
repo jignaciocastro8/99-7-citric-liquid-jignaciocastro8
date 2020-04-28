@@ -9,8 +9,8 @@ public class DrawPanel extends Panel{
     /**
      * Creates a Draw panel.
      */
-    public DrawPanel() {
-        super(PanelType.DRAW);
+    public DrawPanel(int[] coordinates) {
+        super(PanelType.DRAW, coordinates);
     }
 
     /**

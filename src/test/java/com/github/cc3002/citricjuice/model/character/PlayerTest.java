@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 public class PlayerTest {
-    HomePanel testHomePanel = new HomePanel();
-    private final static String PLAYER_NAME = "Vale";
+    HomePanel testHomePanel = new HomePanel(new int[]{0, 0});
+    private final static String PLAYER_NAME = "NAME";
     private final static int BASE_HP = 4;
     private final static int BASE_ATK = 1;
     private final static int BASE_DEF = -1;
@@ -28,16 +28,23 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        testPlayer = new Player("Vale", BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, testHomePanel);
+        Player testPlayer = new Player("NAME", BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, testHomePanel);
     }
     @Test
     public void constructorTest() {
-        HomePanel newHomePanel = new HomePanel();
-        Player vale = new Player("Vale", 4, 1, -1, 2, newHomePanel);
-        assertTrue(testPlayer.equals(vale));
+        HomePanel newHomePanel = new HomePanel(new int[]{0, 0});
+        Player val = new Player("NAME", 4, 1, -1, 2, newHomePanel);
+        assertTrue(testPlayer.equals(val));
+    }
+    @Test
+    public void copyTest() {
+        Player newPlayer = testPlayer.copy();
+        assertNotSame(testPlayer, newPlayer);
+        assertEquals(testPlayer, testPlayer.copy());
     }
     @Test
     public void normaTest() {
+        assertFalse(-1 == testPlayer.getNormaLevel());
         assertEquals(1, testPlayer.getNormaLevel());
     }
     @Test
@@ -46,93 +53,4 @@ public class PlayerTest {
         testPlayer.normaClear();
         assertEquals(currentNorma + 1, testPlayer.getNormaLevel());
     }
-  /*
-  private final static String PLAYER_NAME = "Suguri";
-  private Player suguri;
-
-  @BeforeEach
-  public void setUp() {
-    suguri = new Player(PLAYER_NAME, 4, 1, -1, 2);
-  }
-
-  @Test
-  public void constructorTest() {
-    final var expectedSuguri = new Player(PLAYER_NAME, 4, 1, -1, 2);
-    assertEquals(expectedSuguri, suguri);
-  }
-
-  @Test
-  public void testEquals() {
-    final var o = new Object();
-    assertNotEquals(suguri, o);
-    assertEquals(suguri, suguri);
-    final var expectedSuguri = new Player(PLAYER_NAME, 4, 1, -1, 2);
-    assertEquals(expectedSuguri, suguri);
-  }
-
-  @Test
-  public void hitPointsTest() {
-    assertEquals(suguri.getMaxHP(), suguri.getCurrentHP());
-    suguri.setCurrentHP(2);
-    assertEquals(2, suguri.getCurrentHP());
-    suguri.setCurrentHP(-1);
-    assertEquals(0, suguri.getCurrentHP());
-    suguri.setCurrentHP(5);
-    assertEquals(4, suguri.getCurrentHP());
-  }
-
-  @Test
-  public void normaClearTest() {
-    suguri.normaClear();
-    assertEquals(2, suguri.getNormaLevel());
-  }
-
-  @Test
-  public void copyTest() {
-    final var expectedSuguri = new Player(PLAYER_NAME, 4, 1, -1, 2);
-    final var actualSuguri = suguri.copy();
-    // Checks that the copied player have the same parameters as the original
-    assertEquals(expectedSuguri, actualSuguri);
-    // Checks that the copied player doesn't reference the same object
-    assertNotSame(expectedSuguri, actualSuguri);
-  }
-
-  // region : consistency tests
-  @RepeatedTest(100)
-  public void hitPointsConsistencyTest() {
-    final long testSeed = new Random().nextLong();
-    // We're gonna try and set random hit points in [-maxHP * 2, maxHP * 2]
-    final int testHP = new Random(testSeed).nextInt(4 * suguri.getMaxHP() + 1)
-                       - 2 * suguri.getMaxHP();
-    suguri.setCurrentHP(testHP);
-    assertTrue(0 <= suguri.getCurrentHP()
-               && suguri.getCurrentHP() <= suguri.getMaxHP(),
-               suguri.getCurrentHP() + "is not a valid HP value"
-               + System.lineSeparator() + "Test failed with random seed: "
-               + testSeed);
-  }
-
-  @RepeatedTest(100)
-  public void normaClearConsistencyTest() {
-    final long testSeed = new Random().nextLong();
-    // We're gonna test for 0 to 5 norma clears
-    final int iterations = Math.abs(new Random(testSeed).nextInt(6));
-    final int expectedNorma = suguri.getNormaLevel() + iterations;
-    for (int it = 0; it < iterations; it++) {
-      suguri.normaClear();
-    }
-    assertEquals(expectedNorma, suguri.getNormaLevel(),
-                 "Test failed with random seed: " + testSeed);
-  }
-
-  @RepeatedTest(100)
-  public void rollConsistencyTest() {
-    final long testSeed = new Random().nextLong();
-    suguri.setSeed(testSeed);
-    final int roll = suguri.roll();
-    assertTrue(roll >= 1 && roll <= 6,
-               roll + "is not in [1, 6]" + System.lineSeparator()
-               + "Test failed with random seed: " + testSeed);
-  }
-  // endregion*/
 }
