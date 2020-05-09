@@ -1,13 +1,10 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,13 +30,9 @@ class PanelTest {
     panels[0][0] = new HomePanel(new int[]{0, 0});
     panels[0][1] = new NeutralPanel(new int[]{0, 1});
     board = new Board(panels);
-    testPlayer = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD, (HomePanel) panels[0][0]);
+    testPlayer = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD);
   }
 
-  @Test
-  public void constructorTest() {
-
-  }
   @Test
   public void nextPanelTest() {
     assertTrue(panels[0][0].getNextPanels().isEmpty());
@@ -52,6 +45,10 @@ class PanelTest {
     expected1.add(panels[0][0]);
     assertEquals(expected1, panels[0][1].getNextPanels());
   }
+
+
+  // Esto estaba antes.
+
   /*
   @Test
   public void homePanelTest() {
@@ -104,5 +101,5 @@ class PanelTest {
       suguri.normaClear();
     }
   }
-  // endregion*/
+  // endregion */
 }

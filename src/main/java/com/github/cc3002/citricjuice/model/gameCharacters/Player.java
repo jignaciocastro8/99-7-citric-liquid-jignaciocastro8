@@ -1,16 +1,15 @@
-package com.github.cc3002.citricjuice.model.characters;
+package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 
 /**
  * This class represents a player in the game 99.7% Citric Liquid.
  */
-public class Player extends Character {
+public class Player extends GameCharacter {
 
     private int normaLevel;
     private int stars;
-    private final HomePanel homePanel;
-
+    private HomePanel homePanel;
 
     /**
     * Creates a Player.
@@ -19,19 +18,33 @@ public class Player extends Character {
     * @param atk: Base attack of the player.
     * @param def: Base defense of the player.
     * @param evd: Base evasion of the player.
-    * @param homePanel: The initial panel of the player.
     */
     public Player(final String name, final int hp, final int atk, final int def,
-                  final int evd, HomePanel homePanel) {
+                  final int evd) {
         super(name, hp, atk, def, evd);
+        // Every Player starts with norma 1.
         normaLevel = 1;
-        this.homePanel = homePanel;
     }
 
+    /**
+     * Sets the home panel of the player.
+     * @param panel: a HomePanel panel.
+     */
+    public void setHomePanel(HomePanel panel) {
+        this.homePanel = panel;
+    }
+
+    public HomePanel getHomePanel() {
+        return this.homePanel;
+    }
     @Override
-    public void defeatedBy(Character character) {
+    public void defeatedBy(GameCharacter character) {
+        /* NO HACER ESTO, ARREGLARLO.
+        POSIBLE SOLUCION: character.defeat(this);
+        DONDE EL METODO defeat SERA ABSTRACTO Y CADA CHARACTER LO IMPLEMENTA A SU MANERA.
+         */
         if (character instanceof Player) {
-            character.increaseVictoriesBy(2);
+            character.increaseWinsBy(2);
             int stars = (int) Math.floor((float) this.getStars() / 2);
             character.increaseStarsBy(stars);
             this.reduceStarsBy(stars);
@@ -54,7 +67,7 @@ public class Player extends Character {
     * Performs a norma clear action; the {@code norma} counter increases in 1.
     */
     public void normaClear() {
-        normaLevel++;
+        this.normaLevel++;
     }
 
     @Override
@@ -70,7 +83,7 @@ public class Player extends Character {
           return false;
         }
         final Player player = (Player) o;
-        return getMaxHp() == player.getMaxHp() &&
+        return getMaxHP() == player.getMaxHP() &&
                getAtk() == player.getAtk() &&
                getDef() == player.getDef() &&
                getEvd() == player.getEvd() &&
@@ -84,6 +97,12 @@ public class Player extends Character {
     * Returns a copy of this character.
     */
     public Player copy() {
-        return new Player(name, maxHp, atk, def, evd, homePanel);
-      }
+        return new Player(name, maxHp, atk, def, evd);
+    }
+
+    // Implementación de batallas.
+
+    public void attack(GameCharacter character, int attack) {
+        character.increaseStarsBy(attack);
+    }
 }

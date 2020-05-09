@@ -1,7 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
-import org.jetbrains.annotations.NotNull;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 import java.util.Arrays;
 import java.util.HashSet;

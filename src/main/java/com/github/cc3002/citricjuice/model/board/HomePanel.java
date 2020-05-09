@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 /**
  * Class that represents a HomePanel.
@@ -33,7 +33,7 @@ public class HomePanel extends Panel {
 
     /**
      * Home panel version of activatedBy: increase HP by one and does the normaCheck.
-     * @param player
+     * @param player: a Player.
      */
     @Override
     public void activatedBy(Player player) {
@@ -48,6 +48,34 @@ public class HomePanel extends Panel {
      */
     private void normaCheck(Player player) {
         int stars = player.getStars();
+        int wins = player.getWins();
+        // Every player starts with norma 1.
+        int requisitos = 1;
+        // Norma 2:
+        if ( 10 <= stars && 0 <= wins ) {
+            requisitos++;
+        }
+        // Norma 3:
+        if ( 30 <= stars  && 2 <= wins ) {
+            requisitos++;
+        }
+        // Norma 4.
+        if ( 70 <= stars && 5 <= wins ) {
+            requisitos++;
+        }
+        // Norma 5.
+        if ( 120 <= stars && 9 <= wins ) {
+            requisitos++;
+        }
+        // Norma 6.
+        if ( 200 <= stars  && 14 <= wins ) {
+            requisitos++;
+        }
+        int it = requisitos - player.getNormaLevel();
+        // Increases norma by the correct amount.
+        for (int i = 0; i < it; i++) {
+            player.normaClear();
+        }
     }
 
 }

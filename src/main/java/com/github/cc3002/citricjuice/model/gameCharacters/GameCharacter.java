@@ -1,8 +1,8 @@
-package com.github.cc3002.citricjuice.model.characters;
+package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import java.util.Random;
 
-public abstract class Character implements CharacterInterface {
+public abstract class GameCharacter implements CharacterInterface {
     protected final String name;
     protected final int maxHp;
     protected final int atk;
@@ -11,7 +11,7 @@ public abstract class Character implements CharacterInterface {
     protected final Random random;
     private int stars;
     protected int currentHP;
-    private int victories;
+    private int wins;
 
     /**
      * Creates a general character.
@@ -21,14 +21,15 @@ public abstract class Character implements CharacterInterface {
      * @param def: the base defense if the character.
      * @param evd: the base evasion of the character.
      */
-    public Character(String name, int hp, int atk, int def, int evd) {
+    public GameCharacter(String name, int hp, int atk, int def, int evd) {
         this.name = name;
         this.maxHp = hp;
+        this.currentHP = hp;
         this.atk = atk;
         this.def = def;
         this.evd = evd;
         this.stars = 0;
-        this.victories = 0;
+        this.wins = 0;
         this.random = new Random();
     }
 
@@ -44,7 +45,7 @@ public abstract class Character implements CharacterInterface {
      * Returns the character's max hp.
      * @return hp.
      */
-    public int getMaxHp() {
+    public int getMaxHP() {
         return this.maxHp;
     }
 
@@ -84,7 +85,7 @@ public abstract class Character implements CharacterInterface {
      * Returns the number of victories of the character.
      * @return
      */
-    public int getVictories() {return this.victories;}
+    public int getWins() {return this.wins;}
     /**
      * Returns the current hp of the character.
      * @return current hp.
@@ -94,10 +95,10 @@ public abstract class Character implements CharacterInterface {
     }
     /**
      * Sets the HP of the character.
-     * @param currentHP: the new hp.
+     * @param newHP: the new hp.
      */
-    public void setCurrentHP(final int currentHP) {
-        this.currentHP = currentHP;
+    public void setCurrentHP(final int newHP) {
+        this.currentHP = Math.max(0, Math.min(newHP, this.maxHp));
     }
 
     /**
@@ -113,14 +114,20 @@ public abstract class Character implements CharacterInterface {
      * @param amount: the amount to be subtracted.
      */
     public void reduceStarsBy(final int amount) {
-        this.stars = Math.max(0, this.getStars() - amount);
+        this.stars = Math.max(0, this.stars - amount);
     }
 
     /**
-     *
+     * Increases wins by an amount.
      * @param amount: the amount to be added.
      */
-    public void increaseVictoriesBy(int amount) {this.victories += amount;}
+    public void increaseWinsBy(int amount) {this.wins += amount;}
+
+    /**
+     * Reduces wins by an amount.
+     * @param amount: the amount to be reduce.
+     */
+    public void reduceWinsBy(int amount) {this.wins = Math.max(0, this.wins - amount);}
     /**
      * Rolls the character's own dices represented by his/hers Random object.
      * @return a number in {1,...,6}.
@@ -137,7 +144,5 @@ public abstract class Character implements CharacterInterface {
     public void setSeed(final long seed) {
         this.random.setSeed(seed);
     }
-
-    public abstract void defeatedBy(Character character);
 
 }
