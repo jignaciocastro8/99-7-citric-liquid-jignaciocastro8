@@ -2,6 +2,8 @@ package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 
+import java.util.Objects;
+
 /**
  * This class represents a player in the game 99.7% Citric Liquid.
  */
@@ -10,7 +12,7 @@ public class Player extends AbstractCharacter implements BattleInterface {
     private HomePanel homePanel;
 
     /**
-    * Creates a Player.
+    * Creates a Player with null HomePanel.
     * @param name: Name of the player.
     * @param hp : Hit points of the player.
     * @param atk: Base attack of the player.
@@ -23,6 +25,23 @@ public class Player extends AbstractCharacter implements BattleInterface {
         // Every Player starts with norma 1.
         normaLevel = 1;
     }
+    /**
+     * Creates a Player with a HomePanel
+     * @param name: Name of the player.
+     * @param hp : Hit points of the player.
+     * @param atk: Base attack of the player.
+     * @param def: Base defense of the player.
+     * @param evd: Base evasion of the player.
+     * @param panel: HomePanel of the player.
+     */
+    public Player(final String name, final int hp, final int atk, final int def,
+                  final int evd, HomePanel panel) {
+        super(name, hp, atk, def, evd);
+        // Every Player starts with norma 1.
+        this.normaLevel = 1;
+        // Assign the HomePanel.
+        this.homePanel = panel;
+    }
 
     /**
      * Sets the home panel of the player.
@@ -32,9 +51,57 @@ public class Player extends AbstractCharacter implements BattleInterface {
         this.homePanel = panel;
     }
 
+    /**
+     * Increases attack stat by an amount.
+     * @param amount Int.
+     */
+    public void increaseAtk(int amount) {
+        this.atk += amount;
+    }
+    /**
+     * Reduces attack stat by an amount.
+     * @param amount Int.
+     */
+    public void reduceAtk(int amount) {
+        this.atk -= amount;
+    }
+    /**
+     * Increases defend stat by an amount.
+     * @param amount Int.
+     */
+    public void increaseDef(int amount) {
+        this.def += amount;
+    }
+    /**
+     * Reduces def stat by an amount.
+     * @param amount Int.
+     */
+    public void reduceDef(int amount) {
+        this.def -= amount;
+    }
+    /**
+     * Increases evade stat by an amount.
+     * @param amount Int.
+     */
+    public void increaseEvd(int amount) {
+        this.evd += amount;
+    }
+    /**
+     * Reduces evade stat by an amount.
+     * @param amount Int.
+     */
+    public void reduceEvd(int amount) {
+        this.evd -= amount;
+    }
+
+    /**
+     * Returns the HomePanel panel of this Player.
+     * @return HomePanel.
+     */
     public HomePanel getHomePanel() {
         return this.homePanel;
     }
+
     @Override
     public void receiveAtk(int netAtk) {
         // Here the player must decide if evade or defend.
@@ -46,6 +113,17 @@ public class Player extends AbstractCharacter implements BattleInterface {
         return normaLevel;
       }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Player player = (Player) o;
+        return normaLevel == player.normaLevel &&
+                Objects.equals(homePanel, player.homePanel);
+    }
+
+
     /**
     * Performs a norma clear action; the {@code norma} counter increases in 1.
     */
@@ -53,24 +131,7 @@ public class Player extends AbstractCharacter implements BattleInterface {
         this.normaLevel++;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Player)) {
-            return false;
-        }
-        final Player player = (Player) o;
-        return getMaxHP() == player.getMaxHP() &&
-                getAtk() == player.getAtk() &&
-                getDef() == player.getDef() &&
-                getEvd() == player.getEvd() &&
-                getNormaLevel() == player.getNormaLevel() &&
-                getStars() == player.getStars() &&
-                getCurrentHP() == player.getCurrentHP() &&
-                getName().equals(player.getName());
-    }
+
 
     /**
     * Returns a copy of this character.

@@ -14,7 +14,7 @@ public abstract class Panel implements PanelInterface {
   private Set<Player> players = new HashSet<>();
   private final PanelType type;
   private final Set<Panel> nextPanels = new HashSet<>();
-  private int[] coordinates = new int[2];
+  private int[] coordinates;
 
   /**
    * Create a Panel of type type.

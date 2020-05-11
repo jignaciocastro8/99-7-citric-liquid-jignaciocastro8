@@ -1,13 +1,17 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
 public interface CharacterInterface {
-    public void setCurrentHP(final int currentHP);
-    public void increaseStarsBy(final int amount);
-    public void reduceStarsBy(final int amount);
-    public void increaseWinsBy(final int amount);
-    public void reduceWinsBy(final int amount);
-    public void setSeed(long seed);
-    public int roll();
+    void setCurrentHP(final int currentHP);
+    void increaseStarsBy(final int amount);
+    void reduceStarsBy(final int amount);
+    void increaseWinsBy(final int amount);
+    void reduceWinsBy(final int amount);
+    void setSeed(long seed);
+    int roll();
+    int getCurrentHP();
+    int getMaxHP();
+    int getStars();
+    int getWins();
 
     /*
     // Esto podría estar en una BattleInterface común a PLayer y AbstractUnit.

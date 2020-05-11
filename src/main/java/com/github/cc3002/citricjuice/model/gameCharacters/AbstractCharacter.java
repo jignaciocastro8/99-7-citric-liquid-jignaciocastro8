@@ -6,34 +6,15 @@ import java.util.Random;
 public abstract class AbstractCharacter implements CharacterInterface {
     protected final String name;
     protected final int maxHp;
-    protected final int atk;
-    protected final int def;
-    protected final int evd;
+    protected int atk;
+    protected int def;
+    protected int evd;
     protected final Random random;
     protected int stars;
     protected int currentHP;
     protected int wins;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractCharacter that = (AbstractCharacter) o;
-        return maxHp == that.maxHp &&
-                atk == that.atk &&
-                def == that.def &&
-                evd == that.evd &&
-                stars == that.stars &&
-                currentHP == that.currentHP &&
-                wins == that.wins &&
-                Objects.equals(name, that.name);
-                //Objects.equals(random, that.random); NO SE NECESITA COMPARAR LOS RANDOM OBJECTS (?)
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, maxHp, atk, def, evd, random, stars, currentHP, wins);
-    }
 
     /**
      * Creates a general character.
@@ -167,7 +148,26 @@ public abstract class AbstractCharacter implements CharacterInterface {
         this.random.setSeed(seed);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractCharacter that = (AbstractCharacter) o;
+        return maxHp == that.maxHp &&
+                atk == that.atk &&
+                def == that.def &&
+                evd == that.evd &&
+                stars == that.stars &&
+                currentHP == that.currentHP &&
+                wins == that.wins &&
+                Objects.equals(name, that.name);
+        //Objects.equals(random, that.random); NO SE NECESITA COMPARAR LOS RANDOM OBJECTS (?)
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, maxHp, atk, def, evd, random, stars, currentHP, wins);
+    }
 
     // Attack implementation. Podría ir asociado a otra interfaz.
 
