@@ -5,26 +5,25 @@ import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import java.util.Random;
 
 /**
- * Class that represents a Drop panel.
+ * Class that represents a Drop panel. It doesn't have a random object.
  */
 public class DropPanel extends Panel {
-    private final Random random;
 
     /**
      * Creates a Drop panel.
      */
     public DropPanel(int[] coordinates) {
         super(PanelType.DROP, coordinates);
-        random = new Random();
     }
 
     /**
      * Drop panel version of activated by: decreases the player's stars depending of his/hers norma.
+     * The randomness comes from the player.
      * @param player: the player that activates the panel.
      */
     @Override
     public void activatedBy(Player player) {
-        int roll = random.nextInt(6) + 1;
+        int roll = player.roll();
         player.reduceStarsBy(roll * player.getNormaLevel());
     }
 }

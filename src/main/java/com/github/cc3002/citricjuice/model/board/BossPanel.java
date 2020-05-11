@@ -15,7 +15,5 @@ public class BossPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(Player player) {
-
-    }
+    public void activatedBy(Player player) { }
 }

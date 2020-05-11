@@ -9,41 +9,36 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BonusPanelTest {
+public class DropPanelTest {
     private final static String PLAYER_NAME = "NAME";
     private final static int BASE_HP = 4;
     private final static int BASE_ATK = 1;
     private final static int BASE_DEF = -1;
     private final static int BASE_EVD = 2;
-    private Player suguri;
-    private BonusPanel testBonusPanel;
-    private long testSeed;
-
+    Player suguri;
+    long testSeed;
+    DropPanel testDropPanel;
     @BeforeEach
-    public void setUp() {
+    public void setUp(){
         // We fix the seed of the random object to control the stochastic behavior.
         testSeed = new Random().nextLong();
-        testBonusPanel = new BonusPanel(new int[]{0, 0});
         suguri = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD);
-    }
-    @Test
-    public void constructorTest() {
-        BonusPanel expected = new BonusPanel(new int[]{0, 0});
-        assertEquals(expected, testBonusPanel);
+        testDropPanel = new DropPanel(new int[]{0, 0});
     }
     @RepeatedTest(100)
-    public void activatedByTest() {
-        int expectedStars = 0;
+    public void dropPanelConsistencyTest() {
+        // Generate a random amount of stars.
+        int expectedStars = new Random().nextInt(500);
+        suguri.increaseStarsBy(expectedStars);
         assertEquals(expectedStars, suguri.getStars());
-        // The random object of the test.
+        // Sets the random object's seed.
         final var testRandom = new Random(testSeed);
-        // Sets the Player's seed to the known seed.
+        // Sets the players's random object's seed to the same seed.
         suguri.setSeed(testSeed);
-        // We tests over the range of the norma level.
         for (int normaLvl = 1; normaLvl <= 6; normaLvl++) {
             final int roll = testRandom.nextInt(6) + 1;
-            testBonusPanel.activatedBy(suguri);
-            expectedStars += roll * Math.min(3, normaLvl);
+            testDropPanel.activatedBy(suguri);
+            expectedStars = Math.max(expectedStars - roll * normaLvl, 0);
             assertEquals(expectedStars, suguri.getStars(),
                     "Test failed with seed: " + testSeed);
             suguri.normaClear();

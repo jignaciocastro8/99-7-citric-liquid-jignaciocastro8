@@ -2,11 +2,18 @@ package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
+import java.util.Objects;
+
 /**
  * Class that represents a HomePanel.
  */
 public class HomePanel extends Panel {
     private Player playerOwner;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerOwner);
+    }
 
     /**
      * Creates a Home Panel.

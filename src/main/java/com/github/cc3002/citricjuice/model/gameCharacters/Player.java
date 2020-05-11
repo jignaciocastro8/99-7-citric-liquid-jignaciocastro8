@@ -5,10 +5,8 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 /**
  * This class represents a player in the game 99.7% Citric Liquid.
  */
-public class Player extends GameCharacter {
-
+public class Player extends AbstractCharacter implements BattleInterface {
     private int normaLevel;
-    private int stars;
     private HomePanel homePanel;
 
     /**
@@ -38,24 +36,9 @@ public class Player extends GameCharacter {
         return this.homePanel;
     }
     @Override
-    public void defeatedBy(GameCharacter character) {
-        /* NO HACER ESTO, ARREGLARLO.
-        POSIBLE SOLUCION: character.defeat(this);
-        DONDE EL METODO defeat SERA ABSTRACTO Y CADA CHARACTER LO IMPLEMENTA A SU MANERA.
-         */
-        if (character instanceof Player) {
-            character.increaseWinsBy(2);
-            int stars = (int) Math.floor((float) this.getStars() / 2);
-            character.increaseStarsBy(stars);
-            this.reduceStarsBy(stars);
-        }
-        if (character instanceof WildUnit || character instanceof BossUnit) {
-            int stars = (int) Math.floor((float) this.getStars() / 2);
-            character.increaseStarsBy(stars);
-            this.reduceStarsBy(stars);
-        }
+    public void receiveAtk(int netAtk) {
+        // Here the player must decide if evade or defend.
     }
-
     /**
     * Returns the current norma level
     */
@@ -71,26 +54,22 @@ public class Player extends GameCharacter {
     }
 
     @Override
-    /**
-    * Decides if the object o is equal to this player.
-    * @param o: Another object.
-    */
     public boolean equals(final Object o) {
         if (this == o) {
-         return true;
+            return true;
         }
         if (!(o instanceof Player)) {
-          return false;
+            return false;
         }
         final Player player = (Player) o;
         return getMaxHP() == player.getMaxHP() &&
-               getAtk() == player.getAtk() &&
-               getDef() == player.getDef() &&
-               getEvd() == player.getEvd() &&
-               getNormaLevel() == player.getNormaLevel() &&
-               getStars() == player.getStars() &&
-               getCurrentHP() == player.getCurrentHP() &&
-               getName().equals(player.getName());
+                getAtk() == player.getAtk() &&
+                getDef() == player.getDef() &&
+                getEvd() == player.getEvd() &&
+                getNormaLevel() == player.getNormaLevel() &&
+                getStars() == player.getStars() &&
+                getCurrentHP() == player.getCurrentHP() &&
+                getName().equals(player.getName());
     }
 
     /**
@@ -100,9 +79,48 @@ public class Player extends GameCharacter {
         return new Player(name, maxHp, atk, def, evd);
     }
 
-    // Implementación de batallas.
+    /**
+     * Player defeats character.
+     * @param character: Another game character.
+     */
+    @Override
+    public void defeat(BattleInterface character) {
+       character.defeatedByPlayer(this);
+    }
 
-    public void attack(GameCharacter character, int attack) {
-        character.increaseStarsBy(attack);
+    /**
+     * Player defeats Player: Half the stars of the loser goes to the winner and
+     * winner's wins increase by two.
+     * @param player: Player winner.
+     */
+    @Override
+    public void defeatedByPlayer(Player player) {
+        player.increaseStarsBy((int) Math.floor(this.stars * 0.5));
+        this.reduceStarsBy((int) Math.floor(this.stars * 0.5));
+        player.increaseWinsBy(2);
+    }
+
+    /**
+     * WildUnit defeats Player: Half the Player's stars goes to the WildUnit and the
+     * WildUnit's wins increases by two.
+     * @param wild: WildUnit winner.
+     */
+    @Override
+    public void defeatedByWild(WildUnit wild) {
+        wild.increaseStarsBy((int)Math.floor(this.stars * 0.5));
+        this.reduceStarsBy((int)Math.floor(this.stars * 0.5));
+        wild.increaseWinsBy(2);
+    }
+
+    /**
+     * BossUnit defeat Player: Half the Player's stars goes to the BossUnit and the BossUnit'wins
+     * increases by two.
+     * @param boss: BossUnit winner.
+     */
+    @Override
+    public void defeatedByBoss(BossUnit boss) {
+        boss.increaseStarsBy((int) Math.floor(this.stars * 0.5));
+        this.reduceStarsBy((int) Math.floor(this.stars * 0.5));
+        boss.increaseWinsBy(2);
     }
 }

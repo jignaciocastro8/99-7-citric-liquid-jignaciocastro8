@@ -1,17 +1,39 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
+import java.util.Objects;
 import java.util.Random;
 
-public abstract class GameCharacter implements CharacterInterface {
+public abstract class AbstractCharacter implements CharacterInterface {
     protected final String name;
     protected final int maxHp;
     protected final int atk;
     protected final int def;
     protected final int evd;
     protected final Random random;
-    private int stars;
+    protected int stars;
     protected int currentHP;
-    private int wins;
+    protected int wins;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractCharacter that = (AbstractCharacter) o;
+        return maxHp == that.maxHp &&
+                atk == that.atk &&
+                def == that.def &&
+                evd == that.evd &&
+                stars == that.stars &&
+                currentHP == that.currentHP &&
+                wins == that.wins &&
+                Objects.equals(name, that.name);
+                //Objects.equals(random, that.random); NO SE NECESITA COMPARAR LOS RANDOM OBJECTS (?)
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, maxHp, atk, def, evd, random, stars, currentHP, wins);
+    }
 
     /**
      * Creates a general character.
@@ -21,7 +43,7 @@ public abstract class GameCharacter implements CharacterInterface {
      * @param def: the base defense if the character.
      * @param evd: the base evasion of the character.
      */
-    public GameCharacter(String name, int hp, int atk, int def, int evd) {
+    public AbstractCharacter(String name, int hp, int atk, int def, int evd) {
         this.name = name;
         this.maxHp = hp;
         this.currentHP = hp;
@@ -145,4 +167,38 @@ public abstract class GameCharacter implements CharacterInterface {
         this.random.setSeed(seed);
     }
 
+
+
+    // Attack implementation. Podría ir asociado a otra interfaz.
+
+    /**
+     *
+     * @param attack: net attack over this character.
+     */
+    public void defend(int attack) {
+        int defendRoll = this.roll();
+        int netDef = defendRoll + this.def;
+        this.setCurrentHP(this.getCurrentHP() - Math.max(1, attack - netDef));
+    }
+
+    /**
+     *
+     * @param attack: net attack over this character.
+     */
+    public void evade(int attack) {
+        int evdRoll = this.roll();
+        int netEvd = evdRoll + this.getEvd();
+        if (netEvd <= attack) {
+            this.setCurrentHP(this.getCurrentHP() - attack);
+        }
+    }
+
+    public void attack(AbstractCharacter character) {
+        int atkRoll = this.roll();
+        int netAtk = atkRoll + this.atk;
+        character.receiveAtk(netAtk);
+    }
+
+    // Everyone must be able to receive an attack.
+    public abstract void receiveAtk(int netAtk);
 }
