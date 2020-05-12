@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 /**
  * Class that represents a Encounter panel.
@@ -9,8 +9,8 @@ public class EncounterPanel extends Panel {
     /**
      * Creates a Encounter panel.
      */
-    public EncounterPanel() {
-        super(PanelType.ENCOUNTER);
+    public EncounterPanel(int[] coordinates) {
+        super(PanelType.ENCOUNTER, coordinates);
     }
 
     /**

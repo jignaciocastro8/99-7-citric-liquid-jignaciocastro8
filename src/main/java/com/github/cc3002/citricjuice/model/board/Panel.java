@@ -1,9 +1,10 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
-import org.jetbrains.annotations.NotNull;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -13,13 +14,15 @@ public abstract class Panel implements PanelInterface {
   private Set<Player> players = new HashSet<>();
   private final PanelType type;
   private final Set<Panel> nextPanels = new HashSet<>();
+  private int[] coordinates;
 
   /**
    * Create a Panel of type type.
    * @param type: a type from PanelType.
    */
-  public Panel(final PanelType type) {
+  public Panel(final PanelType type, final int[] coordinates) {
     this.type = type;
+    this.coordinates = coordinates;
   }
 
   /**
@@ -59,5 +62,16 @@ public abstract class Panel implements PanelInterface {
    * panel's type.
    * @param player: the player that activates the panel.
    */
-  //public abstract void activatedBy(final Player player);
+  public abstract void activatedBy(final Player player);
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Panel panel = (Panel) o;
+    return Objects.equals(players, panel.players) &&
+            type == panel.type &&
+            Objects.equals(nextPanels, panel.nextPanels) &&
+            Arrays.equals(coordinates, panel.coordinates);
+  }
 }

@@ -1,13 +1,13 @@
 package com.github.cc3002.citricjuice.model.board;
 
-import com.github.cc3002.citricjuice.model.characters.Player;
+import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 public class BossPanel extends Panel {
     /**
      * Creates a Encounter panel.
      */
-    public BossPanel() {
-        super(PanelType.ENCOUNTER);
+    public BossPanel(int[] coordinates) {
+        super(PanelType.BOSS, coordinates);
     }
 
     /**
@@ -15,7 +15,5 @@ public class BossPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(Player player) {
-
-    }
+    public void activatedBy(Player player) { }
 }
