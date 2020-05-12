@@ -35,6 +35,10 @@ un Player aún no se ha implementado.
 La implementación de los paneles es débilmente testeada, esto se debe a que no se han implementado a
 cabalidad sus funciones. Si bien cada tipo de panel tiene su test correspondiente, en su mayoría sólo 
 testean el constructor. La clase PanelTest, pensada con la idea de testear funcionalidades básicas de 
-los paneles, cuenta con un testeo un poco mayor.
+los paneles, cuenta con un testeo un poco mayor. Además, los paneles que modifican campos de 
+characters testean estos efectos.
 
 **PanelTest**: Testea la implementación de nextPanels.
+**HomePanelTest**: Testea constructor y el efecto que genera este panel sobre un character.
+**BonusPanelTest**: Testea constructor y el efecto que genera este panel sobre un character.
+**DropPanelTest**: Testea constructor y el efecto que genera este panel sobre un character.
