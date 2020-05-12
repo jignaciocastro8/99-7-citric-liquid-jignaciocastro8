@@ -7,9 +7,9 @@ The project consists in creating a (simplified) clone of the game **100% Orange 
 developed by [Orange_Juice](http://daidai.moo.jp) and distributed by 
 [Fruitbat Factory](https://fruitbatfactory.com).
 
-# ** Funcionamiento y lógica del programa **
+# **Funcionamiento y lógica del programa**
 
-En este documento entederemos por character al conjunto de los personajes del juego, es decir, players
+En este documento entenderemos por character al conjunto de los personajes del juego, es decir, players,
 wild y boss units. Para cada uno de estos se creo su clase asociada, *Player*, *WildUnit* y *BossUnit*.
  
 Los characters se organizan base a una clase abstracta *AbstractCharacter* de la cual hereda *Player*
@@ -21,13 +21,13 @@ desde fuera del programa. Por lo anterior las clases *WildUnit* y *BossUnit* her
 *AbstractUnit*, esto facilita la adición de nuevos units. La presencia de *AbstracUnit* tiene como fin 
 mantener este comportamiento *random* para todos los units.
 
-La clase *AbstractCharacter* implementa la interfaz *CharacterInterface*. En esta se incluyen los
-métodos que todo character debe poder ejecutar, desde modificar *stars* y *wins* hasta poder hacer un
-*roll* (lanzar los dados). La interfaz *BattleInterface*, que guarda los métodos asociados al 
-desarrollo de una batalla, es implementada por *Player*, *WildUnit* y *BossUnit*. La creación de una 
-interfaz que controle la acción de una batalla permite la independencia de este evento del resto del 
-programa. Otro aspecto positivo de esta interfaz es poder hacer *Double Dispatch* entre los personajes 
-al momento de vencer o se vencido. 
+Las clases *AbstractCharacter* y *Player* implementan la interfaz *CharacterInterface*. En esta se 
+incluyen los métodos que todo character debe poder ejecutar, desde modificar *stars* y *wins* hasta 
+poder hacer un *roll* (lanzar los dados). La interfaz *BattleInterface*, que guarda los métodos 
+asociados al desarrollo de una batalla, es implementada por *Player*, *WildUnit* y *BossUnit*. La 
+creación de una interfaz que controle la acción de una batalla permite la independencia de este evento 
+del resto del programa. Otro aspecto positivo de esta interfaz es poder hacer *Double Dispatch* entre 
+los personajes al momento de vencer o se vencido. 
 
 Por otro lado, como sólo los players pueden modificar sus stats, los métodos que ejecutan estas 
 instrucciones sólo se encuentran en la clase *Player*.
@@ -39,7 +39,7 @@ interfaz *PanelInterface*, esta contiene métodos que permiten agregar jugadores
 paneles siguientes y hacer que el panel sea activado por algún jugador desencadenando el efecto 
 adecuado dependiendo del tipo del panel. Este último método sólo se ha implementado para *HomePanel*, 
 *BonusPanel* y *DropPanel*. La separación de los paneles en distintas clases simplifica la 
-implementación del método mencionado, puesto que el efecto que este tiene depende del tipo de panel. 
+implementación del método mencionado puesto que el efecto que este tiene depende del tipo de panel. 
 Además, facilita la adición de nuevos tipos de paneles.
 
 # **Supuestos**
