@@ -102,6 +102,10 @@ public class Player extends AbstractCharacter implements BattleInterface {
         return this.homePanel;
     }
 
+    /**
+     * Receive the attack and execute the player decision.
+     * @param netAtk net attack over the player.
+     */
     @Override
     public void receiveAtk(int netAtk) {
         // Here the player must decide if evade or defend.

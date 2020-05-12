@@ -35,12 +35,12 @@ public class BattleTest {
         // Generate a test roll with the test seed.
         int testRoll = new Random(testSeed).nextInt(6) + 1;
         // Set the character's seed to the test seed.
-        chicken.setSeed(testSeed);
+        marc.setSeed(testSeed);
         int atk = new Random().nextInt(200);
-        int def = testRoll + chicken.getDef();
-        int expectedHp = Math.max(0, chicken.getCurrentHP() - Math.max(1, atk - def));
-        chicken.defend(atk);
-        assertEquals(expectedHp, chicken.getCurrentHP());
+        int def = testRoll + marc.getDef();
+        int expectedHp = Math.max(0, marc.getCurrentHP() - Math.max(1, atk - def));
+        marc.defend(atk);
+        assertEquals(expectedHp, marc.getCurrentHP());
     }
     @RepeatedTest(100)
     public void evadeTest() {
@@ -81,13 +81,13 @@ public class BattleTest {
         // Attack
         suguri.attack(chicken);
         if (defend) {
-            // Wildy's net defend.
+            // Chicken net defend.
             int netDef = chicken.getDef() + enemyRan.nextInt(6) + 1;
             int expectedHp = Math.max(0, currentHp - Math.max(1, netAtk - netDef));
             assertEquals(expectedHp, chicken.getCurrentHP());
         }
         else {
-            // Wildy's net evade.
+            // Chicken net evade.
             int netEvd = chicken.getEvd() + enemyRan.nextInt(6) + 1;
             if (netEvd > netAtk) {
                 assertEquals(currentHp, chicken.getCurrentHP());

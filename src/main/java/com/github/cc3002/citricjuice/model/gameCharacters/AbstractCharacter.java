@@ -86,7 +86,7 @@ public abstract class AbstractCharacter implements CharacterInterface {
 
     /**
      * Returns the number of victories of the character.
-     * @return
+     * @return wins.
      */
     public int getWins() {return this.wins;}
     /**
@@ -169,10 +169,11 @@ public abstract class AbstractCharacter implements CharacterInterface {
         return Objects.hash(name, maxHp, atk, def, evd, random, stars, currentHP, wins);
     }
 
-    // Attack implementation. Podría ir asociado a otra interfaz.
+
+    // Battle implementation.
 
     /**
-     *
+     * Execute the defend strategy.
      * @param attack: net attack over this character.
      */
     public void defend(int attack) {
@@ -182,7 +183,7 @@ public abstract class AbstractCharacter implements CharacterInterface {
     }
 
     /**
-     *
+     * Execute the evade strategy.
      * @param attack: net attack over this character.
      */
     public void evade(int attack) {
@@ -193,6 +194,10 @@ public abstract class AbstractCharacter implements CharacterInterface {
         }
     }
 
+    /**
+     * Execute attack over a character.
+     * @param character AbstractCharacter.
+     */
     public void attack(AbstractCharacter character) {
         int atkRoll = this.roll();
         int netAtk = atkRoll + this.atk;
