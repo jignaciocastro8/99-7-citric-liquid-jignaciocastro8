@@ -1,7 +1,5 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-import com.github.cc3002.citricjuice.model.board.BossPanel;
-
 public class BossUnit extends AbstractUnit implements BattleInterface{
     public BossUnit(String name, int maxHp, int atk, int def, int evd) {
         super(name, maxHp, atk, def, evd);

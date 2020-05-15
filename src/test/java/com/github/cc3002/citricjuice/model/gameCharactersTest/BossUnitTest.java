@@ -1,5 +1,7 @@
-package com.github.cc3002.citricjuice.model.gameCharacters;
+package com.github.cc3002.citricjuice.model.gameCharactersTest;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.BossUnit;
+import com.github.cc3002.citricjuice.model.gameCharacters.CharacterInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;

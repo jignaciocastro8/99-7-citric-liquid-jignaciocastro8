@@ -1,5 +1,6 @@
-package com.github.cc3002.citricjuice.model.gameCharacters;
+package com.github.cc3002.citricjuice.model.gameCharactersTest;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.CharacterInterface;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.Random;

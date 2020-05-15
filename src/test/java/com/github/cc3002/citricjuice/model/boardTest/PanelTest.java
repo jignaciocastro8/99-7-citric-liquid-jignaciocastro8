@@ -1,5 +1,9 @@
-package com.github.cc3002.citricjuice.model.board;
+package com.github.cc3002.citricjuice.model.boardTest;
 
+import com.github.cc3002.citricjuice.model.board.Board;
+import com.github.cc3002.citricjuice.model.board.HomePanel;
+import com.github.cc3002.citricjuice.model.board.NeutralPanel;
+import com.github.cc3002.citricjuice.model.board.Panel;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

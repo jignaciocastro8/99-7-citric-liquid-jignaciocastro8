@@ -1,7 +1,5 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-import com.github.cc3002.citricjuice.model.board.BossPanel;
-
 public interface BattleInterface {
     public void defeat(BattleInterface character);
     public void defeatedByPlayer(Player player);

@@ -1,5 +1,6 @@
-package com.github.cc3002.citricjuice.model.board;
+package com.github.cc3002.citricjuice.model.boardTest;
 
+import com.github.cc3002.citricjuice.model.board.NeutralPanel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

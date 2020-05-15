@@ -1,9 +1,9 @@
-package com.github.cc3002.citricjuice.model.board;
+package com.github.cc3002.citricjuice.model.boardTest;
 
+import com.github.cc3002.citricjuice.model.board.DropPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 

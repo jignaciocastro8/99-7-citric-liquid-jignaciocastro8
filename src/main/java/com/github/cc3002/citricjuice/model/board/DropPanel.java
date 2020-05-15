@@ -2,8 +2,6 @@ package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
-import java.util.Random;
-
 /**
  * Class that represents a Drop panel. It doesn't have a random object.
  */

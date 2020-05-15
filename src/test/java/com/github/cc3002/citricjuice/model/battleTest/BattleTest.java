@@ -1,4 +1,4 @@
-package com.github.cc3002.citricjuice.model.Battle;
+package com.github.cc3002.citricjuice.model.battleTest;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.BossUnit;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
