@@ -36,7 +36,7 @@ public class HomePanelTest {
         // We set the player owner to suguri.
         testHomePanel.setPlayerOwner(suguri);
         // Checks that the current player owner is still suguri.
-        assertEquals(suguri, testHomePanel.getPlaterOwner());
+        assertEquals(suguri, testHomePanel.getPlayerOwner());
         // Suguri's home panel test.
         suguri.setHomePanel(testHomePanel);
         assertEquals(testHomePanel, suguri.getHomePanel());

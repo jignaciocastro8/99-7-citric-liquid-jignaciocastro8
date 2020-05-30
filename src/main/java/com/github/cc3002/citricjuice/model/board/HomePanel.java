@@ -34,7 +34,7 @@ public class HomePanel extends Panel {
      * Return this panel owner.
      * @return a Player.
      */
-    public Player getPlaterOwner() {
+    public Player getPlayerOwner() {
         return this.playerOwner;
     }
 
