@@ -3,7 +3,7 @@ package com.github.cc3002.citricjuice.model.gameCharacters;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class AbstractCharacter implements CharacterInterface {
+public abstract class AbstractCharacter implements ICharacter {
     protected final String name;
     protected final int maxHp;
     protected int atk;

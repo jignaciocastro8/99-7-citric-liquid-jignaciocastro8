@@ -1,7 +1,7 @@
 package com.github.cc3002.citricjuice.model.gameCharactersTest;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
-import com.github.cc3002.citricjuice.model.gameCharacters.CharacterInterface;
+import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -31,7 +31,7 @@ public class PlayerTest extends AbstractCharacterTest{
      * @return Player.
      */
     @Override
-    CharacterInterface makeCharacter(String name, int hp, int atk, int def, int evd) {
+    ICharacter makeCharacter(String name, int hp, int atk, int def, int evd) {
         return new Player(name, hp, atk, def, evd);
     }
 

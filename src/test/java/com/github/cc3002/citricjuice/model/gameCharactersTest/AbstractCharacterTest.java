@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharactersTest;
 
-import com.github.cc3002.citricjuice.model.gameCharacters.CharacterInterface;
+import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import org.junit.jupiter.api.Assertions;
 
 import java.util.Random;
@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public abstract class AbstractCharacterTest {
 
-    abstract CharacterInterface makeCharacter(String name, int hp, int atk, int def, int evd);
+    abstract ICharacter makeCharacter(String name, int hp, int atk, int def, int evd);
 
     /**
      * Tests getter and setter of hp field.
      * @param gameCharacter CharacterInterface.
      */
-    public void abstractHpTest(CharacterInterface gameCharacter) {
+    public void abstractHpTest(ICharacter gameCharacter) {
         int maxHp = gameCharacter.getCurrentHP();
         assertEquals(gameCharacter.getMaxHP(), gameCharacter.getCurrentHP());
         gameCharacter.setCurrentHP(2);
@@ -32,7 +32,7 @@ public abstract class AbstractCharacterTest {
      * Tests increase methods.
      * @param gameCharacter CharacterInterface.
      */
-    public void increaseConsistencyTest(CharacterInterface gameCharacter) {
+    public void increaseConsistencyTest(ICharacter gameCharacter) {
         // Initial stars and wins.
         int expectedStars = gameCharacter.getStars();
         int expectedWins = gameCharacter.getWins();
@@ -55,7 +55,7 @@ public abstract class AbstractCharacterTest {
      * Tests reduce methods.
      * @param gameCharacter CharacterInterface.
      */
-    public void reduceConsistencyTest(CharacterInterface gameCharacter) {
+    public void reduceConsistencyTest(ICharacter gameCharacter) {
         // We fix a seed for the pseudo random tests.
         final long testSeed = new Random().nextLong();
         Random ran = new Random(testSeed);
@@ -77,7 +77,7 @@ public abstract class AbstractCharacterTest {
      * Test hp getter and setter consistency.
      * @param gameCharacter CharacterInterface.
      */
-    public void hitPointsConsistencyTest(CharacterInterface gameCharacter) {
+    public void hitPointsConsistencyTest(ICharacter gameCharacter) {
         // We fix a seed for the pseudo random tests.
         final long testSeed = new Random().nextLong();
         // We're gonna try and set random hit points in [-maxHP * 2, maxHP * 2]
@@ -95,7 +95,7 @@ public abstract class AbstractCharacterTest {
      * Tests roll method.
      * @param gameCharacter CharacterInterface.
      */
-    public void rollConsistencyTest(CharacterInterface gameCharacter) {
+    public void rollConsistencyTest(ICharacter gameCharacter) {
         // We fix a seed for pseudo random test.
         final long testSeed = new Random().nextLong();
         // We pass this seed to Chicken's seed.

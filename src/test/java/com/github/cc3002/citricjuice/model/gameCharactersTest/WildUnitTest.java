@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharactersTest;
 
-import com.github.cc3002.citricjuice.model.gameCharacters.CharacterInterface;
+import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.WildUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -29,7 +29,7 @@ public class WildUnitTest extends AbstractCharacterTest {
      * @return WildUnit.
      */
     @Override
-    public CharacterInterface makeCharacter(String name, int hp, int atk, int def, int evd) {
+    public ICharacter makeCharacter(String name, int hp, int atk, int def, int evd) {
         return new WildUnit(name, hp, atk, def, evd);
     }
 

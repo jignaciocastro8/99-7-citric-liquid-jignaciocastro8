@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Class that represents a panel in the board of the game.
  */
-public abstract class Panel implements PanelInterface {
+public abstract class Panel implements IPanel {
   private Set<Player> players = new HashSet<>();
   private final PanelType type;
   private final Set<Panel> nextPanels = new HashSet<>();

@@ -4,7 +4,7 @@ import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 import java.util.Set;
 
-public interface PanelInterface {
+public interface IPanel {
     PanelType getType();
     Set<Panel> getNextPanels();
     void addNextPanel(final Panel panel);

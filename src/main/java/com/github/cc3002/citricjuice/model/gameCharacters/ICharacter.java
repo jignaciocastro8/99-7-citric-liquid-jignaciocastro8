@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-public interface CharacterInterface {
+public interface ICharacter {
     void setCurrentHP(final int currentHP);
     void increaseStarsBy(final int amount);
     void reduceStarsBy(final int amount);
