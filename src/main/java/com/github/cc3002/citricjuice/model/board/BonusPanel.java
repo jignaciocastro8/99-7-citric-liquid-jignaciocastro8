@@ -10,8 +10,8 @@ public class BonusPanel extends Panel {
     /**
      * Creates a bonus panel.
      */
-    public BonusPanel(int[] coordinates) {
-        super(PanelType.BONUS, coordinates);
+    public BonusPanel(int key) {
+        super(PanelType.BONUS, key);
     }
     /***
      * Bonus panel version of activatedBy: increases the player's stars depending of his/hers norma.

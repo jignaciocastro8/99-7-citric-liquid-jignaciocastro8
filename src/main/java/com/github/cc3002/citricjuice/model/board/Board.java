@@ -1,28 +1,41 @@
 package com.github.cc3002.citricjuice.model.board;
 
 import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.Objects;
 
-public class Board {
-    /*
-    La idea de esta clase es representar al tablero entero. El tablero se modelará como un
-    arreglo 2D donde cada casilla será un panel distinto. Puede que no todos las casillas esten
-    ocupadas al momento de crear un tablero. Deberá tener más de un constructor.
+public class Board implements IBoard{
+
+    private Hashtable<Integer, IPanel> panels;
+
+    public Board() {
+        panels = new Hashtable();
+    }
+
+    public IPanel getPanel(int key) {
+        return this.panels.get(key);
+    }
+
+    /**
+     * Adds the panel to the board.
+     * @param panel IPanel.
      */
-    private IPanel[][] panels;
-
-    public Board(IPanel[][] panels) {
-        this.panels = panels;
+    @Override
+    public void addPanel(IPanel panel) {
+        int key = panel.getKey();
+        if (this.panels.containsKey(key)) {
+            throw new AssertionError("Key already used");
+        }
+        this.panels.put(key, panel);
     }
 
-    public Board(int rows, int cols) {
-        this.panels = new IPanel[rows][cols];
-    }
-    //Este método se podría quitar.
-    public IPanel[][] getPanels() {
-        return this.panels;
-    }
-    public IPanel getPanel(int row, int column) {
-        return this.panels[row][column];
+    /**
+     * Returns the number of panels in the board.
+     * @return Int.
+     */
+    @Override
+    public int numberOfPanels() {
+        return this.panels.size();
     }
 
     @Override
@@ -30,6 +43,7 @@ public class Board {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
-        return Arrays.equals(panels, board.panels);
+        return Objects.equals(panels, board.panels);
     }
+
 }

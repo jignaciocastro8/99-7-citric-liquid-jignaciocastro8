@@ -1,4 +1,4 @@
-package com.github.cc3002.citricjuice.model.gameCharacters.factory;
+package com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;

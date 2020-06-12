@@ -1,8 +1,10 @@
 package com.github.cc3002.citricliquid.controller;
 
 import com.github.cc3002.citricjuice.model.board.*;
+import com.github.cc3002.citricjuice.model.board.panelFactory.*;
+import com.github.cc3002.citricjuice.model.board.panelFactory.IPanelFactory;
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
-import com.github.cc3002.citricjuice.model.gameCharacters.factory.*;
+import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.*;
 
 
 import java.util.ArrayList;
@@ -13,8 +15,16 @@ public class GameController implements IGameController {
     private ICharacterFactory wildFactory =  new WildFactory();
     private ICharacterFactory bossFactory =  new BossFactory();
 
+    private IPanelFactory bonusPanelFactory = new BonusPanelFactory();
+    private IPanelFactory bossPanelFactory = new BossPanelFactory();
+    private IPanelFactory drawPanelFactory = new DrawPanelFactory();
+    private IPanelFactory dropPanelFactory = new DropPanelFactory();
+    private IPanelFactory encounterPanelFactory = new EncounterPanelFactory();
+    private IPanelFactory homePanelFactory = new HomePanelFactory();
+    private IPanelFactory neutralPanelFactory = new NeutralPanelFactory();
+
     private ArrayList<ICharacter> characters = new ArrayList<ICharacter>();
-    private Board board;
+    private IBoard board = new Board();
 
     public GameController(){}
 
@@ -35,11 +45,6 @@ public class GameController implements IGameController {
     }
 
     @Override
-    public void createPanel() {
-
-    }
-
-    @Override
     public void assignNextPanel(IPanel panel) {
 
     }
@@ -50,22 +55,56 @@ public class GameController implements IGameController {
     }
 
     @Override
-    public void createBoard(int rows, int cols) {
-        this.board = new Board(rows, cols);
+    public void createBoard() {
+        this.board = (IBoard) new Board();
+    }
+
+
+    @Override
+    public IPanel getBoardPanel(int key) {
+        return this.board.getPanel(key);
     }
 
     @Override
-    public void createHomePanel(int row, int col) {
-
-    }
-
-    @Override
-    public IPanel getBoardPanel(int row, int col) {
-        return this.board.getPanel(row, col);
-    }
-
-    @Override
-    public Board getBoard() {
+    public IBoard getBoard() {
         return this.board;
+    }
+
+    @Override
+    public void createHomePanel(int key) {
+        this.board.addPanel(homePanelFactory.createWithKey(key));
+    }
+
+    @Override
+    public void createBonusPanel(int key) {
+        this.board.addPanel(bonusPanelFactory.createWithKey(key));
+    }
+
+    @Override
+    public void createBossPanel(int key) {
+        this.board.addPanel(bossPanelFactory.createWithKey(key));
+    }
+
+    @Override
+    public void createDrawPanel(int key) {
+        this.board.addPanel(drawPanelFactory.createWithKey(key));
+    }
+
+    @Override
+    public void createDropPanel(int key) {
+        this.board.addPanel(dropPanelFactory.createWithKey(key));
+
+    }
+
+    @Override
+    public void createEncounterPanel(int key) {
+        this.board.addPanel(encounterPanelFactory.createWithKey(key));
+
+    }
+
+    @Override
+    public void createNeutralPanel(int key) {
+        this.board.addPanel(neutralPanelFactory.createWithKey(key));
+
     }
 }

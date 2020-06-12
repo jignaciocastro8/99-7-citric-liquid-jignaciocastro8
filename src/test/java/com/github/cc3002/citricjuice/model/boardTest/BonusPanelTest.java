@@ -1,6 +1,8 @@
 package com.github.cc3002.citricjuice.model.boardTest;
 
-import com.github.cc3002.citricjuice.model.board.BonusPanel;
+import com.github.cc3002.citricjuice.model.board.*;
+import com.github.cc3002.citricjuice.model.board.panelFactory.BonusPanelFactory;
+import com.github.cc3002.citricjuice.model.board.panelFactory.IPanelFactory;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -9,8 +11,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BonusPanelTest {
+public class BonusPanelTest extends AbstractPanelTest {
     private final static String PLAYER_NAME = "NAME";
     private final static int BASE_HP = 4;
     private final static int BASE_ATK = 1;
@@ -18,18 +21,21 @@ public class BonusPanelTest {
     private final static int BASE_EVD = 2;
     private Player suguri;
     private BonusPanel testBonusPanel;
+    private IPanelFactory factory = new BonusPanelFactory();
     private long testSeed;
+
+
 
     @BeforeEach
     public void setUp() {
         // We fix the seed of the random object to control the stochastic behavior.
         testSeed = new Random().nextLong();
-        testBonusPanel = new BonusPanel(new int[]{0, 0});
+        testBonusPanel = new BonusPanel(0);
         suguri = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD);
     }
     @Test
     public void constructorTest() {
-        BonusPanel expected = new BonusPanel(new int[]{0, 0});
+        BonusPanel expected = new BonusPanel(0);
         assertEquals(expected, testBonusPanel);
     }
     @RepeatedTest(100)
@@ -49,5 +55,36 @@ public class BonusPanelTest {
                     "Test failed with seed: " + testSeed);
             suguri.normaClear();
         }
+    }
+
+    @Override
+    public IPanel makePanel(int key) {
+        return factory.createWithKey(key);
+    }
+
+    @Override
+    @Test
+    public void getTypeTest() {
+        IPanel panel = factory.createWithKey(0);
+        assertEquals(PanelType.BONUS, panel.getType());
+    }
+
+
+    @Override
+    @Test
+    public void nextPanelsTest() {
+        abstractNextPanelsTest();
+    }
+
+    @Override
+    @RepeatedTest(100)
+    public void getKeyTest() {
+        abstractGetKeyTest();
+    }
+
+    @Override
+    @Test
+    public void addPlayerTest() {
+        abstractNextPanelsTest();
     }
 }

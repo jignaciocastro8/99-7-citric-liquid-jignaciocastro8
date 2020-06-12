@@ -10,8 +10,8 @@ public class NeutralPanel extends Panel {
     /**
      * Create a Neutral Panel.
      */
-    public NeutralPanel(int[] coordinates) {
-        super(PanelType.NEUTRAL, coordinates);
+    public NeutralPanel(int key) {
+        super(PanelType.NEUTRAL, key);
     }
 
     /**

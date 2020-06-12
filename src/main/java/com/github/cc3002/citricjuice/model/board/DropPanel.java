@@ -10,8 +10,8 @@ public class DropPanel extends Panel {
     /**
      * Creates a Drop panel.
      */
-    public DropPanel(int[] coordinates) {
-        super(PanelType.DROP, coordinates);
+    public DropPanel(int key) {
+        super(PanelType.DROP, key);
     }
 
     /**

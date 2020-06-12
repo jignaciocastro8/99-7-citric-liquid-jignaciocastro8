@@ -6,8 +6,8 @@ public class BossPanel extends Panel {
     /**
      * Creates a Encounter panel.
      */
-    public BossPanel(int[] coordinates) {
-        super(PanelType.BOSS, coordinates);
+    public BossPanel(int key) {
+        super(PanelType.BOSS, key);
     }
 
     /**

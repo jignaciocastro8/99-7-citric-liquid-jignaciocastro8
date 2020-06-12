@@ -10,16 +10,11 @@ import java.util.Objects;
 public class HomePanel extends Panel {
     private Player playerOwner;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(playerOwner);
-    }
-
     /**
      * Creates a Home Panel.
      */
-    public HomePanel(int[] coordinates) {
-        super(PanelType.HOME, coordinates);
+    public HomePanel(int key) {
+        super(PanelType.HOME, key);
     }
 
     /**

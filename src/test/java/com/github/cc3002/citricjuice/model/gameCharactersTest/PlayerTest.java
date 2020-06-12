@@ -19,7 +19,7 @@ public class PlayerTest extends AbstractCharacterTest{
     public void setUp() {
         suguri = (Player) makeCharacter("Suguri", 4, 1, -1, 2);
         marc = (Player) makeCharacter("Marc", 4,1, 1, -1);
-        marc.setHomePanel(new HomePanel(new int[]{0, 0}));
+        marc.setHomePanel(new HomePanel(0));
     }
     /**
      * Create Player.
@@ -44,7 +44,7 @@ public class PlayerTest extends AbstractCharacterTest{
         Player expectedSuguri = new Player("Suguri", 4, 1, -1, 2);
         assertEquals(expectedSuguri, suguri);
         // Constructor with HomePanel.
-        HomePanel expectedPanel = new HomePanel(new int[]{0, 0});
+        HomePanel expectedPanel = new HomePanel(0);
         Player expectedMarc =  new Player("Marc", 4,1, 1, -1, expectedPanel);
         assertEquals(expectedMarc, marc);
     }
@@ -87,7 +87,7 @@ public class PlayerTest extends AbstractCharacterTest{
      */
     @Test
     public void homePanelPlayerTest() {
-        HomePanel testHomePanel = new HomePanel(new int[]{0, 0});
+        HomePanel testHomePanel = new HomePanel(0);
         suguri.setHomePanel(testHomePanel);
         assertEquals(testHomePanel, suguri.getHomePanel());
     }

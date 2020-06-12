@@ -1,6 +1,10 @@
 package com.github.cc3002.citricjuice.model.boardTest;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
+import com.github.cc3002.citricjuice.model.board.IPanel;
+import com.github.cc3002.citricjuice.model.board.panelFactory.HomePanelFactory;
+import com.github.cc3002.citricjuice.model.board.panelFactory.IPanelFactory;
+import com.github.cc3002.citricjuice.model.board.PanelType;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
@@ -10,7 +14,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class HomePanelTest {
+public class HomePanelTest extends AbstractPanelTest {
     private final static String PLAYER_NAME = "NAME";
     private final static int BASE_HP = 4;
     private final static int BASE_ATK = 1;
@@ -18,16 +22,16 @@ public class HomePanelTest {
     private final static int BASE_EVD = 2;
     private Player suguri;
     private HomePanel testHomePanel;
+    IPanelFactory factory = new HomePanelFactory();
 
     @BeforeEach
     public void setUp() {
-        testHomePanel = new HomePanel(new int[]{0, 0});
+        testHomePanel = new HomePanel(0);
         suguri = new Player(PLAYER_NAME, BASE_HP, BASE_ATK, BASE_DEF, BASE_EVD);
     }
     @Test
     public void constructorTest() {
-        int[] coord = new int[]{0, 0};
-        HomePanel expected = new HomePanel(coord);
+        HomePanel expected = new HomePanel(0);
         assertEquals(expected, testHomePanel);
     }
 
@@ -62,5 +66,33 @@ public class HomePanelTest {
             suguri.reduceStarsBy(suguri.getStars());
             suguri.reduceWinsBy(suguri.getWins());
         }
+    }
+    @Override
+    public IPanel makePanel(int key) {
+        return factory.createWithKey(key);
+    }
+
+    @Override
+    @Test
+    public void getTypeTest() {
+        IPanel panel = factory.createWithKey(0);
+        assertEquals(PanelType.HOME, panel.getType());
+    }
+
+    @Test
+    public void nextPanelsTest() {
+        abstractNextPanelsTest();
+    }
+
+    @Override
+    @RepeatedTest(100)
+    public void getKeyTest() {
+        abstractGetKeyTest();
+    }
+
+    @Override
+    @Test
+    public void addPlayerTest() {
+        abstractAddPlayerTest();
     }
 }

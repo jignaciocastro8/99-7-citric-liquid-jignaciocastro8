@@ -15,17 +15,27 @@ public interface IGameController {
 
     void createWild(String name, int hp, int atk, int def, int evd);
 
-    void createPanel();
-
     void assignNextPanel(IPanel panel);
 
     ArrayList<ICharacter> getCharacters();
 
-    void createBoard(int rows, int cols);
+    void createBoard();
 
-    void createHomePanel(int row, int col);
+    void createHomePanel(int key);
 
-    IPanel getBoardPanel(int row, int col);
+    IPanel getBoardPanel(int key);
 
-    Board getBoard();
+    IBoard getBoard();
+
+    void createBonusPanel(int key);
+
+    void createBossPanel(int key);
+
+    void createDrawPanel(int key);
+
+    void createDropPanel(int key);
+
+    void createEncounterPanel(int key);
+
+    void createNeutralPanel(int key);
 }
