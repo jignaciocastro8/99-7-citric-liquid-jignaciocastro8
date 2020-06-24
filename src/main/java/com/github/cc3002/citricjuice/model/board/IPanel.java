@@ -3,6 +3,7 @@ package com.github.cc3002.citricjuice.model.board;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public interface IPanel {
@@ -44,9 +45,9 @@ public interface IPanel {
 
     /**
      * Getter o the players in the panel.
-     * @return HashSet with the players.
+     * @return ArrayList with the players.
      */
-    HashSet<IPlayer> getPlayers();
+    ArrayList<IPlayer> getPlayers();
 
     /**
      * Tells if player is on this panel.

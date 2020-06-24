@@ -227,6 +227,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void movePlayerTo(IPlayer player, int key) {
+        // Delete player from previous panel.
         player.getCurrentPanel().removePlayer(player);
         player.setCurrentPanel(this.getPanelWithKey(key));
         this.getPanelWithKey(key).addPlayer(player);

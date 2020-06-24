@@ -2,6 +2,7 @@ package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class NullPanel implements IPanel {
@@ -68,11 +69,11 @@ public class NullPanel implements IPanel {
     /**
      * Getter o the players in the panel.
      *
-     * @return HashSet with the players.
+     * @return ArrayList with the players.
      */
     @Override
-    public HashSet<IPlayer> getPlayers() {
-        return new HashSet<>();
+    public ArrayList<IPlayer> getPlayers() {
+        return new ArrayList<>();
     }
 
     /**

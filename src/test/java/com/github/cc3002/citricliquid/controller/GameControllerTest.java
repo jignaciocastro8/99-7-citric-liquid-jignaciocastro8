@@ -35,7 +35,6 @@ public class GameControllerTest {
     private IPlayer suguri;
     private ICharacter shifuRobot;
     private ICharacter seagull;
-    private Player marc;
 
     @BeforeEach
     public void setUp(){
@@ -147,9 +146,10 @@ public class GameControllerTest {
         }
         assertTrue(gameController.checkForWinner());
     }
-    //@RepeatedTest(100)
-    @Test
-    public void movePlayerToTest() {
+    @RepeatedTest(100)
+    public void movePlayerTest() {
+        gameController.createPlayer("Suguri", 4, 1, -1, 2);
+        suguri = gameController.getPlayers().get(0);
         // Some panels
         gameController.createBonusPanel(0);
         gameController.createBossPanel(1);
@@ -169,7 +169,7 @@ public class GameControllerTest {
             int key = new Random().nextInt(5);
             gameController.movePlayerTo(suguri, key);
             // We check that the player actually leaves the panel only when the new panel is not the same as the original.
-            if (previousKey!=key) {
+            if (previousKey != key) {
                 assertFalse(gameController.getPanelWithKey(previousKey).containsCharacter(suguri));
             }
             assertTrue(gameController.getPanelWithKey(key).containsCharacter(suguri));
@@ -180,6 +180,7 @@ public class GameControllerTest {
         assertFalse(gameController.getPanelWithKey(1).containsCharacter(suguri));
         assertTrue(gameController.getPanelWithKey(2).containsCharacter(suguri));
     }
+
     @Test
     public void defineObjectiveTest() {
         gameController.createPlayer("Suguri", 4, 1, -1, 2);

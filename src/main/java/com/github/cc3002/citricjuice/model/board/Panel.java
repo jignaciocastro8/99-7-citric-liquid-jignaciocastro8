@@ -3,6 +3,7 @@ package com.github.cc3002.citricjuice.model.board;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ import java.util.Objects;
 public abstract class Panel implements IPanel {
   private final PanelType type;
   private HashSet<IPanel> nextPanels = new HashSet<>();
-  private HashSet<IPlayer> players = new HashSet<>();
+  private ArrayList<IPlayer> players = new ArrayList<>();
   private final int key;
 
   /**
@@ -68,10 +69,15 @@ public abstract class Panel implements IPanel {
     this.players.add(player);
   }
 
-  public HashSet<IPlayer> getPlayers() {
+  /**
+   * Getter o the players in the panel.
+   *
+   * @return ArrayList with the players.
+   */
+  @Override
+  public ArrayList<IPlayer> getPlayers() {
     return this.players;
   }
-
 
   /**
    * Abstract method, executes the appropriate action to the player/game according to the
