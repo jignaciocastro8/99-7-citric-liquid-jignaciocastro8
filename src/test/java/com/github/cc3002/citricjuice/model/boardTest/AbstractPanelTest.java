@@ -35,7 +35,7 @@ public abstract class AbstractPanelTest implements IPanelTest {
         panel.addNextPanel(panel1);
         assertEquals(1, panel.getNextPanels().size());
         assertTrue(panel.getNextPanels().contains(panel1));
-        // Tests adding the same panel twice.
+        // Tests adding the same panel more than one time.
         panel.addNextPanel(panel1);
         panel.addNextPanel(panel1);
         assertEquals(1, panel.getNextPanels().size());

@@ -1,19 +1,18 @@
 package com.github.cc3002.citricjuice.model.board;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Class that represents a panel in the board of the game.
  */
 public abstract class Panel implements IPanel {
   private final PanelType type;
-  private Set<IPanel> nextPanels = new HashSet<>();
-  private Set<Player> players = new HashSet<>();
+  private HashSet<IPanel> nextPanels = new HashSet<>();
+  private HashSet<IPlayer> players = new HashSet<>();
   private final int key;
 
   /**
@@ -36,8 +35,8 @@ public abstract class Panel implements IPanel {
   /**
    * Returns a copy of this panel's next ones.
    */
-  public Set<IPanel> getNextPanels() {
-    return Set.copyOf(nextPanels);
+  public HashSet<IPanel> getNextPanels() {
+    return new HashSet<>(this.nextPanels);
   }
 
   /**
@@ -52,22 +51,24 @@ public abstract class Panel implements IPanel {
   /**
    * Adds a new adjacent panel to this one.
    *
-   * @param panel
-   *     the panel to be added.
+   * @param panels
+   *     the panels to be added.
    */
-  public void addNextPanel(final IPanel panel) {
-    nextPanels.add(panel);
+  public void addNextPanel(final IPanel ...panels) {
+    for (IPanel panel : panels) {
+      if (panel != this) {this.nextPanels.add(panel);}
+    }
   }
 
   /**
    * Adds a new Player to de panel's set of players.
    * @param player: the player to be added.
    */
-  public void addPlayer(Player player) {
+  public void addPlayer(IPlayer player) {
     this.players.add(player);
   }
 
-  public Set<Player> getPlayers() {
+  public HashSet<IPlayer> getPlayers() {
     return this.players;
   }
 
@@ -77,7 +78,30 @@ public abstract class Panel implements IPanel {
    * panel's type.
    * @param player: the player that activates the panel.
    */
-  public abstract void activatedBy(final Player player);
+  public abstract void activatedBy(IPlayer player);
+
+
+  /**
+   * Tells if player is on this panel.
+   *
+   * @param player IPlayer.
+   * @return boolean.
+   */
+  @Override
+  public boolean containsCharacter(IPlayer player) {
+    return this.players.contains(player);
+  }
+
+  /**
+   * Removes the player of the panel.
+   *
+   * @param player IPlayer.
+   */
+  @Override
+  public void removePlayer(IPlayer player) {
+    this.players.remove(player);
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

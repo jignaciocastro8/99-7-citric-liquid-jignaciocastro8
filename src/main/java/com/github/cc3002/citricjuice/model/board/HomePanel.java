@@ -1,14 +1,13 @@
 package com.github.cc3002.citricjuice.model.board;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
-
-import java.util.Objects;
 
 /**
  * Class that represents a HomePanel.
  */
 public class HomePanel extends Panel {
-    private Player playerOwner;
+    private IPlayer playerOwner;
 
     /**
      * Creates a Home Panel.
@@ -21,15 +20,15 @@ public class HomePanel extends Panel {
      * Set the player that owns this panel.
      * @param player the player that starts in this panel.
      */
-    public void setPlayerOwner(Player player) {
+    public void setPlayerOwner(IPlayer player) {
         this.playerOwner = player;
     }
 
     /**
      * Return this panel owner.
-     * @return a Player.
+     * @return a IPlayer.
      */
-    public Player getPlayerOwner() {
+    public IPlayer getPlayerOwner() {
         return this.playerOwner;
     }
 
@@ -38,17 +37,16 @@ public class HomePanel extends Panel {
      * @param player: a Player.
      */
     @Override
-    public void activatedBy(Player player) {
+    public void activatedBy(IPlayer player) {
         player.setCurrentHP(player.getCurrentHP() + 1);
         normaCheck(player);
     }
 
     /**
      * Executes the norma check event.
-     * IT'S NOT COMPLETED
      * @param player the player that reaches the panel.
      */
-    private void normaCheck(Player player) {
+    private void normaCheck(IPlayer player) {
         int stars = player.getStars();
         int wins = player.getWins();
         // Every player starts with norma 1.

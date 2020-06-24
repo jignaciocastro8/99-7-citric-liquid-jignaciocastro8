@@ -1,64 +1,98 @@
 package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
-import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 import java.util.HashSet;
 
-public interface IPanel {
+public class NullPanel implements IPanel {
     /**
      * Getter of the panel's key.
+     *
      * @return Int.
      */
-    int getKey();
+    @Override
+    public int getKey() {
+        return 0;
+    }
 
     /**
      * Getter of the panel's type.
+     *
      * @return PanelType.
      */
-    PanelType getType();
+    @Override
+    public PanelType getType() {
+        return null;
+    }
 
     /**
      * Getter of the panel's next panels.
+     *
      * @return HashSet with the panels.
      */
-    HashSet<IPanel> getNextPanels();
+    @Override
+    public HashSet<IPanel> getNextPanels() {
+        return null;
+    }
 
     /**
      * Adds next panels.
+     *
      * @param panels IPanel[].
      */
-    void addNextPanel(final IPanel ...panels);
+    @Override
+    public void addNextPanel(IPanel... panels) {
+
+    }
 
     /**
      * Add a player to the panel.
+     *
      * @param player IPlayer.
      */
-    void addPlayer(IPlayer player);
+    @Override
+    public void addPlayer(IPlayer player) {
+
+    }
 
     /**
      * Activate the panel.
+     *
      * @param player IPlayer.
      */
-    void activatedBy(IPlayer player);
+    @Override
+    public void activatedBy(IPlayer player) {
+
+    }
 
     /**
      * Getter o the players in the panel.
+     *
      * @return HashSet with the players.
      */
-    HashSet<IPlayer> getPlayers();
+    @Override
+    public HashSet<IPlayer> getPlayers() {
+        return new HashSet<>();
+    }
 
     /**
      * Tells if player is on this panel.
+     *
      * @param player IPlayer.
      * @return boolean.
      */
-    boolean containsCharacter(IPlayer player);
+    @Override
+    public boolean containsCharacter(IPlayer player) {
+        return false;
+    }
 
     /**
      * Removes the player of the panel.
+     *
      * @param player IPlayer.
      */
-    void removePlayer(IPlayer player);
-}
+    @Override
+    public void removePlayer(IPlayer player) {
 
+    }
+}

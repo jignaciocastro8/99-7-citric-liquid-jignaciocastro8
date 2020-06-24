@@ -204,6 +204,6 @@ public abstract class AbstractCharacter implements ICharacter {
         character.receiveAtk(netAtk);
     }
 
-    // Everyone must be able to receive an attack.
+    // Everyone must be able to receive an attack. Abstract method.
     public abstract void receiveAtk(int netAtk);
 }

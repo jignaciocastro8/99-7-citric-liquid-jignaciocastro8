@@ -1,41 +1,48 @@
 package com.github.cc3002.citricliquid.controller;
 
-import com.github.cc3002.citricjuice.model.board.Board;
-import com.github.cc3002.citricjuice.model.board.IBoard;
+import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface IGameController {
-    void createPlayer(String name, int hp, int atk, int def, int evd);
 
-    void createBoss(String name, int hp, int atk, int def, int evd);
+    /**
+     * Puts player on panel activating the panel effect.
+     * @param key Int, key of the IPanel where player will be located.
+     * @param player IPlayer.
+     */
+    void movePlayerTo(IPlayer player, int key);
 
-    void createWild(String name, int hp, int atk, int def, int evd);
+    /**
+     * Sets home panel of the player.
+     * @param player IPlayer.
+     * @param panel HomePanel.
+     */
+    void setHomePanel(IPlayer player, HomePanel panel);
 
-    void assignNextPanel(IPanel panel);
+    /**
+     * Getter of the chapter.
+     * @return Int.
+     */
+    int getChapter();
 
-    ArrayList<ICharacter> getCharacters();
 
-    void createBoard();
+    /**
+     * Initiates the turn system. It requires a minimum of two players.
+     */
+    void initiateTurns() throws Exception;
 
-    void createHomePanel(int key);
+    /**
+     * Getter of the turn owner.
+     * @return IPlayer.
+     */
+    IPlayer getTurnOwner();
 
-    IPanel getBoardPanel(int key);
-
-    IBoard getBoard();
-
-    void createBonusPanel(int key);
-
-    void createBossPanel(int key);
-
-    void createDrawPanel(int key);
-
-    void createDropPanel(int key);
-
-    void createEncounterPanel(int key);
-
-    void createNeutralPanel(int key);
+    /**
+     * Changes the turn owner to the next one.
+     */
+    void nextTurn();
 }

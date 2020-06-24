@@ -1,15 +1,21 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
+import com.github.cc3002.citricjuice.model.board.IPanel;
+import com.github.cc3002.citricjuice.model.board.NeutralPanel;
+import com.github.cc3002.citricjuice.model.board.NullPanel;
+import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
 
 /**
  * This class represents a player in the game 99.7% Citric Liquid.
  */
-public class Player extends AbstractCharacter implements BattleInterface {
+public class Player extends AbstractCharacter implements IPlayer, BattleInterface {
     private int normaLevel;
     private HomePanel homePanel;
+    private IPanel currentPanel;
+    private NormaGoal objective;
 
     /**
     * Creates a Player with null HomePanel.
@@ -24,6 +30,8 @@ public class Player extends AbstractCharacter implements BattleInterface {
         super(name, hp, atk, def, evd);
         // Every Player starts with norma 1.
         normaLevel = 1;
+        // Starts with a null panel.
+        this.currentPanel = new NullPanel();
     }
     /**
      * Creates a Player with a HomePanel
@@ -103,6 +111,46 @@ public class Player extends AbstractCharacter implements BattleInterface {
     }
 
     /**
+     * Returns the panel where the player is located.
+     *
+     * @return IPanel.
+     */
+    @Override
+    public IPanel getCurrentPanel() {
+        return this.currentPanel;
+    }
+
+    /**
+     * Setter of the current panel.
+     *
+     * @param panel IPanel.
+     */
+    @Override
+    public void setCurrentPanel(IPanel panel) {
+        this.currentPanel = panel;
+    }
+
+    /**
+     * Setter of the objective of the player.
+     *
+     * @param objective NormaGoal.
+     */
+    @Override
+    public void setObjective(NormaGoal objective) {
+        this.objective = objective;
+    }
+
+    /**
+     * Getter of the objective of the player.
+     *
+     * @return NormaGoal.
+     */
+    @Override
+    public NormaGoal getObjective() {
+        return this.objective;
+    }
+
+    /**
      * Receive the attack and execute the player decision.
      * @param netAtk net attack over the player.
      */
@@ -129,7 +177,7 @@ public class Player extends AbstractCharacter implements BattleInterface {
 
 
     /**
-    * Performs a norma clear action; the {@code norma} counter increases in 1.
+    * Performs a norma clear action; the norma counter increases in 1.
     */
     public void normaClear() {
         this.normaLevel++;
