@@ -133,7 +133,11 @@ class MediatorTest {
         int expectedLevel = 1;
         assertEquals(expectedLevel++, player.getNormaLevel(), "Player should start with level 1.");
         for (int starGoal : List.of(10, 30, 70, 120, 200)) {
-            while (player.getStars() < starGoal && !homePanel.getPlayers().equals(List.of(player))) {
+            mediator.movePlayer(); // <-- Agreguen esta línea
+            while (player.getStars() < starGoal) {
+                mediator.movePlayer();
+            }
+            while (!homePanel.getPlayers().equals(List.of(player))) {
                 mediator.movePlayer();
             }
             assertEquals(expectedLevel, player.getNormaLevel(),
@@ -141,6 +145,7 @@ class MediatorTest {
             expectedLevel++;
         }
     }
+
 
     @Test
     public void testMeetPlayer() {

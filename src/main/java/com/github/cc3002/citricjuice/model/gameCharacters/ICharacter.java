@@ -67,6 +67,30 @@ public interface ICharacter {
      */
     int getWins();
 
+    /**
+     * Getter of the name.
+     * @return String.
+     */
+    String getName();
+
+    /**
+     * Getter of the atk stat.
+     * @return int.
+     */
+    int getAtk();
+
+    /**
+     * Getter of the def stat.
+     * @return Int.
+     */
+    int getDef();
+
+    /**
+     * Getter of the evd stat.
+     * @return Int.
+     */
+    int getEvd();
+
 
 
     /*

@@ -20,8 +20,11 @@ public class BoardController implements IBoardController {
 
     private Hashtable<Integer, IPanel> board;
 
+    private int maxKey;
+
     public BoardController() {
         this.board = new Hashtable<>();
+        this.maxKey = 0;
     }
     /**
      * Assigns next panel
@@ -38,57 +41,82 @@ public class BoardController implements IBoardController {
      * @param key Int
      */
     @Override
-    public void createHomePanel(int key) {
-        this.board.put(key, homePanelFactory.createWithKey(key));
+    public IPanel createHomePanel(int key) {
+        IPanel panel = homePanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
      * Creates the panel with a key.
      * @param key Int
      */
     @Override
-    public void createBonusPanel(int key) {
-        this.board.put(key, bonusPanelFactory.createWithKey(key));
+    public IPanel createBonusPanel(int key) {
+        IPanel panel = bonusPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
+    }
+    /**
+     * Creates the panel with a key and returns it.
+     * @param key Int
+     */
+    @Override
+    public IPanel createBossPanel(int key) {
+        IPanel panel = bossPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
      * Creates the panel with a key.
      * @param key Int
      */
     @Override
-    public void createBossPanel(int key) {
-        this.board.put(key, bossPanelFactory.createWithKey(key));
+    public IPanel createDrawPanel(int key) {
+        IPanel panel = drawPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
      * Creates the panel with a key.
      * @param key Int
      */
     @Override
-    public void createDrawPanel(int key) {
-        this.board.put(key, drawPanelFactory.createWithKey(key));
+    public IPanel createDropPanel(int key) {
+        IPanel panel = dropPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
      * Creates the panel with a key.
      * @param key Int
      */
     @Override
-    public void createDropPanel(int key) {
-        this.board.put(key, dropPanelFactory.createWithKey(key));
-
+    public IPanel createEncounterPanel(int key) {
+        IPanel panel = encounterPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
      * Creates the panel with a key.
      * @param key Int
      */
     @Override
-    public void createEncounterPanel(int key) {
-        this.board.put(key, encounterPanelFactory.createWithKey(key));
+    public IPanel createNeutralPanel(int key) {
+        IPanel panel = neutralPanelFactory.createWithKey(key);
+        this.board.put(key, panel);
+        return panel;
     }
     /**
-     * Creates the panel with a key.
-     * @param key Int
+     * Adds a panel to the game with out specifying the key.
+     * @param panel IPanel to add.
+     * @return IPanel.
      */
     @Override
-    public void createNeutralPanel(int key) {
-        this.board.put(key, neutralPanelFactory.createWithKey(key));
+    public IPanel addPanel(IPanel panel) {
+        // Get a new key.
+        int key = this.getMaxKey() + 1;
+        this.board.put(key, panel);
+        return panel;
     }
 
     /**
@@ -112,5 +140,34 @@ public class BoardController implements IBoardController {
     @Override
     public IPanel getPanelWithKey(int key) {
         return this.board.get(key);
+    }
+
+    /**
+     * Assigns next panel with the panels keys.
+     * key --> keys[0], ..., key --> keys[n]
+     *
+     * @param key key of the a panel.
+     * @param keys keys of the future next panels of the previous panel.
+     */
+    @Override
+    public void assignNextPanelsWithKey(int key, int ...keys) {
+        IPanel[] panels = new IPanel[keys.length];
+        for (int i = 0; i < keys.length ; i++) {
+            panels[i] = this.getPanelWithKey(keys[i]);
+        }
+        this.assignNextPanels(this.getPanelWithKey(key), panels);
+    }
+
+    /**
+     * Returns the max key.
+     *
+     * @return Int.
+     */
+    public int getMaxKey() {
+        int maxKey = (int) this.board.keySet().toArray()[0];
+        for (int key : this.board.keySet()) {
+            if (key >= maxKey) {maxKey = key;}
+        }
+        return maxKey;
     }
 }

@@ -21,9 +21,9 @@ public interface IPanel {
 
     /**
      * Getter of the panel's next panels.
-     * @return HashSet with the panels.
+     * @return ArrayList with the panels.
      */
-    HashSet<IPanel> getNextPanels();
+    ArrayList<IPanel> getNextPanels();
 
     /**
      * Adds next panels.
@@ -61,5 +61,17 @@ public interface IPanel {
      * @param player IPlayer.
      */
     void removePlayer(IPlayer player);
+
+    /**
+     * Returns the number of next panels of this panel.
+     * @return int.
+     */
+    int numberOfNextPanels();
+
+    /**
+     * Getter of the number of players on the panel.
+     * @return Int.
+     */
+    int numberOfPLayers();
 }
 

@@ -4,6 +4,10 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.board.NeutralPanel;
 import com.github.cc3002.citricjuice.model.board.NullPanel;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.IPlayerState;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.MovingState;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.NeutralState;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.WaitingOnPanelState;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
@@ -16,6 +20,7 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     private HomePanel homePanel;
     private IPanel currentPanel;
     private NormaGoal objective;
+    private IPlayerState state;
 
     /**
     * Creates a Player with null HomePanel.
@@ -148,6 +153,60 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     @Override
     public NormaGoal getObjective() {
         return this.objective;
+    }
+
+    /**
+     * Getter of the player state.
+     *
+     * @return IPlayerState.
+     */
+    @Override
+    public IPlayerState getState() {
+        return this.state;
+    }
+
+    /**
+     * Tells if the player is moving through the panels.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isMoving() {
+        return this.state.isMoving();
+    }
+
+    /**
+     * Tells if the player is waiting on a panel.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isWaitingOnPanel() {
+        return this.state.isWaitingOnPanel();
+    }
+
+    /**
+     * Sets the player state to wait on panel.
+     */
+    @Override
+    public void waitOnPanel() {
+        this.state = new WaitingOnPanelState();
+    }
+
+    /**
+     * Sets the player state to moving.
+     */
+    @Override
+    public void moving() {
+        this.state = new MovingState();
+    }
+
+    /**
+     * Sets the player to neutral state.
+     */
+    @Override
+    public void neutralState() {
+        this.state = new NeutralState();
     }
 
     /**

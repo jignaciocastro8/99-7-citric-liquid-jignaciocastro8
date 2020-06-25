@@ -24,10 +24,13 @@ public class UnitController implements IUnitController {
      * @param atk Character's atk.
      * @param def Character's def.
      * @param evd Character's evd.
+     * @return ICharacter.
      */
     @Override
-    public void createBoss(String name, int hp, int atk, int def, int evd) {
-        this.units.add(bossFactory.create(name, hp, atk, def, evd));
+    public ICharacter createBoss(String name, int hp, int atk, int def, int evd) {
+        ICharacter boss = bossFactory.create(name, hp, atk, def, evd);
+        this.units.add(boss);
+        return boss;
     }
 
     /**
@@ -47,9 +50,12 @@ public class UnitController implements IUnitController {
      * @param atk Character's atk.
      * @param def Character's def.
      * @param evd Character's evd.
+     * @return ICharacter.
      */
     @Override
-    public void createWild(String name, int hp, int atk, int def, int evd) {
-        this.units.add(wildFactory.create(name, hp, atk, def, evd));
+    public ICharacter createWild(String name, int hp, int atk, int def, int evd) {
+        ICharacter wild = wildFactory.create(name, hp, atk, def, evd);
+        this.units.add(wild);
+        return wild;
     }
 }

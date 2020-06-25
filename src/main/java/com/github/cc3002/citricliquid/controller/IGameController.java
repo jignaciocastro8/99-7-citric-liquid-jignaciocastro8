@@ -45,4 +45,17 @@ public interface IGameController {
      * Changes the turn owner to the next one.
      */
     void nextTurn();
+
+    /**
+     * Makes the player move steps forward.
+     * @param player IPlayer, the player to move.
+     * @param steps Int, the amount of steps.
+     */
+    void movePlayer(IPlayer player, int steps);
+
+    /**
+     * Getter of the winner.
+     * @return IPlayer.
+     */
+    IPlayer getWinner();
 }

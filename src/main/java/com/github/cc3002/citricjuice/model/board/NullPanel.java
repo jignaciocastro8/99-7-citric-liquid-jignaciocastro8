@@ -29,10 +29,10 @@ public class NullPanel implements IPanel {
     /**
      * Getter of the panel's next panels.
      *
-     * @return HashSet with the panels.
+     * @return ArrayList with the panels.
      */
     @Override
-    public HashSet<IPanel> getNextPanels() {
+    public ArrayList<IPanel> getNextPanels() {
         return null;
     }
 
@@ -95,5 +95,25 @@ public class NullPanel implements IPanel {
     @Override
     public void removePlayer(IPlayer player) {
 
+    }
+
+    /**
+     * Returns the number of next panels of this panel.
+     *
+     * @return int.
+     */
+    @Override
+    public int numberOfNextPanels() {
+        return 0;
+    }
+
+    /**
+     * Getter of the number of players on the panel.
+     *
+     * @return Int.
+     */
+    @Override
+    public int numberOfPLayers() {
+        return 0;
     }
 }

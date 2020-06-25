@@ -11,9 +11,9 @@ import java.util.Random;
 
 public class GameController implements IBoardController, IPlayerController, IUnitController, IGameController {
 
-    private IUnitController unitController;
-    private IPlayerController playerController;
-    private IBoardController boardController;
+    private UnitController unitController;
+    private PlayerController playerController;
+    private BoardController boardController;
 
     private int chapter;
     private int numberOfFinishedTurns;
@@ -40,22 +40,54 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param def Character's def.
      * @param evd Character's evd.
      */
-    public void createPlayer(String name, int hp, int atk, int def, int evd) {
-        this.playerController.createPlayer(name, hp, atk, def, evd);
+    public IPlayer createPlayer(String name, int hp, int atk, int def, int evd) {
+        return this.playerController.createPlayer(name, hp, atk, def, evd);
+    }
+
+    /**
+     * @param name  name.
+     * @param hp    int.
+     * @param atk   int.
+     * @param def   int.
+     * @param evd   int.
+     * @param panel The panel where to put the created player.
+     * @return IPlayer.
+     */
+    @Override
+    public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
+        IPlayer player = this.playerController.createPlayerWithPanel(name, hp, atk, def, evd, panel);
+        this.addPanel(panel);
+        return player;
+    }
+
+    /**
+     * Fast method to create suguri.
+     */
+    @Override
+    public IPlayer createSuguri() {
+        return this.playerController.createSuguri();
+    }
+
+    /**
+     * Fast method to create marc.
+     */
+    @Override
+    public IPlayer createMarc() {
+        return this.playerController.createMarc();
     }
 
     /**
      * Create a wild unit.
-     *
-     * @param name Character's name.
+     *  @param name Character's name.
      * @param hp   Character's hp.
      * @param atk  Character's atk.
      * @param def  Character's def.
      * @param evd  Character's evd.
+     * @return ICharacter.
      */
     @Override
-    public void createWild(String name, int hp, int atk, int def, int evd) {
-        this.unitController.createWild(name, hp, atk, def, evd);
+    public ICharacter createWild(String name, int hp, int atk, int def, int evd) {
+        return this.unitController.createWild(name, hp, atk, def, evd);
     }
 
     /**
@@ -68,8 +100,28 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param evd  Character's evd.
      */
     @Override
-    public void createBoss(String name, int hp, int atk, int def, int evd) {
-        this.unitController.createBoss(name, hp, atk, def, evd);
+    public ICharacter createBoss(String name, int hp, int atk, int def, int evd) {
+        return this.unitController.createBoss(name, hp, atk, def, evd);
+    }
+
+    /**
+     * Creates the panel with a key and returns it.
+     *
+     * @param key Int
+     */
+    @Override
+    public IPanel createHomePanel(int key) {
+        return this.boardController.createHomePanel(key);
+    }
+
+    /**
+     * Creates the panel with a key and returns it.
+     *
+     * @param key Int
+     */
+    @Override
+    public IPanel createBonusPanel(int key) {
+        return this.boardController.createBonusPanel(key);
     }
 
     /**
@@ -78,8 +130,8 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param key Int
      */
     @Override
-    public void createHomePanel(int key) {
-        this.boardController.createHomePanel(key);
+    public IPanel createBossPanel(int key) {
+        return this.boardController.createBossPanel(key);
     }
 
     /**
@@ -88,8 +140,8 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param key Int
      */
     @Override
-    public void createBonusPanel(int key) {
-        this.boardController.createBonusPanel(key);
+    public IPanel createDrawPanel(int key) {
+        return this.boardController.createDrawPanel(key);
     }
 
     /**
@@ -98,8 +150,8 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param key Int
      */
     @Override
-    public void createBossPanel(int key) {
-        this.boardController.createBossPanel(key);
+    public IPanel createDropPanel(int key) {
+        return this.boardController.createDropPanel(key);
     }
 
     /**
@@ -108,8 +160,8 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param key Int
      */
     @Override
-    public void createDrawPanel(int key) {
-        this.boardController.createDrawPanel(key);
+    public IPanel createEncounterPanel(int key) {
+        return this.boardController.createEncounterPanel(key);
     }
 
     /**
@@ -118,28 +170,19 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param key Int
      */
     @Override
-    public void createDropPanel(int key) {
-        this.boardController.createDropPanel(key);
+    public IPanel createNeutralPanel(int key) {
+        return this.boardController.createNeutralPanel(key);
     }
 
     /**
-     * Creates the panel with a key.
+     * Adds a panel to the game with out specifying the key.
      *
-     * @param key Int
+     * @param panel IPanel to add.
+     * @return IPanel.
      */
     @Override
-    public void createEncounterPanel(int key) {
-        this.boardController.createEncounterPanel(key);
-    }
-
-    /**
-     * Creates the panel with a key.
-     *
-     * @param key Int
-     */
-    @Override
-    public void createNeutralPanel(int key) {
-        this.boardController.createNeutralPanel(key);
+    public IPanel addPanel(IPanel panel) {
+        return this.boardController.addPanel(panel);
     }
 
     /**
@@ -205,6 +248,17 @@ public class GameController implements IBoardController, IPlayerController, IUni
         return this.boardController.getPanelWithKey(key);
     }
 
+    /**
+     * Assigns next panel with the panels keys.
+     * key --> keys[0], ..., key --> keys[n]
+     *
+     * @param key  key of the a panel.
+     * @param keys keys of the future next panels of the previous panel.
+     */
+    @Override
+    public void assignNextPanelsWithKey(int key, int... keys) {
+        this.boardController.assignNextPanelsWithKey(key, keys);
+    }
 
 
     /**
@@ -263,12 +317,18 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void initiateTurns() throws Exception {
+        // Start chapters.
         this.chapter = 1;
+        // Start number of turns.
         this.numberOfFinishedTurns = 0;
         if (this.getPlayers().size() == 0 ) {
             throw new Exception("You need at least one player to initiate");
         }
+        // Create a random order for the turns.
         createTurnsOrder();
+        // Initiate the states of the players.
+        this.playerController.initiatePlayerState();
+        // The first turn initiate.
         this.turnOwner = turnOrder.get(0);
     }
 
@@ -291,6 +351,58 @@ public class GameController implements IBoardController, IPlayerController, IUni
         int len = this.getPlayers().size();
         this.turnOwner = this.turnOrder.get(numberOfFinishedTurns % len);
         this.chapter = (numberOfFinishedTurns / len) + 1;
+    }
+
+    /**
+     * Makes the player move steps forward.
+     *
+     * @param player IPlayer, the player to move.
+     * @param steps  Int, the amount of steps.
+     */
+    @Override
+    public void movePlayer(IPlayer player, int steps) {
+
+        if (player.isWaitingOnPanel()) {
+            // If the player is waiting, stops moving.
+            return;
+        }
+        if (steps == 0) {
+            // The player ends the moving process.
+            player.neutralState();
+        }
+
+        else{
+            player.moving();
+            IPanel currentPanel = player.getCurrentPanel();
+            // One next panel case.
+            if (player.getCurrentPanel().numberOfNextPanels() == 1) {
+                // Move player to the unique next panel.
+                int nextPanelKey = currentPanel.getNextPanels().get(0).getKey();
+                this.movePlayerTo(player, nextPanelKey);
+                // If the next panel is its own home panel or has more than one player on it, the player must stay there waiting.
+                if (player.getHomePanel() == currentPanel.getNextPanels().get(0) || player.getCurrentPanel().numberOfPLayers() > 1) {
+                    player.waitOnPanel();
+                }
+                // Continuing the moving process.
+                movePlayer(player, steps - 1);
+            }
+            // More than one next panel case.
+            else {
+                player.waitOnPanel();
+                // Here the player must decide for one next panel to move to.
+            }
+
+        }
+    }
+
+    /**
+     * Getter of the winner.
+     *
+     * @return IPlayer.
+     */
+    @Override
+    public IPlayer getWinner() {
+        return this.playerController.getWinner();
     }
 
     /**

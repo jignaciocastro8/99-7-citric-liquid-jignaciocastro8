@@ -11,4 +11,24 @@ public class PlayerFactory implements IPlayerFactory {
     public IPlayer create(String name, int hp, int atk, int def, int evd) {
         return new Player(name, hp, atk, def, evd);
     }
+
+    /**
+     * Fast method to create Suguri.
+     *
+     * @return IPlayer suguri.
+     */
+    @Override
+    public IPlayer createSuguri() {
+        return new Player("Suguri", 4, 1, -1, 2);
+    }
+
+    /**
+     * Fast method to create Marc.
+     *
+     * @return IPlayer marc.
+     */
+    @Override
+    public IPlayer createMarc() {
+        return new Player("Marc", 4, 1, 1, -1);
+    }
 }

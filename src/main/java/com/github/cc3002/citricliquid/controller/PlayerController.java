@@ -1,5 +1,6 @@
 package com.github.cc3002.citricliquid.controller;
 
+import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.IPlayerFactory;
 import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.PlayerFactory;
@@ -8,8 +9,11 @@ import com.github.cc3002.citricliquid.model.NormaGoal;
 import java.util.ArrayList;
 
 public class PlayerController implements IPlayerController {
+
     private ArrayList<IPlayer> players;
     private IPlayerFactory playerFactory;
+
+    private IPlayer winner;
 
     public PlayerController() {
         players = new ArrayList<>();
@@ -25,8 +29,47 @@ public class PlayerController implements IPlayerController {
      * @return ICharacter the player.
      */
     @Override
-    public void createPlayer(String name, int hp, int atk, int def, int evd) {
-        this.players.add(playerFactory.create(name, hp, atk, def, evd));
+    public IPlayer createPlayer(String name, int hp, int atk, int def, int evd) {
+        IPlayer player = playerFactory.create(name, hp, atk, def, evd);
+        this.players.add(player);
+        return player;
+    }
+
+    /**
+     * @param name  name.
+     * @param hp    int.
+     * @param atk   int.
+     * @param def   int.
+     * @param evd   int.
+     * @param panel The panel where to put the created player.
+     * @return IPlayer.
+     */
+    @Override
+    public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
+        IPlayer player = playerFactory.create(name, hp, atk, def, evd);
+        player.setCurrentPanel(panel);
+        this.players.add(player);
+        return player;
+    }
+
+    /**
+     * Fast method to create suguri.
+     */
+    @Override
+    public IPlayer createSuguri() {
+        IPlayer player = playerFactory.createSuguri();
+        this.players.add(player);
+        return player;
+    }
+
+    /**
+     * Fast method to create marc.
+     */
+    @Override
+    public IPlayer createMarc() {
+        IPlayer player = playerFactory.createMarc();
+        this.players.add(player);
+        return player;
     }
 
     /**
@@ -49,6 +92,7 @@ public class PlayerController implements IPlayerController {
         boolean boo = false;
         for (IPlayer player : players) {
             if (player.getNormaLevel()==6) {
+                this.winner = player;
                 boo = true;
                 break;
             }
@@ -67,5 +111,20 @@ public class PlayerController implements IPlayerController {
         player.setObjective(objective);
     }
 
+    /**
+     * Initiates the players state.
+     */
+    public void initiatePlayerState() {
+        for (IPlayer player : this.players) {
+            player.neutralState();
+        }
+    }
 
+    /**
+     * Getter of the current winner.
+     * @return IPlayer.
+     */
+    public IPlayer getWinner() {
+        return this.winner;
+    }
 }

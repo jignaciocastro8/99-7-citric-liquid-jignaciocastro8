@@ -14,40 +14,47 @@ public interface IBoardController {
     void assignNextPanels(IPanel panel, IPanel ...panels);
 
     /**
-     * Creates the panel with a key.
+     * Creates the panel with a key and returns it.
      * @param key Int
      */
-    void createHomePanel(int key);
+    IPanel createHomePanel(int key);
+    /**
+     * Creates the panel with a key ans returns it.
+     * @param key Int
+     */
+    IPanel createBonusPanel(int key);
+    /**
+     * Creates the panel with a key and returns it.
+     * @param key Int
+     */
+    IPanel createBossPanel(int key);
+    /**
+     * Creates the panel with a key and returns it.
+     * @param key Int
+     */
+    IPanel createDrawPanel(int key);
     /**
      * Creates the panel with a key.
      * @param key Int
      */
-    void createBonusPanel(int key);
+    IPanel createDropPanel(int key);
     /**
-     * Creates the panel with a key.
+     * Creates the panel with a key and retiurns it.
      * @param key Int
      */
-    void createBossPanel(int key);
+    IPanel createEncounterPanel(int key);
     /**
-     * Creates the panel with a key.
+     * Creates the panel with a key and returns it.
      * @param key Int
      */
-    void createDrawPanel(int key);
+    IPanel createNeutralPanel(int key);
+
     /**
-     * Creates the panel with a key.
-     * @param key Int
+     * Adds a panel to the game with out specifying the key.
+     * @param panel IPanel to add.
+     * @return IPanel.
      */
-    void createDropPanel(int key);
-    /**
-     * Creates the panel with a key.
-     * @param key Int
-     */
-    void createEncounterPanel(int key);
-    /**
-     * Creates the panel with a key.
-     * @param key Int
-     */
-    void createNeutralPanel(int key);
+    IPanel addPanel(IPanel panel);
 
     /**
      * Getter of all the panels.
@@ -63,4 +70,13 @@ public interface IBoardController {
      * @return IPanel.
      */
     IPanel getPanelWithKey(int key);
+
+    /**
+     * Assigns next panel with the panels keys.
+     * key --> keys[0], ..., key --> keys[n]
+     * @param key key of the a panel.
+     * @param keys keys of the future next panels of the previous panel.
+     */
+    void assignNextPanelsWithKey(int key, int ...keys);
+
 }

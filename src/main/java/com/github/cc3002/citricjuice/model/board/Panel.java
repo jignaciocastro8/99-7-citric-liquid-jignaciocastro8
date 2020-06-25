@@ -1,10 +1,7 @@
 package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
-import com.github.cc3002.citricjuice.model.gameCharacters.Player;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -12,7 +9,7 @@ import java.util.Objects;
  */
 public abstract class Panel implements IPanel {
   private final PanelType type;
-  private HashSet<IPanel> nextPanels = new HashSet<>();
+  private ArrayList<IPanel> nextPanels = new ArrayList<>();
   private ArrayList<IPlayer> players = new ArrayList<>();
   private final int key;
 
@@ -36,8 +33,8 @@ public abstract class Panel implements IPanel {
   /**
    * Returns a copy of this panel's next ones.
    */
-  public HashSet<IPanel> getNextPanels() {
-    return new HashSet<>(this.nextPanels);
+  public ArrayList<IPanel> getNextPanels() {
+    return new ArrayList<>(this.nextPanels);
   }
 
   /**
@@ -54,10 +51,12 @@ public abstract class Panel implements IPanel {
    *
    * @param panels
    *     the panels to be added.
+   *     There is no loops on the board graph.
+   *     If the panel already has a panel as next panel it doesnt get added.
    */
   public void addNextPanel(final IPanel ...panels) {
     for (IPanel panel : panels) {
-      if (panel != this) {this.nextPanels.add(panel);}
+      if (panel != this && !this.nextPanels.contains(panel)) {this.nextPanels.add(panel);}
     }
   }
 
@@ -106,6 +105,26 @@ public abstract class Panel implements IPanel {
   @Override
   public void removePlayer(IPlayer player) {
     this.players.remove(player);
+  }
+
+  /**
+   * Returns the number of next panels of this panel.
+   *
+   * @return int.
+   */
+  @Override
+  public int numberOfNextPanels() {
+    return this.nextPanels.size();
+  }
+
+  /**
+   * Getter of the number of players on the panel.
+   *
+   * @return Int.
+   */
+  @Override
+  public int numberOfPLayers() {
+    return this.players.size();
   }
 
   @Override

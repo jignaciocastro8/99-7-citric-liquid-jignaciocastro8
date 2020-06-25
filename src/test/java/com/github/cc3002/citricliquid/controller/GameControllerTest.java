@@ -36,6 +36,7 @@ public class GameControllerTest {
     private ICharacter shifuRobot;
     private ICharacter seagull;
 
+
     @BeforeEach
     public void setUp(){
         // Random Object for consistency tests.
@@ -147,7 +148,7 @@ public class GameControllerTest {
         assertTrue(gameController.checkForWinner());
     }
     @RepeatedTest(100)
-    public void movePlayerTest() {
+    public void movePlayerToTest() {
         gameController.createPlayer("Suguri", 4, 1, -1, 2);
         suguri = gameController.getPlayers().get(0);
         // Some panels
@@ -219,10 +220,10 @@ public class GameControllerTest {
     }
 
     /**
-     * Auxiliar method to shaffle.
-     * @param arrayList
-     * @param seed
-     * @return
+     * Auxiliary method to shuffle.
+     * @param arrayList An array of IPlayer.
+     * @param seed long.
+     * @return The same ArrayList of IPlayer but with a random order.
      */
     private ArrayList<IPlayer> shuffle(ArrayList<IPlayer> arrayList, long seed) {
         Random random = new Random(seed);
@@ -263,13 +264,141 @@ public class GameControllerTest {
         }
     }
     @Test
-    public void stopPlayerTest() {
-        /*
-        for (int i = 0; i<10; i++) {
-            suguri.movePlayer();
-        }
-
-         */
+    public void assignNextPanelsWithKeyTest() {
+        // Create some panels.
+        gameController.createNeutralPanel(0);
+        gameController.createHomePanel(1);
+        gameController.createEncounterPanel(2);
+        gameController.createDrawPanel(3);
+        // Assign next panels.
+        gameController.assignNextPanelsWithKey(0, 1, 2);
+        assertTrue(gameController.getPanelWithKey(0).getNextPanels().contains(gameController.getPanelWithKey(1)));
+        assertTrue(gameController.getPanelWithKey(0).getNextPanels().contains(gameController.getPanelWithKey(2)));
+        gameController.assignNextPanelsWithKey(1, 2);
+        assertTrue(gameController.getPanelWithKey(1).getNextPanels().contains(gameController.getPanelWithKey(2)));
+        gameController.assignNextPanelsWithKey(2,3);
+        assertTrue(gameController.getPanelWithKey(2).getNextPanels().contains(gameController.getPanelWithKey(3)));
+        // Assign a panel to its self.
+        gameController.assignNextPanelsWithKey(1,1);
+        assertFalse(gameController.getPanelWithKey(0).getNextPanels().contains(gameController.getPanelWithKey(0)));
     }
-
+    @Test
+    public void movePlayerTest() throws Exception {
+        // create suguri.
+        gameController.createSuguri();
+        IPlayer suguri = gameController.getPlayers().get(0);
+        // Create panels.
+        ArrayList<IPanel> panels = new ArrayList<>();
+        gameController.createNeutralPanel(0);
+        panels.add(gameController.getPanelWithKey(0));
+        gameController.createEncounterPanel(1);
+        panels.add(gameController.getPanelWithKey(1));
+        gameController.createDrawPanel(2);
+        panels.add(gameController.getPanelWithKey(2));
+        gameController.createHomePanel(3);
+        panels.add(gameController.getPanelWithKey(3));
+        // Connecting the panels.
+        gameController.assignNextPanelsWithKey(0, 1);
+        gameController.assignNextPanelsWithKey(1, 2);
+        gameController.assignNextPanelsWithKey(2, 3);
+        // Suguri starts on panels[0].
+        gameController.movePlayerTo(suguri, 0);
+        // Start the game.
+        gameController.initiateTurns();
+        // Move the player.
+        for (int steps = 0; steps < 4; steps++) {
+            gameController.movePlayer(suguri, steps);
+            assertEquals(panels.get(steps), suguri.getCurrentPanel());
+            // Reset suguri's position and state.
+            suguri.neutralState();
+            gameController.movePlayerTo(suguri, 0);
+        }
+    }
+    @Test
+    public void stopOnHomePanelTest() throws Exception {
+        // create suguri.
+        gameController.createSuguri();
+        IPlayer suguri = gameController.getPlayers().get(0);
+        // Create panels.
+        ArrayList<IPanel> panels = new ArrayList<>();
+        gameController.createNeutralPanel(0);
+        panels.add(gameController.getPanelWithKey(0));
+        gameController.createEncounterPanel(1);
+        panels.add(gameController.getPanelWithKey(1));
+        gameController.createDrawPanel(2);
+        panels.add(gameController.getPanelWithKey(2));
+        gameController.createHomePanel(3);
+        panels.add(gameController.getPanelWithKey(3));
+        gameController.createBossPanel(4);
+        panels.add(gameController.getPanelWithKey(4));
+        // Connecting the panels.
+        gameController.assignNextPanelsWithKey(0, 1);
+        gameController.assignNextPanelsWithKey(1, 2);
+        gameController.assignNextPanelsWithKey(2, 3);
+        gameController.assignNextPanelsWithKey(3, 4);
+        // Suguri starts on panels[0].
+        gameController.movePlayerTo(suguri, 0);
+        // Set the home panel as suguri's home panel.
+        gameController.setHomePanel(suguri, (HomePanel) panels.get(3));
+        // Starts the turns system to initiate player states..
+        gameController.initiateTurns();
+        // Make suguri walk to its home panel.
+        gameController.movePlayer(suguri, 3);
+        assertTrue(suguri.isWaitingOnPanel());
+        // Reset suguri's position and state.
+        gameController.movePlayerTo(suguri, 0);
+        suguri.neutralState();
+        // Make suguri walk beyond its home panel.
+        gameController.movePlayer(suguri, 4);
+        assertTrue(suguri.isWaitingOnPanel());
+        assertEquals(panels.get(3), suguri.getCurrentPanel());
+    }
+    @Test
+    public void stopOnPanelWithMultipleNextPanelsTest() throws Exception {
+        // create suguri.
+        gameController.createSuguri();
+        IPlayer suguri = gameController.getPlayers().get(0);
+        // Create panels.
+        ArrayList<IPanel> panels = new ArrayList<>();
+        gameController.createNeutralPanel(0);
+        panels.add(gameController.getPanelWithKey(0));
+        gameController.createEncounterPanel(1);
+        panels.add(gameController.getPanelWithKey(1));
+        gameController.createDrawPanel(2);
+        panels.add(gameController.getPanelWithKey(2));
+        gameController.createHomePanel(3);
+        panels.add(gameController.getPanelWithKey(3));
+        gameController.createBossPanel(4);
+        panels.add(gameController.getPanelWithKey(4));
+        // Connecting the panels.
+        gameController.assignNextPanelsWithKey(0, 1);
+        gameController.assignNextPanelsWithKey(1, 2, 3, 4);
+        // Suguri starts on panels[0].
+        gameController.movePlayerTo(suguri, 0);
+        // Starts the turns system to initiate player states.
+        gameController.initiateTurns();
+        // Move suguri beyond a panel with multiple next panels.
+        gameController.movePlayer(suguri, 2);
+        assertTrue(suguri.isWaitingOnPanel());
+        assertEquals(panels.get(1), suguri.getCurrentPanel());
+    }
+    @Test
+    public void stopWhenThePanelHasPlayersTest() throws Exception {
+        gameController.createNeutralPanel(0);
+        gameController.createDrawPanel(1);
+        IPanel expectedPanel = gameController.getPanelWithKey(1);
+        gameController.createSuguri();
+        IPlayer suguri = gameController.getPlayers().get(0);
+        gameController.createMarc();
+        IPlayer marc = gameController.getPlayers().get(1);
+        gameController.movePlayerTo(suguri, 0);
+        gameController.movePlayerTo(marc, 1);
+        // Connect the panels.
+        gameController.assignNextPanelsWithKey(0, 1);
+        //Initiate the game.
+        gameController.initiateTurns();
+        gameController.movePlayer(suguri, 1);
+        assertTrue(suguri.isWaitingOnPanel());
+        assertEquals(expectedPanel, suguri.getCurrentPanel());
+    }
 }

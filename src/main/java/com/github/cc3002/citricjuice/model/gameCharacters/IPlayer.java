@@ -2,6 +2,7 @@ package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.IPlayerState;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 public interface IPlayer extends ICharacter {
@@ -80,4 +81,37 @@ public interface IPlayer extends ICharacter {
      * @return NormaGoal.
      */
     NormaGoal getObjective();
+
+    /**
+     * Getter of the player state.
+     * @return IPlayerState.
+     */
+    IPlayerState getState();
+
+    /**
+     * Tells if the player is moving through the panels.
+     * @return boolean.
+     */
+    boolean isMoving();
+
+    /**
+     * Tells if the player is waiting on a panel.
+     * @return boolean.
+     */
+    boolean isWaitingOnPanel();
+
+    /**
+     * Sets the player state to wait on panel.
+     */
+    void waitOnPanel();
+
+    /**
+     * Sets the player state to moving.
+     */
+    void moving();
+
+    /**
+     * Sets the player to neutral state.
+     */
+    void neutralState();
 }

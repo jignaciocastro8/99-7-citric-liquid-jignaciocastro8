@@ -1,5 +1,6 @@
 package com.github.cc3002.citricliquid.controller;
 
+import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
@@ -14,7 +15,29 @@ public interface IPlayerController {
      * @param def Def.
      * @param evd Evd.
      */
-    void createPlayer(String name, int hp, int atk, int def, int evd);
+    IPlayer createPlayer(String name, int hp, int atk, int def, int evd);
+
+    /**
+     *
+     * @param name name.
+     * @param hp int.
+     * @param atk int.
+     * @param def int.
+     * @param evd int.
+     * @param panel The panel where to put the created player.
+     * @return IPlayer.
+     */
+    IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel);
+
+    /**
+     * Fast method to create suguri.
+     */
+    IPlayer createSuguri();
+
+    /**
+     * Fast method to create marc.
+     */
+    IPlayer createMarc();
 
     /**
      * Getter of the player of the game.
@@ -34,4 +57,5 @@ public interface IPlayerController {
      * @param objective NormaGoal type.
      */
     void setPLayerObjective(IPlayer player, NormaGoal objective);
+
 }

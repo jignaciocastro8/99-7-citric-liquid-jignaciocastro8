@@ -13,4 +13,15 @@ public interface IPlayerFactory extends ICharacterFactory {
      * @return IPlayer.
      */
     IPlayer create(String name, int hp, int atk, int def, int evd);
+
+    /**
+     * Fast method to create Suguri.
+     * @return IPlayer suguri.
+     */
+    IPlayer createSuguri();
+    /**
+     * Fast method to create Marc.
+     * @return IPlayer marc.
+     */
+    IPlayer createMarc();
 }
