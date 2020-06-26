@@ -21,4 +21,14 @@ public class MovingState implements IPlayerState {
     public boolean isWaitingOnPanel() {
         return false;
     }
+
+    /**
+     * Tells if it is a recovery state.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isRecovery() {
+        return false;
+    }
 }

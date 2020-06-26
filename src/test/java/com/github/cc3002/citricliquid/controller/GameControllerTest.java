@@ -194,27 +194,31 @@ public class GameControllerTest {
     @Test
     public void normaClearTest() {
         // We create and get suguri.
-        gameController.createPlayer("Suguri", 4, 1, -1, 2);
-        IPlayer suguri = gameController.getPlayers().get(0);
-        // We create, get and set the home panel.
-        gameController.createHomePanel(0);
-        gameController.setHomePanel(suguri, (HomePanel) gameController.getPanelWithKey(0));
+        IPlayer suguri = gameController.createPlayer("Suguri", 4, 1, -1, 2);
+        // Create panels. A home panel to do the norma check.
+        IPanel homePanel = gameController.createHomePanel(0);
+        IPanel neutralPanel = gameController.createNeutralPanel(1);
+        // Suguri stars on the neutral panel.
+        gameController.movePlayerTo(suguri, 1);
+        // Connect panels.
+        gameController.assignNextPanelsWithKey(1, 0);
         // suguri starts with norma 1.
         assertEquals(1, suguri.getNormaLevel());
 
-        int[] stars = new int[]{10, 30, 70, 120, 200, 250};
-        int[] wins = new int[]{0, 2, 5, 9, 14, 20};
+        int[] stars = new int[]{10, 30, 70, 120, 200};
+        int[] wins = new int[]{0, 2, 5, 9, 14};
         // Test the norma levels and hp:
-        for (int i=0; i<5; i++) {
+        for (int i = 0; i < 5; i++) {
             int expectedNorma = i + 2;
             suguri.increaseStarsBy(stars[i]);
             suguri.increaseWinsBy(wins[i]);
-            // Puts suguri on his home panel.
-            gameController.movePlayerTo(suguri, 0);
+            // Move suguri to her home panel.
+            gameController.movePlayer(suguri, 1);
             assertEquals(expectedNorma, suguri.getNormaLevel());
             //Reset stars and wins.
             suguri.reduceStarsBy(suguri.getStars());
             suguri.reduceWinsBy(suguri.getWins());
+            gameController.movePlayerTo(suguri, 1);
         }
 
     }
@@ -254,7 +258,7 @@ public class GameControllerTest {
         // Simulate the order.
         order = shuffle(order, 10);
         // Initiate the turns after adding the players.
-        gameController.initiateTurns();
+        gameController.initiateGame();
         // Random amount of iteration.
         int it = random.nextInt(50);
         for (int i = 0; i < it; i++) {
@@ -304,7 +308,7 @@ public class GameControllerTest {
         // Suguri starts on panels[0].
         gameController.movePlayerTo(suguri, 0);
         // Start the game.
-        gameController.initiateTurns();
+        gameController.initiateGame();
         // Move the player.
         for (int steps = 0; steps < 4; steps++) {
             gameController.movePlayer(suguri, steps);
@@ -341,7 +345,7 @@ public class GameControllerTest {
         // Set the home panel as suguri's home panel.
         gameController.setHomePanel(suguri, (HomePanel) panels.get(3));
         // Starts the turns system to initiate player states..
-        gameController.initiateTurns();
+        gameController.initiateGame();
         // Make suguri walk to its home panel.
         gameController.movePlayer(suguri, 3);
         assertTrue(suguri.isWaitingOnPanel());
@@ -376,7 +380,7 @@ public class GameControllerTest {
         // Suguri starts on panels[0].
         gameController.movePlayerTo(suguri, 0);
         // Starts the turns system to initiate player states.
-        gameController.initiateTurns();
+        gameController.initiateGame();
         // Move suguri beyond a panel with multiple next panels.
         gameController.movePlayer(suguri, 2);
         assertTrue(suguri.isWaitingOnPanel());
@@ -396,7 +400,7 @@ public class GameControllerTest {
         // Connect the panels.
         gameController.assignNextPanelsWithKey(0, 1);
         //Initiate the game.
-        gameController.initiateTurns();
+        gameController.initiateGame();
         gameController.movePlayer(suguri, 1);
         assertTrue(suguri.isWaitingOnPanel());
         assertEquals(expectedPanel, suguri.getCurrentPanel());

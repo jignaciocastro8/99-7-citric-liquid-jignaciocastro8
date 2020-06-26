@@ -4,10 +4,7 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.board.NeutralPanel;
 import com.github.cc3002.citricjuice.model.board.NullPanel;
-import com.github.cc3002.citricjuice.model.gameCharacters.playerState.IPlayerState;
-import com.github.cc3002.citricjuice.model.gameCharacters.playerState.MovingState;
-import com.github.cc3002.citricjuice.model.gameCharacters.playerState.NeutralState;
-import com.github.cc3002.citricjuice.model.gameCharacters.playerState.WaitingOnPanelState;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.*;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
@@ -37,6 +34,8 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
         normaLevel = 1;
         // Starts with a null panel.
         this.currentPanel = new NullPanel();
+        // Starts with neutral state.
+        this.state = new NeutralState();
     }
     /**
      * Creates a Player with a HomePanel
@@ -54,6 +53,8 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
         this.normaLevel = 1;
         // Assign the HomePanel.
         this.homePanel = panel;
+        // Starts with neutral state.
+        this.state = new NeutralState();
     }
 
     /**
@@ -207,6 +208,24 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     @Override
     public void neutralState() {
         this.state = new NeutralState();
+    }
+
+    /**
+     * Sets the player state to recovery.
+     */
+    @Override
+    public void recoveryState() {
+        this.state = new RecoveryState();
+    }
+
+    /**
+     * Tells if the player is recovering.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isRecovering() {
+        return this.state.isRecovery();
     }
 
     /**

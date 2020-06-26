@@ -114,4 +114,15 @@ public interface IPlayer extends ICharacter {
      * Sets the player to neutral state.
      */
     void neutralState();
+
+    /**
+     * Sets the player state to recovery.
+     */
+    void recoveryState();
+
+    /**
+     * Tells if the player is recovering.
+     * @return boolean.
+     */
+    boolean isRecovering();
 }

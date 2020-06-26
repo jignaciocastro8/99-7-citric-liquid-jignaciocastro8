@@ -56,7 +56,7 @@ public abstract class Panel implements IPanel {
    */
   public void addNextPanel(final IPanel ...panels) {
     for (IPanel panel : panels) {
-      if (panel != this && !this.nextPanels.contains(panel)) {this.nextPanels.add(panel);}
+      if (! panel.equals(this) && !this.nextPanels.contains(panel)) {this.nextPanels.add(panel);}
     }
   }
 

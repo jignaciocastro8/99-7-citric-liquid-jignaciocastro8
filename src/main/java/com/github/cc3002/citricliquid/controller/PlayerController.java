@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class PlayerController implements IPlayerController {
 
     private ArrayList<IPlayer> players;
+
     private IPlayerFactory playerFactory;
 
     private IPlayer winner;
@@ -31,6 +32,9 @@ public class PlayerController implements IPlayerController {
     @Override
     public IPlayer createPlayer(String name, int hp, int atk, int def, int evd) {
         IPlayer player = playerFactory.create(name, hp, atk, def, evd);
+        // Every player starts with STAR goal.
+        player.setObjective(NormaGoal.STARS);
+        // Add to the players.
         this.players.add(player);
         return player;
     }
@@ -46,9 +50,11 @@ public class PlayerController implements IPlayerController {
      */
     @Override
     public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
-        IPlayer player = playerFactory.create(name, hp, atk, def, evd);
+        IPlayer player = this.createPlayer(name, hp, atk, def, evd);
+        // Set the current panel of the playe.
         player.setCurrentPanel(panel);
-        this.players.add(player);
+        // Add the player to the panel's players.
+        panel.addPlayer(player);
         return player;
     }
 

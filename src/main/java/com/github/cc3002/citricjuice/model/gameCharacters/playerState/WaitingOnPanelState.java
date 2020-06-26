@@ -22,5 +22,15 @@ public class WaitingOnPanelState implements IPlayerState {
         return true;
     }
 
+    /**
+     * Tells if it is a recovery state.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isRecovery() {
+        return false;
+    }
+
 
 }

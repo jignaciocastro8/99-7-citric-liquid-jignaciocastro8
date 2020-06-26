@@ -2,9 +2,7 @@ package com.github.cc3002.citricliquid.mediator;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
-import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
-import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
-import com.github.cc3002.citricjuice.model.gameCharacters.Player;
+import com.github.cc3002.citricjuice.model.gameCharacters.*;
 import com.github.cc3002.citricliquid.controller.GameController;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 import org.jetbrains.annotations.Contract;
@@ -131,7 +129,7 @@ public class Mediator {
                                           int evasion) {
         // (!) Change the <Object> parameter with the actual class of the Boss unit
         // (!) Implement the body of this method (IMPLEMENTED)
-        MediatorBoss<?> mediatorUnit = new MediatorWildUnit<>(controller.createBoss(name, hitPoints, attack, defense, evasion));
+        MediatorBoss<?> mediatorUnit = new MediatorBoss<>(controller.createBoss(name, hitPoints, attack, defense, evasion));
         return mediatorUnit;
     }
 
@@ -172,11 +170,12 @@ public class Mediator {
      */
     public Pair<MediatorPlayer<?>, MediatorPanel<?>> movePlayer() {
         // (!) Implement this method (IMPLEMENTED)
-        int steps = new Random().nextInt();
-        IPlayer player = new MediatorPlayer<>(controller.getTurnOwner());
+        int steps = new Random().nextInt(100);
+        IPlayer player = controller.getTurnOwner();
         controller.movePlayer(player, steps);
-        IPanel panel = new MediatorPanel<>(player.getCurrentPanel());
-        return new Pair<>(player, panel);
+        var mediatorPlayer = new MediatorPlayer<>(player);
+        var mediatorPanel = new MediatorPanel<>(player.getCurrentPanel());
+        return new Pair<>(mediatorPlayer, mediatorPanel);
     }
 
     /**
@@ -184,7 +183,8 @@ public class Mediator {
      */
     public MediatorPlayer<?> setNormaGoal(NormaGoal goal) {
         // (!) Implement this (IMPLEMENTED)
-        return new MediatorPlayer<>(controller.getTurnOwner().setObjective(goal));
+        controller.getTurnOwner().setObjective(goal);
+        return new MediatorPlayer<>(controller.getTurnOwner());
     }
 
 
@@ -213,7 +213,8 @@ public class Mediator {
      * Ends the current player's turn
      */
     public void endTurn() {
-        // (!) Implement this
+        // (!) Implement this (IMPLEMENTED)
+        controller.nextTurn();
     }
 
     /**
@@ -248,8 +249,8 @@ public class Mediator {
             var nextPanels = new ArrayList<MediatorPanel<?>>();
             // (!) Uncomment this lines
             for (var nextPanel : panel.getNextPanels()) {
-            nextPanels.add(new MediatorPanel<>(nextPanel));
-        }
+                nextPanels.add(new MediatorPanel<>(nextPanel));
+            }
             return nextPanels;
         }
 
@@ -362,27 +363,34 @@ public class Mediator {
         }
 
         /**
+         * Construct a MediatorPlayer with a player.
+         * @param player T (?)
+         */
+        public MediatorPlayer(final T player) {
+            super(player);
+        }
+        /**
          * Returns the amount of stars of the player.
          */
         public int getStars() {
-            // (!) Implement this
-            return super.getStars();
+            // (!) Implement this (IMPLEMENTED)
+            return this.unit.getStars();
         }
 
         /**
          * Returns the player's norma goal.
          */
         public NormaGoal getNormaGoal() {
-            // (!) Implement this
-            return null;
+            // (!) Implement this (IMPLEMENTED)
+            return this.unit.getObjective();
         }
 
         /**
          * Returns the player's norma level.
          */
         public int getNormaLevel() {
-            // (!) Implement this
-            return 0;
+            // (!) Implement this (IMPLEMENTED)
+            return this.unit.getNormaLevel();
         }
     }
 
@@ -396,9 +404,19 @@ public class Mediator {
         // (!) Replace extends Object with the actual class for the units
         //  For example: <T extends WildUnit>
         public MediatorWildUnit(String name, int hitPoints, int attack, int defense, int evasion) {
-            // (!) unit = new ...
+            // (!) unit = new ... (IMPLEMENTED)
+            super((T) new WildUnit(name, hitPoints, attack, defense, evasion));
+        }
+
+        /**
+         * Creates a MediatorWildUnit with a wild.
+         * @param wild ICharacter.
+         */
+        public MediatorWildUnit(final T wild) {
+            super(wild);
         }
     }
+
 
     /**
      * Mediator class to wrap bosses into a format compliant to that of the mediator.
@@ -410,7 +428,15 @@ public class Mediator {
         // (!) Replace extends Object with the actual class for the units
         //  For example: <T extends Boss>
         public MediatorBoss(String name, int hitPoints, int attack, int defense, int evasion) {
-            // (!) unit = new ...
+            // (!) unit = new ... (IMPLEMENTED)
+            super((T) new BossUnit(name, hitPoints, attack, defense, evasion));
+        }
+        /**
+         * Creates a MediatorWildBoss with a wild.
+         * @param boss ICharacter.
+         */
+        public MediatorBoss(final T boss) {
+            super(boss);
         }
     }
 

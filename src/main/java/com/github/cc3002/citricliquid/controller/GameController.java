@@ -15,7 +15,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
     private PlayerController playerController;
     private BoardController boardController;
 
-    private int chapter;
+    private int chapter = 1;
     private int numberOfFinishedTurns;
 
     private ArrayList<IPlayer> turnOrder;
@@ -30,7 +30,8 @@ public class GameController implements IBoardController, IPlayerController, IUni
         unitController = new UnitController();
         playerController = new PlayerController();
         boardController = new BoardController();
-
+        // Initiate order array.
+        this.turnOrder = new ArrayList<>();
     }
     /**
      * Create a player.
@@ -41,7 +42,12 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param evd Character's evd.
      */
     public IPlayer createPlayer(String name, int hp, int atk, int def, int evd) {
-        return this.playerController.createPlayer(name, hp, atk, def, evd);
+        IPlayer newPlayer =  this.playerController.createPlayer(name, hp, atk, def, evd);
+        if (this.getPlayers().size() == 1) {
+            this.turnOwner = newPlayer;
+        }
+        this.turnOrder.add(newPlayer);
+        return newPlayer;
     }
 
     /**
@@ -56,7 +62,11 @@ public class GameController implements IBoardController, IPlayerController, IUni
     @Override
     public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
         IPlayer player = this.playerController.createPlayerWithPanel(name, hp, atk, def, evd, panel);
+        if (this.getPlayers().size() == 1) {
+            this.turnOwner = player;
+        }
         this.addPanel(panel);
+        this.turnOrder.add(player);
         return player;
     }
 
@@ -65,7 +75,12 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer createSuguri() {
-        return this.playerController.createSuguri();
+        IPlayer player = this.playerController.createSuguri();
+        if (this.getPlayers().size() == 1) {
+            this.turnOwner = player;
+        }
+        this.turnOrder.add(player);
+        return player;
     }
 
     /**
@@ -73,7 +88,12 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer createMarc() {
-        return this.playerController.createMarc();
+        IPlayer player = this.playerController.createMarc();
+        if (this.getPlayers().size() == 1) {
+            this.turnOwner = player;
+        }
+        this.turnOrder.add(player);
+        return player;
     }
 
     /**
@@ -274,7 +294,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
 
 
     /**
-     * Puts player on panel activating the panel effect.
+     * Puts the player on panel.
      *
      * @param player IPlayer.
      * @param key Int, key of the IPanel where player will be located.
@@ -285,8 +305,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
         player.getCurrentPanel().removePlayer(player);
         player.setCurrentPanel(this.getPanelWithKey(key));
         this.getPanelWithKey(key).addPlayer(player);
-        // Produces the effect of the panel.
-        this.getPanelWithKey(key).activatedBy(player);
+
     }
 
     /**
@@ -316,20 +335,20 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * Initiates the turn system. It requires a minimum of two players.
      */
     @Override
-    public void initiateTurns() throws Exception {
+    public void initiateGame() {
         // Start chapters.
         this.chapter = 1;
         // Start number of turns.
         this.numberOfFinishedTurns = 0;
-        if (this.getPlayers().size() == 0 ) {
-            throw new Exception("You need at least one player to initiate");
+        if (this.getPlayers().size() > 0 ) {
+            // Create a random order for the turns.
+            createTurnsOrder();
+            // Initiate the states of the players.
+            this.playerController.initiatePlayerState();
+            // The first turn initiate.
+            this.turnOwner = turnOrder.get(0);
         }
-        // Create a random order for the turns.
-        createTurnsOrder();
-        // Initiate the states of the players.
-        this.playerController.initiatePlayerState();
-        // The first turn initiate.
-        this.turnOwner = turnOrder.get(0);
+
     }
 
     /**
@@ -361,17 +380,21 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void movePlayer(IPlayer player, int steps) {
-
+        // Waiting case.
         if (player.isWaitingOnPanel()) {
             // If the player is waiting, stops moving.
             return;
         }
+        // Ends the walk case.
         if (steps == 0) {
+            // Produce the effect of the panel on the player.
+            player.getCurrentPanel().activatedBy(player);
             // The player ends the moving process.
             player.neutralState();
         }
-
+        // Recursion.
         else{
+            // The player starts moving process.
             player.moving();
             IPanel currentPanel = player.getCurrentPanel();
             // One next panel case.
@@ -379,6 +402,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
                 // Move player to the unique next panel.
                 int nextPanelKey = currentPanel.getNextPanels().get(0).getKey();
                 this.movePlayerTo(player, nextPanelKey);
+
                 // If the next panel is its own home panel or has more than one player on it, the player must stay there waiting.
                 if (player.getHomePanel() == currentPanel.getNextPanels().get(0) || player.getCurrentPanel().numberOfPLayers() > 1) {
                     player.waitOnPanel();

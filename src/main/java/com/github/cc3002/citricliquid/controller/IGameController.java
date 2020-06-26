@@ -1,8 +1,6 @@
 package com.github.cc3002.citricliquid.controller;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
-import com.github.cc3002.citricjuice.model.board.IPanel;
-import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 
 import java.util.ArrayList;
@@ -10,7 +8,7 @@ import java.util.ArrayList;
 public interface IGameController {
 
     /**
-     * Puts player on panel activating the panel effect.
+     * Puts player on panel.
      * @param key Int, key of the IPanel where player will be located.
      * @param player IPlayer.
      */
@@ -33,7 +31,7 @@ public interface IGameController {
     /**
      * Initiates the turn system. It requires a minimum of two players.
      */
-    void initiateTurns() throws Exception;
+    void initiateGame() ;
 
     /**
      * Getter of the turn owner.

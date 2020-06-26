@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-public class WildUnit extends AbstractUnit implements BattleInterface{
+public class WildUnit extends AbstractUnit implements IEnemy, BattleInterface{
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
