@@ -108,32 +108,32 @@ characters testean estos efectos.
 
 Model aspects added or deleted:
 
--The interface *IUnit* is created, wich is implemneted by *WildUnit* and *BossUnit* classes. Its function
+- The interface **IUnit** is created, wich is implemented by *WildUnit* and *BossUnit* classes. Its function
 is to separate the unit's behavior from the player's.
 
--The interface *IPlayer* is created to represent the player behavior.It is implemented by *Player* class
-only
+- The interface *IPlayer* is created to represent the player behavior. It is implemented by *Player* class
+only.
 
--The *Board* class was deleted and replaced by a *BoardController* wich is explained later.
+- The *Board* class was deleted and replaced by a *BoardController* wich is explained later.
 
--panelFactory package is created in boardPackage. The first contains classes related to the factory 
+- The panelFactory package is created in boardPackage. The first contains classes related to the factory 
 pattern that is implemented for panel creation, it uses a *IPanelFactory* interface that has the 
 (abstract) method *createWithKey(int key)* and creates a panel with key as its id. The classes 
 *TypePanelFactory* with Type the panel's type, implement this abstract method in the expected way.
 
 
--charactersFactory package is created in gameCharacter package. This package contains classes related
+- The charactersFactory package is created in gameCharacter package. This package contains classes related
 to the factory pattern that is implemented for characters (player, wilds, bosses) creation, it uses
 the *ICharacterFactory* that has the (abstract) method *create("player information")*. This method
 is implemented by *WildFactory*, *BossFactory*. Besides, *PlayersFactory* implements *IPlayerFactory*
 wich is another interface that implementes *ICharacterFactory*. This *IPlayerFactory* has method that
 allow us to create more specialized player.
 
--playerState package is created to put classes that represents a player state: *MovingState*, 
+- The playerState package is created to put classes that represents a player state: *MovingState*, 
 *WaitingOnPanelState*, *NeutralState* and *RecoveryState*. All this classes implements the 
 *IPlayerState* with methods that enables to do a double dispatch execution to know the player state.
 
--GameController: On the controller package, the game controller is implemented. It is separated in 3
+- GameController: On the controller package, the game controller is implemented. It is separated in 3
 specialized classes that handles different structures of the game: *PlayerController*
 , *BoardController*, *UnitController*. The name of this classes explains the part of the game that
 deals with. Each one of this classes implements its corresponding interface *IPlayerController*
@@ -146,7 +146,7 @@ This allows *GameController* to encapsule the total control of the game and fit 
 of the *MediatorClass* and the test *MediatorTest*, wich was the principal reason to do it in that way.
 
 
--GameFlux: On the gameFlux controller a (incomplete) implementation of the game flux is created. It
+- GameFlux: On the gameFlux controller a (incomplete) implementation of the game flux is created. It
 has a principal class *Turn* that tries to fulfill the different turn phases. To do this, I took a 
 state pattern aproach from the point of view of the turn, this is, the turn enters different phases.
 the principal states are characterized for the game waiting for a player to make a decision. Here, we
@@ -157,7 +157,7 @@ context, *NextPanelState* that ask the player which panel to follow when she/he 
 more than one next panel and *NeutralWaitState* that represent a neutral state trying to follow a null
 object pattern. 
 
--Mediator: this is a given class but i completed it in a way that it pass the test.
+- Mediator: this is a given class but i completed it in a way that it pass the test.
 
 
 
