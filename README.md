@@ -155,7 +155,7 @@ implemented by: **BattleOrNotState** a class that is in charge of asking the pla
 to enter a battle, **EvdOrDefState** that asks the player if she/he wants to evade or def in a battle 
 context, **NextPanelState** that ask the player which panel to follow when she/he lands on a panel with 
 more than one next panel and **NeutralWaitState** that represent a neutral state trying to follow a null
-object pattern. 
+object pattern. The common interface allows to do a double dispatch excution. 
 
 - Mediator: this is a given class but i completed it in a way that it pass the test.
 
@@ -163,7 +163,7 @@ object pattern.
 # **Execution instructions (Second version)**
 
 Besides the instructions of the first version (The spanish version at the beggining of this documents),
-the new tests added are explained here:
+we have new tests added that are explained here:
 
 - **Factory tests** : Each factory has its own tests and basically test that the created object is the
 correct one.
