@@ -1,8 +1,7 @@
 package com.github.cc3002.citricjuice.model.board;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
-
-import java.util.Random;
 
 /**
  * Class that represents a Drop panel. It doesn't have a random object.
@@ -12,8 +11,8 @@ public class DropPanel extends Panel {
     /**
      * Creates a Drop panel.
      */
-    public DropPanel(int[] coordinates) {
-        super(PanelType.DROP, coordinates);
+    public DropPanel(int key) {
+        super(PanelType.DROP, key);
     }
 
     /**
@@ -22,7 +21,7 @@ public class DropPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(Player player) {
+    public void activatedBy(IPlayer player) {
         int roll = player.roll();
         player.reduceStarsBy(roll * player.getNormaLevel());
     }

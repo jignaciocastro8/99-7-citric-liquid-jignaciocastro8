@@ -1,15 +1,27 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
+import com.github.cc3002.citricjuice.model.board.IPanel;
+import com.github.cc3002.citricjuice.model.board.NeutralPanel;
+import com.github.cc3002.citricjuice.model.board.NullPanel;
+import com.github.cc3002.citricjuice.model.gameCharacters.playerState.*;
+import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
 
 /**
  * This class represents a player in the game 99.7% Citric Liquid.
  */
-public class Player extends AbstractCharacter implements BattleInterface {
+public class Player extends AbstractCharacter implements IPlayer, BattleInterface {
     private int normaLevel;
     private HomePanel homePanel;
+    private IPanel currentPanel;
+    private NormaGoal objective;
+    private IPlayerState state;
+    private boolean playCardAnswer = false;
+    private boolean battleAnswer = false;
+    private boolean defOrEvdAnswer = false;
+    private IPanel nextPanelDecision = new NullPanel();
 
     /**
     * Creates a Player with null HomePanel.
@@ -24,6 +36,10 @@ public class Player extends AbstractCharacter implements BattleInterface {
         super(name, hp, atk, def, evd);
         // Every Player starts with norma 1.
         normaLevel = 1;
+        // Starts with a null panel.
+        this.currentPanel = new NullPanel();
+        // Starts with neutral state.
+        this.state = new NeutralState();
     }
     /**
      * Creates a Player with a HomePanel
@@ -41,6 +57,8 @@ public class Player extends AbstractCharacter implements BattleInterface {
         this.normaLevel = 1;
         // Assign the HomePanel.
         this.homePanel = panel;
+        // Starts with neutral state.
+        this.state = new NeutralState();
     }
 
     /**
@@ -103,6 +121,200 @@ public class Player extends AbstractCharacter implements BattleInterface {
     }
 
     /**
+     * Returns the panel where the player is located.
+     *
+     * @return IPanel.
+     */
+    @Override
+    public IPanel getCurrentPanel() {
+        return this.currentPanel;
+    }
+
+    /**
+     * Setter of the current panel.
+     *
+     * @param panel IPanel.
+     */
+    @Override
+    public void setCurrentPanel(IPanel panel) {
+        this.currentPanel = panel;
+    }
+
+    /**
+     * Setter of the objective of the player.
+     *
+     * @param objective NormaGoal.
+     */
+    @Override
+    public void setObjective(NormaGoal objective) {
+        this.objective = objective;
+    }
+
+    /**
+     * Getter of the objective of the player.
+     *
+     * @return NormaGoal.
+     */
+    @Override
+    public NormaGoal getObjective() {
+        return this.objective;
+    }
+
+    /**
+     * Getter of the player state.
+     *
+     * @return IPlayerState.
+     */
+    @Override
+    public IPlayerState getState() {
+        return this.state;
+    }
+
+    /**
+     * Tells if the player is moving through the panels.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isMoving() {
+        return this.state.isMoving();
+    }
+
+    /**
+     * Tells if the player is waiting on a panel.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isWaitingOnPanel() {
+        return this.state.isWaitingOnPanel();
+    }
+
+    /**
+     * Sets the player state to wait on panel.
+     */
+    @Override
+    public void waitOnPanel() {
+        this.state = new WaitingOnPanelState();
+    }
+
+    /**
+     * Sets the player state to moving.
+     */
+    @Override
+    public void moving() {
+        this.state = new MovingState();
+    }
+
+    /**
+     * Sets the player to neutral state.
+     */
+    @Override
+    public void neutralState() {
+        this.state = new NeutralState();
+    }
+
+    /**
+     * Sets the player state to recovery.
+     */
+    @Override
+    public void recoveryState() {
+        this.state = new RecoveryState();
+    }
+
+    /**
+     * Tells if the player is recovering.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isRecovering() {
+        return this.state.isRecovery();
+    }
+
+    /**
+     * Sets the answer of the player for the question: Do you want to play a card?
+     *
+     * @param answer boolean.
+     */
+    @Override
+    public void setAnswerForPlayCard(boolean answer) {
+        this.playCardAnswer = answer;
+    }
+
+    /**
+     * Ask the player if she/he wants to play a card.
+     */
+    @Override
+    public boolean askForPlayCard() {
+        return this.playCardAnswer;
+    }
+
+    /**
+     * Sets the battle answer.
+     * true: the player will battle.
+     * false: the player wont battle.
+     *
+     * @param answer boolean.
+     */
+    @Override
+    public void setAnswerForBattle(boolean answer) {
+        this.battleAnswer = answer;
+    }
+
+    /**
+     * Getter of the battle answer.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean getBattleAnswer() {
+        return this.battleAnswer;
+    }
+
+    /**
+     * Getter of the evd or def answer.
+     *
+     * @return boolean. True: Evd, false: Def.
+     */
+    @Override
+    public boolean getDefOrEvdAnswer() {
+        return this.defOrEvdAnswer;
+    }
+
+    /**
+     * Setter of the evd or def decision.
+     * True: Evd.
+     * False: Def.
+     *
+     * @param answer decision.
+     */
+    @Override
+    public void setEvdOrDefAnswer(boolean answer) {
+        this.defOrEvdAnswer = answer;
+    }
+
+    /**
+     * Getter of the player next panel decision.
+     *
+     * @return IPanel, the next panel.
+     */
+    @Override
+    public IPanel getNextPanelDecision() {
+        return this.nextPanelDecision;
+    }
+
+    /**
+     * Setter of the next panel decision.
+     *
+     * @param panel IPanel.
+     */
+    @Override
+    public void setNextPanelDecision(IPanel panel) {
+        this.nextPanelDecision = panel;
+    }
+
+    /**
      * Receive the attack and execute the player decision.
      * @param netAtk net attack over the player.
      */
@@ -129,7 +341,7 @@ public class Player extends AbstractCharacter implements BattleInterface {
 
 
     /**
-    * Performs a norma clear action; the {@code norma} counter increases in 1.
+    * Performs a norma clear action; the norma counter increases in 1.
     */
     public void normaClear() {
         this.normaLevel++;

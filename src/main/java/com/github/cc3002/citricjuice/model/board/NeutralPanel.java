@@ -1,5 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 /**
@@ -10,14 +11,14 @@ public class NeutralPanel extends Panel {
     /**
      * Create a Neutral Panel.
      */
-    public NeutralPanel(int[] coordinates) {
-        super(PanelType.NEUTRAL, coordinates);
+    public NeutralPanel(int key) {
+        super(PanelType.NEUTRAL, key);
     }
 
     /**
      * Neutral panel version of activatedBy.
-     * @param player
+     * @param player IPlayer.
      */
     @Override
-    public void activatedBy(Player player) { }
+    public void activatedBy(IPlayer player) { }
 }

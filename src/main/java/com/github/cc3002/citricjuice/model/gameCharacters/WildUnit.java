@@ -1,10 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-import com.github.cc3002.citricjuice.model.board.BossPanel;
-
-import java.util.Random;
-
-public class WildUnit extends AbstractUnit implements BattleInterface{
+public class WildUnit extends AbstractUnit implements IUnit, BattleInterface{
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);

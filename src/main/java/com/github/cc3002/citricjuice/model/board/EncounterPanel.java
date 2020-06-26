@@ -1,5 +1,6 @@
 package com.github.cc3002.citricjuice.model.board;
 
+import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
 
 /**
@@ -9,8 +10,8 @@ public class EncounterPanel extends Panel {
     /**
      * Creates a Encounter panel.
      */
-    public EncounterPanel(int[] coordinates) {
-        super(PanelType.ENCOUNTER, coordinates);
+    public EncounterPanel(int key) {
+        super(PanelType.ENCOUNTER, key);
     }
 
     /**
@@ -18,7 +19,7 @@ public class EncounterPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(Player player) {
+    public void activatedBy(IPlayer player) {
 
     }
 }
