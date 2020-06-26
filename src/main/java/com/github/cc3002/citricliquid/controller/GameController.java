@@ -405,6 +405,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
 
                 // If the next panel is its own home panel or has more than one player on it, the player must stay there waiting.
                 if (player.getHomePanel() == currentPanel.getNextPanels().get(0) || player.getCurrentPanel().numberOfPLayers() > 1) {
+                    // Here the player must decide.
                     player.waitOnPanel();
                 }
                 // Continuing the moving process.
@@ -413,9 +414,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
             // More than one next panel case.
             else {
                 player.waitOnPanel();
-                // Here the player must decide for one next panel to move to.
+                // Here the player must decide which next panel to move to.
+                // IPanel decision = player.askForPanel(player.currentPanel().nexPanels());
             }
-
         }
     }
 

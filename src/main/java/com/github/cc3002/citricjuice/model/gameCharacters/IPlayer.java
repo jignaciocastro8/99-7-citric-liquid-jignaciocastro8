@@ -125,4 +125,55 @@ public interface IPlayer extends ICharacter {
      * @return boolean.
      */
     boolean isRecovering();
+
+    /**
+     * Sets the answer of the player for the question: Do you want to play a card?
+     * @param answer boolean.
+     */
+    void setAnswerForPlayCard(boolean answer);
+
+    /**
+     * Ask the player if she/he wants to play a card.
+     */
+    boolean askForPlayCard();
+
+    /**
+     * Sets the battle answer.
+     * true: the player will battle.
+     * false: the player wont battle.
+     * @param answer boolean.
+     */
+    void setAnswerForBattle(boolean answer);
+
+    /**
+     * Getter of the battle answer.
+     * @return boolean.
+     */
+    boolean getBattleAnswer();
+
+    /**
+     * Getter of the evd or def answer.
+     * @return boolean. True: Evd, false: Def.
+     */
+    boolean getDefOrEvdAnswer();
+
+    /**
+     * Setter of the evd or def decision.
+     * True: Evd.
+     * False: Def.
+     * @param answer decision.
+     */
+    void setEvdOrDefAnswer(boolean answer);
+
+    /**
+     * Getter of the player next panel decision.
+     * @return IPanel, the next panel.
+     */
+    IPanel getNextPanelDecision();
+
+    /**
+     * Setter of the next panel decision.
+     * @param panel IPanel.
+     */
+    void setNextPanelDecision(IPanel panel);
 }

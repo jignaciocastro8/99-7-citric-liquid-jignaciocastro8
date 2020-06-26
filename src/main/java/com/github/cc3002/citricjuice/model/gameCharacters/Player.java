@@ -18,6 +18,10 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     private IPanel currentPanel;
     private NormaGoal objective;
     private IPlayerState state;
+    private boolean playCardAnswer = false;
+    private boolean battleAnswer = false;
+    private boolean defOrEvdAnswer = false;
+    private IPanel nextPanelDecision = new NullPanel();
 
     /**
     * Creates a Player with null HomePanel.
@@ -226,6 +230,88 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     @Override
     public boolean isRecovering() {
         return this.state.isRecovery();
+    }
+
+    /**
+     * Sets the answer of the player for the question: Do you want to play a card?
+     *
+     * @param answer boolean.
+     */
+    @Override
+    public void setAnswerForPlayCard(boolean answer) {
+        this.playCardAnswer = answer;
+    }
+
+    /**
+     * Ask the player if she/he wants to play a card.
+     */
+    @Override
+    public boolean askForPlayCard() {
+        return this.playCardAnswer;
+    }
+
+    /**
+     * Sets the battle answer.
+     * true: the player will battle.
+     * false: the player wont battle.
+     *
+     * @param answer boolean.
+     */
+    @Override
+    public void setAnswerForBattle(boolean answer) {
+        this.battleAnswer = answer;
+    }
+
+    /**
+     * Getter of the battle answer.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean getBattleAnswer() {
+        return this.battleAnswer;
+    }
+
+    /**
+     * Getter of the evd or def answer.
+     *
+     * @return boolean. True: Evd, false: Def.
+     */
+    @Override
+    public boolean getDefOrEvdAnswer() {
+        return this.defOrEvdAnswer;
+    }
+
+    /**
+     * Setter of the evd or def decision.
+     * True: Evd.
+     * False: Def.
+     *
+     * @param answer decision.
+     */
+    @Override
+    public void setEvdOrDefAnswer(boolean answer) {
+        this.defOrEvdAnswer = answer;
+    }
+
+    /**
+     * Getter of the player next panel decision.
+     *
+     * @return IPanel, the next panel.
+     */
+    @Override
+    public IPanel getNextPanelDecision() {
+        return this.nextPanelDecision;
+    }
+
+    /**
+     * Setter of the next panel decision.
+     *
+     * @param panel IPanel.
+     */
+    @Override
+    public void setNextPanelDecision(IPanel panel) {
+        this.nextPanelDecision = panel;
     }
 
     /**

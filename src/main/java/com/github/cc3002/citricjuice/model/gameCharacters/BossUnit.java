@@ -1,6 +1,6 @@
 package com.github.cc3002.citricjuice.model.gameCharacters;
 
-public class BossUnit extends AbstractUnit implements IEnemy, BattleInterface{
+public class BossUnit extends AbstractUnit implements IUnit, BattleInterface{
     public BossUnit(String name, int maxHp, int atk, int def, int evd) {
         super(name, maxHp, atk, def, evd);
     }
