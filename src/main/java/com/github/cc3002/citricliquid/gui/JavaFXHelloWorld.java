@@ -2,6 +2,7 @@ package com.github.cc3002.citricliquid.gui;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
@@ -19,14 +20,19 @@ public class JavaFXHelloWorld extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("My First JavaFX App");
+        primaryStage.setTitle("asdadadkdj");
 
         Label label = new Label("Hello World from JavaFX!");
         label.setAlignment(Pos.CENTER);
 
         // This sets the size of the Scene to be 400px wide, 200px high
         Scene scene = new Scene(label, 400, 200);
-        primaryStage.setScene(scene);
+
+
+        Group root = new Group();
+        Scene scene1 = new Scene(root);
+
+        primaryStage.setScene(scene1);
 
         primaryStage.show();
     }

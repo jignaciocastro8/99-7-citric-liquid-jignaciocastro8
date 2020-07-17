@@ -21,9 +21,8 @@ public class TurnTest {
 
     /**
      * Creates a panel with multiple next panels.
-     * @param n: Number of next panels.
      */
-    private IPanel createPanelWithNextPanels(int n) {
+    private IPanel createPanelWithNextPanels() {
 
         // Create factories.
         IPanelFactory homePanelFactory = new HomePanelFactory();
@@ -103,7 +102,7 @@ public class TurnTest {
     @Test
     public void nextPanelDecisionTest() {
         IPlayer suguri = playerFactory.createSuguri();
-        IPanel panel = createPanelWithNextPanels(0);
+        IPanel panel = createPanelWithNextPanels();
         // Set decision.
         suguri.setNextPanelDecision(panel.getNextPanels().get(0));
         // Ask suguri to choose a panel.

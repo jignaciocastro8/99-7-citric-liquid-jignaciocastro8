@@ -39,7 +39,7 @@ public interface IBoardController {
      */
     IPanel createDropPanel(int key);
     /**
-     * Creates the panel with a key and retiurns it.
+     * Creates the panel with a key and returns it.
      * @param key Int
      */
     IPanel createEncounterPanel(int key);
