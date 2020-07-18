@@ -2,11 +2,12 @@ package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.Player;
+import com.github.cc3002.citricjuice.model.subject.IPanelSubject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public interface IPanel {
+public interface IPanel extends IPanelSubject {
     /**
      * Getter of the panel's key.
      * @return Int.

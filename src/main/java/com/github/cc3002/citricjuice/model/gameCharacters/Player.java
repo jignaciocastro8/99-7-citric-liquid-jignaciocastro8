@@ -2,9 +2,10 @@ package com.github.cc3002.citricjuice.model.gameCharacters;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
-import com.github.cc3002.citricjuice.model.board.NeutralPanel;
+import com.github.cc3002.citricjuice.model.board.NullHomePanel;
 import com.github.cc3002.citricjuice.model.board.NullPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.playerState.*;
+import com.github.cc3002.citricliquid.controller.IPlayerObserver;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 public class Player extends AbstractCharacter implements IPlayer, BattleInterface {
     private int normaLevel;
-    private HomePanel homePanel;
+    private HomePanel homePanel = new NullHomePanel(-1);
     private IPanel currentPanel;
     private NormaGoal objective;
     private IPlayerState state;
@@ -22,6 +23,7 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     private boolean battleAnswer = false;
     private boolean defOrEvdAnswer = false;
     private IPanel nextPanelDecision = new NullPanel();
+    private IPlayerObserver observer;
 
     /**
     * Creates a Player with null HomePanel.
@@ -342,9 +344,13 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
 
     /**
     * Performs a norma clear action; the norma counter increases in 1.
+     * Notifies the observer if reaches norma 6.
     */
     public void normaClear() {
         this.normaLevel++;
+        if (this.normaLevel == 6) {
+            this.notifyWinner();
+        }
     }
 
 
@@ -399,5 +405,34 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
         boss.increaseStarsBy((int) Math.floor(this.stars * 0.5));
         this.reduceStarsBy((int) Math.floor(this.stars * 0.5));
         boss.increaseWinsBy(2);
+    }
+
+    /**
+     * Attaches the subject to an observer,
+     *
+     * @param observer IObserver
+     */
+    @Override
+    public void attach(IPlayerObserver observer) {
+        this.observer = observer;
+    }
+
+    /**
+     * Detaches the subject to an observer,
+     *
+     * @param observer IObserver
+     */
+    @Override
+    public void detach(IPlayerObserver observer) {
+        this.observer = null;
+
+    }
+
+    /**
+     * Notifies its observers.
+     */
+    @Override
+    public void notifyWinner() {
+        this.observer.updateWinner(this);
     }
 }

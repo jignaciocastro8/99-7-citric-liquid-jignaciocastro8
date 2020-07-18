@@ -1,6 +1,9 @@
 package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.controller.IBoardObserver;
+import com.github.cc3002.citricliquid.controller.IPlayerObserver;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -12,6 +15,9 @@ public abstract class Panel implements IPanel {
   private ArrayList<IPanel> nextPanels = new ArrayList<>();
   private ArrayList<IPlayer> players = new ArrayList<>();
   private final int key;
+  private IBoardObserver boardObserver;
+  private IPlayerObserver playerObserver;
+
 
   /**
    * Create a Panel of type type.
@@ -28,6 +34,16 @@ public abstract class Panel implements IPanel {
   @Override
   public PanelType getType() {
     return type;
+  }
+
+  /**
+   * Attaches the panel to a player observer.
+   *
+   * @param observer IPlayerObserver.
+   */
+  @Override
+  public void attach(IPlayerObserver observer) {
+    this.playerObserver = observer;
   }
 
   /**
@@ -61,11 +77,36 @@ public abstract class Panel implements IPanel {
   }
 
   /**
-   * Adds a new Player to de panel's set of players.
+   * Adds a new Player to this panel's set of players.
+   * Notifies the observer if the player must stops its motion because of this panel current information.
    * @param player: the player to be added.
    */
   public void addPlayer(IPlayer player) {
     this.players.add(player);
+    if (this.players.size() > 1 || player.getHomePanel().equals(this) || this.nextPanels.size() > 1) {
+      this.notifyStopPlayer(player);
+    }
+
+  }
+
+  /**
+   * Notifies the observer that there are more than one players
+   * on this panel.
+   * @param player IPlayer, the player that enters the panel.
+   */
+  @Override
+  public void notifyStopPlayer(IPlayer player) {
+    this.boardObserver.updateStopPlayer(player);
+  }
+
+  /**
+   * Attaches the panel to an observer.
+   *
+   * @param observer
+   */
+  @Override
+  public void attach(IBoardObserver observer) {
+    this.boardObserver = observer;
   }
 
   /**
@@ -79,12 +120,31 @@ public abstract class Panel implements IPanel {
   }
 
   /**
+   * Executes the appropriate action to the player/game according to the
+   * panel's type. But first it notifies the observer that is activating its effect on a player and
+   * therefore the turn is over.
+   * @param player: the player that activates the panel.
+   */
+  public void activatedBy(IPlayer player) {
+    this.notifyTurnIsOver();
+
+    this.activatedByParticular(player);
+  }
+
+  /**
    * Abstract method, executes the appropriate action to the player/game according to the
    * panel's type.
    * @param player: the player that activates the panel.
    */
-  public abstract void activatedBy(IPlayer player);
+  public abstract void activatedByParticular(IPlayer player);
 
+  /**
+   * Notifies the observer that the turn is over.
+   */
+  @Override
+  public void notifyTurnIsOver() {
+    this.playerObserver.updateTurnIsOver();
+  }
 
   /**
    * Tells if player is on this panel.

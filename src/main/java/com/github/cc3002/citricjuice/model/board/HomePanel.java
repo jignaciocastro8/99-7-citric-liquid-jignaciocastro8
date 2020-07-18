@@ -38,7 +38,7 @@ public class HomePanel extends Panel {
      * @param player: a Player.
      */
     @Override
-    public void activatedBy(IPlayer player) {
+    public void activatedByParticular(IPlayer player) {
         player.setCurrentHP(player.getCurrentHP() + 1);
         normaCheck(player);
     }

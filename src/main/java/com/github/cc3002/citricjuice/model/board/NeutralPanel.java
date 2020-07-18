@@ -20,5 +20,5 @@ public class NeutralPanel extends Panel {
      * @param player IPlayer.
      */
     @Override
-    public void activatedBy(IPlayer player) { }
+    public void activatedByParticular(IPlayer player) { }
 }

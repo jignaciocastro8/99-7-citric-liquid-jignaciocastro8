@@ -6,7 +6,7 @@ import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
 
-public interface IPlayerController {
+public interface IPlayerController  {
     /**
      * Creates a player. Stats of the player:
      * @param name Name.
@@ -58,4 +58,30 @@ public interface IPlayerController {
      */
     void setPLayerObjective(IPlayer player, NormaGoal objective);
 
+    /**
+     * Updates the observer winner data.
+     */
+    void updateWinner(IPlayer player);
+
+    /**
+     * Getter of the game chapter.
+     * @return int.
+     */
+    int getChapter();
+
+    /**
+     * Initiate the game.
+     */
+    void initiateGame();
+
+    /**
+     * Getter of the turn owner.
+     * @return IPlayer.
+     */
+    IPlayer getTurnOwner();
+
+    /**
+     * Changes the turn owner to the next one.
+     */
+    void nextTurn();
 }

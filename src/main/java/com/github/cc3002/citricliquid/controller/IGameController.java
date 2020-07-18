@@ -29,11 +29,6 @@ public interface IGameController {
 
 
     /**
-     * Initiates the turn system. It requires a minimum of two players.
-     */
-    void initiateGame() ;
-
-    /**
      * Getter of the turn owner.
      * @return IPlayer.
      */
@@ -56,4 +51,10 @@ public interface IGameController {
      * @return IPlayer.
      */
     IPlayer getWinner();
+
+    /**
+     * Returns the names of the players on the game.
+     * @return Array with with names as strings.
+     */
+    ArrayList<String> getPlayersName();
 }

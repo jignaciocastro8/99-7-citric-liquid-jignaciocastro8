@@ -16,5 +16,5 @@ public class BossPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(IPlayer player) { }
+    public void activatedByParticular(IPlayer player) { }
 }

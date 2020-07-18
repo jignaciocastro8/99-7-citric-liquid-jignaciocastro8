@@ -7,18 +7,29 @@ import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.Play
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class PlayerController implements IPlayerController {
+public class PlayerController implements IPlayerController, IPlayerObserver {
 
     private ArrayList<IPlayer> players;
 
     private IPlayerFactory playerFactory;
 
     private IPlayer winner;
+    private boolean winnerFlag;
+
+    private int chapter = 1;
+    private int numberOfFinishedTurns;
+
+    private ArrayList<IPlayer> turnOrder;
+    private IPlayer turnOwner;
+    private long seed;
+
 
     public PlayerController() {
         players = new ArrayList<>();
         playerFactory = new PlayerFactory();
+        this.turnOrder = new ArrayList<>();
     }
     /**
      * Create a player.
@@ -36,6 +47,13 @@ public class PlayerController implements IPlayerController {
         player.setObjective(NormaGoal.STARS);
         // Add to the players.
         this.players.add(player);
+        // Attach the controller (observer) to the created player.
+        player.attach(this);
+        // Checks if this player is the only one.
+        if (this.players.size() == 1) {
+            this.turnOwner = player;
+        }
+        this.turnOrder.add(player);
         return player;
     }
 
@@ -51,7 +69,7 @@ public class PlayerController implements IPlayerController {
     @Override
     public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
         IPlayer player = this.createPlayer(name, hp, atk, def, evd);
-        // Set the current panel of the playe.
+        // Set the current panel of the player.
         player.setCurrentPanel(panel);
         // Add the player to the panel's players.
         panel.addPlayer(player);
@@ -63,9 +81,7 @@ public class PlayerController implements IPlayerController {
      */
     @Override
     public IPlayer createSuguri() {
-        IPlayer player = playerFactory.createSuguri();
-        this.players.add(player);
-        return player;
+        return this.createPlayer("Suguri", 4, 1, -1, 2);
     }
 
     /**
@@ -73,9 +89,7 @@ public class PlayerController implements IPlayerController {
      */
     @Override
     public IPlayer createMarc() {
-        IPlayer player = playerFactory.createMarc();
-        this.players.add(player);
-        return player;
+        return this.createPlayer("Marc", 4, 1, 1, -1);
     }
 
     /**
@@ -95,15 +109,7 @@ public class PlayerController implements IPlayerController {
      */
     @Override
     public boolean checkForWinner() {
-        boolean boo = false;
-        for (IPlayer player : players) {
-            if (player.getNormaLevel()==6) {
-                this.winner = player;
-                boo = true;
-                break;
-            }
-        }
-        return boo;
+        return this.winnerFlag;
     }
 
     /**
@@ -115,6 +121,64 @@ public class PlayerController implements IPlayerController {
     @Override
     public void setPLayerObjective(IPlayer player, NormaGoal objective) {
         player.setObjective(objective);
+    }
+
+    /**
+     * Updates the observer winner data.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void updateWinner(IPlayer player) {
+        this.winner = player;
+        this.winnerFlag = true;
+    }
+
+    /**
+     * Update the observer that the current turn is over.
+     */
+    @Override
+    public void updateTurnIsOver() {
+        this.nextTurn();
+    }
+
+    /**
+     * Getter of the game chapter.
+     *
+     * @return int.
+     */
+    @Override
+    public int getChapter() {
+        return this.chapter;
+    }
+
+    /**
+     * Initiate the game.
+     */
+    @Override
+    public void initiateGame() {
+        // Start chapters.
+        this.chapter = 1;
+        // Start number of turns.
+        this.numberOfFinishedTurns = 0;
+        if (this.getPlayers().size() > 0 ) {
+            // Create a random order for the turns.
+            createTurnsOrder();
+            // Initiate the states of the players.
+            this.initiatePlayerState();
+            // The first turn initiate.
+            this.turnOwner = turnOrder.get(0);
+        }
+    }
+
+    /**
+     * Getter of the turn owner.
+     *
+     * @return IPlayer.
+     */
+    @Override
+    public IPlayer getTurnOwner() {
+        return this.turnOwner;
     }
 
     /**
@@ -132,5 +196,40 @@ public class PlayerController implements IPlayerController {
      */
     public IPlayer getWinner() {
         return this.winner;
+    }
+
+    /**
+     * Changes the turn owner to the next one.
+     */
+    @Override
+    public void nextTurn() {
+        numberOfFinishedTurns++;
+        int len = this.getPlayers().size();
+        this.turnOwner = this.turnOrder.get(numberOfFinishedTurns % len);
+        this.chapter = (numberOfFinishedTurns / len) + 1;
+    }
+
+    /**
+     * Shuffles the players array.
+     */
+    private void createTurnsOrder() {
+        Random random = new Random(this.seed);
+        ArrayList<IPlayer> arrayList = new ArrayList<>(this.getPlayers());
+        ArrayList<IPlayer> newArrayList = new ArrayList<>();
+        final int len = arrayList.size();
+        for (int i = 0; i<len; i++) {
+            int ind = random.nextInt(arrayList.size());
+            newArrayList.add(arrayList.get(ind));
+            arrayList.remove(ind);
+        }
+        this.turnOrder = newArrayList;
+    }
+
+    /**
+     * Setter of the seed
+     * @param seed long
+     */
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 }

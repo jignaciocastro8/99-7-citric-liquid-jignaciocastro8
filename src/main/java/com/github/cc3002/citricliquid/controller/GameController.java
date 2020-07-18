@@ -15,14 +15,6 @@ public class GameController implements IBoardController, IPlayerController, IUni
     private PlayerController playerController;
     private BoardController boardController;
 
-    private int chapter = 1;
-    private int numberOfFinishedTurns;
-
-    private ArrayList<IPlayer> turnOrder;
-    private IPlayer turnOwner;
-
-    private int seed;
-
     /**
      * Creates a GameController.
      */
@@ -30,8 +22,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
         unitController = new UnitController();
         playerController = new PlayerController();
         boardController = new BoardController();
-        // Initiate order array.
-        this.turnOrder = new ArrayList<>();
+
     }
     /**
      * Create a player.
@@ -42,12 +33,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * @param evd Character's evd.
      */
     public IPlayer createPlayer(String name, int hp, int atk, int def, int evd) {
-        IPlayer newPlayer =  this.playerController.createPlayer(name, hp, atk, def, evd);
-        if (this.getPlayers().size() == 1) {
-            this.turnOwner = newPlayer;
-        }
-        this.turnOrder.add(newPlayer);
-        return newPlayer;
+        return this.playerController.createPlayer(name, hp, atk, def, evd);
     }
 
     /**
@@ -61,13 +47,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer createPlayerWithPanel(String name, int hp, int atk, int def, int evd, IPanel panel) {
-        IPlayer player = this.playerController.createPlayerWithPanel(name, hp, atk, def, evd, panel);
-        if (this.getPlayers().size() == 1) {
-            this.turnOwner = player;
-        }
-        this.addPanel(panel);
-        this.turnOrder.add(player);
-        return player;
+        return this.playerController.createPlayerWithPanel(name, hp, atk, def, evd, panel);
     }
 
     /**
@@ -75,12 +55,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer createSuguri() {
-        IPlayer player = this.playerController.createSuguri();
-        if (this.getPlayers().size() == 1) {
-            this.turnOwner = player;
-        }
-        this.turnOrder.add(player);
-        return player;
+        return this.playerController.createSuguri();
     }
 
     /**
@@ -88,12 +63,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer createMarc() {
-        IPlayer player = this.playerController.createMarc();
-        if (this.getPlayers().size() == 1) {
-            this.turnOwner = player;
-        }
-        this.turnOrder.add(player);
-        return player;
+        return this.playerController.createMarc();
     }
 
     /**
@@ -131,7 +101,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createHomePanel(int key) {
-        return this.boardController.createHomePanel(key);
+        IPanel panel = this.boardController.createHomePanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -141,7 +113,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createBonusPanel(int key) {
-        return this.boardController.createBonusPanel(key);
+        IPanel panel = this.boardController.createBonusPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -151,7 +125,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createBossPanel(int key) {
-        return this.boardController.createBossPanel(key);
+        IPanel panel = this.boardController.createBossPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -161,7 +137,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createDrawPanel(int key) {
-        return this.boardController.createDrawPanel(key);
+        IPanel panel = this.boardController.createDrawPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -171,7 +149,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createDropPanel(int key) {
-        return this.boardController.createDropPanel(key);
+        IPanel panel = this.boardController.createDropPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -181,7 +161,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createEncounterPanel(int key) {
-        return this.boardController.createEncounterPanel(key);
+        IPanel panel = this.boardController.createEncounterPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -191,7 +173,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPanel createNeutralPanel(int key) {
-        return this.boardController.createNeutralPanel(key);
+        IPanel panel = this.boardController.createNeutralPanel(key);
+        panel.attach(this.playerController);
+        return panel;
     }
 
     /**
@@ -245,6 +229,18 @@ public class GameController implements IBoardController, IPlayerController, IUni
     public void setPLayerObjective(IPlayer player, NormaGoal objective) {
         this.playerController.setPLayerObjective(player, objective);
     }
+
+    /**
+     * Updates the observer winner data.
+     *
+     * @param player IPlayer
+     */
+    @Override
+    public void updateWinner(IPlayer player) {
+        this.playerController.updateWinner(player);
+    }
+
+
 
     /**
      * Getter of the units list.
@@ -301,11 +297,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void movePlayerTo(IPlayer player, int key) {
-        // Delete player from previous panel.
-        player.getCurrentPanel().removePlayer(player);
-        player.setCurrentPanel(this.getPanelWithKey(key));
-        this.getPanelWithKey(key).addPlayer(player);
-
+        this.boardController.movePlayerTo(player, key);
     }
 
     /**
@@ -327,7 +319,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public int getChapter() {
-        return this.chapter;
+        return this.playerController.getChapter();
     }
 
 
@@ -336,19 +328,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void initiateGame() {
-        // Start chapters.
-        this.chapter = 1;
-        // Start number of turns.
-        this.numberOfFinishedTurns = 0;
-        if (this.getPlayers().size() > 0 ) {
-            // Create a random order for the turns.
-            createTurnsOrder();
-            // Initiate the states of the players.
-            this.playerController.initiatePlayerState();
-            // The first turn initiate.
-            this.turnOwner = turnOrder.get(0);
-        }
-
+        this.playerController.initiateGame();
     }
 
     /**
@@ -358,7 +338,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public IPlayer getTurnOwner() {
-        return this.turnOwner;
+        return this.playerController.getTurnOwner();
     }
 
     /**
@@ -366,10 +346,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void nextTurn() {
-        numberOfFinishedTurns++;
-        int len = this.getPlayers().size();
-        this.turnOwner = this.turnOrder.get(numberOfFinishedTurns % len);
-        this.chapter = (numberOfFinishedTurns / len) + 1;
+        this.playerController.nextTurn();
     }
 
     /**
@@ -431,26 +408,26 @@ public class GameController implements IBoardController, IPlayerController, IUni
     }
 
     /**
-     * Shuffles the players array.
+     * Returns the names of the players on the game.
+     *
+     * @return String[] list with names.
      */
-    private void createTurnsOrder() {
-        Random random = new Random(seed);
-        ArrayList<IPlayer> arrayList = new ArrayList<>(this.getPlayers());
-        ArrayList<IPlayer> newArrayList = new ArrayList<>();
-        final int len = arrayList.size();
-        for (int i = 0; i<len; i++) {
-            int ind = random.nextInt(arrayList.size());
-            newArrayList.add(arrayList.get(ind));
-            arrayList.remove(ind);
+    @Override
+    public ArrayList<String> getPlayersName() {
+        ArrayList<String> arr = new ArrayList<>();
+        for (IPlayer player : this.getPlayers()) {
+            arr.add(player.getName());
         }
-        this.turnOrder = newArrayList;
+        return arr;
     }
+
+
 
     /**
      * Setter of the seed for random testing.
      * @param seed Int.
      */
     public void setSeed(int seed) {
-        this.seed = seed;
+        this.playerController.setSeed(seed);
     }
 }

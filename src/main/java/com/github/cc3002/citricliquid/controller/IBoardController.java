@@ -79,4 +79,11 @@ public interface IBoardController {
      */
     void assignNextPanelsWithKey(int key, int ...keys);
 
+    /**
+     * Puts the player on the panel board[key].
+     *
+     * @param player IPlayer.
+     * @param key Int, key of the IPanel where player will be located.
+     */
+    void movePlayerTo(IPlayer player, int key);
 }

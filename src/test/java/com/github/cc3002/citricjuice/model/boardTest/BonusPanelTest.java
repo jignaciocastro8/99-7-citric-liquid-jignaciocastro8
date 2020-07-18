@@ -46,10 +46,10 @@ public class BonusPanelTest extends AbstractPanelTest {
         final var testRandom = new Random(testSeed);
         // Sets the Player's seed to the known seed.
         suguri.setSeed(testSeed);
-        // We tests over the range of the norma level.
-        for (int normaLvl = 1; normaLvl <= 6; normaLvl++) {
+        // We tests over the range of norma level {1,...,5} because on norma level 6, the player notifies.
+        for (int normaLvl = 1; normaLvl <= 4; normaLvl++) {
             final int roll = testRandom.nextInt(6) + 1;
-            testBonusPanel.activatedBy(suguri);
+            testBonusPanel.activatedByParticular(suguri);
             expectedStars += roll * Math.min(3, normaLvl);
             assertEquals(expectedStars, suguri.getStars(),
                     "Test failed with seed: " + testSeed);

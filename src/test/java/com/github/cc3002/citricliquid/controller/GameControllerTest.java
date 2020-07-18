@@ -147,40 +147,12 @@ public class GameControllerTest {
         }
         assertTrue(gameController.checkForWinner());
     }
-    @RepeatedTest(100)
-    public void movePlayerToTest() {
-        gameController.createPlayer("Suguri", 4, 1, -1, 2);
-        suguri = gameController.getPlayers().get(0);
-        // Some panels
-        gameController.createBonusPanel(0);
-        gameController.createBossPanel(1);
-        gameController.createNeutralPanel(2);
-        gameController.createDrawPanel(3);
-        gameController.createEncounterPanel(4);
-        // Moving to the current panel.
-        gameController.movePlayerTo(suguri, 0);
-        assertTrue(gameController.getPanelWithKey(0).containsCharacter(suguri));
-        gameController.movePlayerTo(suguri, 0);
-        assertTrue(gameController.getPanelWithKey(0).containsCharacter(suguri));
-        // Random amount of steps
-        int steps = random.nextInt(50);
-        //Suguri performs a random walk.
-        for (int i=0; i<steps; i++) {
-            int previousKey = suguri.getCurrentPanel().getKey();
-            int key = new Random().nextInt(5);
-            gameController.movePlayerTo(suguri, key);
-            // We check that the player actually leaves the panel only when the new panel is not the same as the original.
-            if (previousKey != key) {
-                assertFalse(gameController.getPanelWithKey(previousKey).containsCharacter(suguri));
-            }
-            assertTrue(gameController.getPanelWithKey(key).containsCharacter(suguri));
-        }
 
-        gameController.movePlayerTo(suguri, 2);
-        assertFalse(gameController.getPanelWithKey(0).containsCharacter(suguri));
-        assertFalse(gameController.getPanelWithKey(1).containsCharacter(suguri));
-        assertTrue(gameController.getPanelWithKey(2).containsCharacter(suguri));
-    }
+
+    // Aquí había un test de mover a un jugador.
+
+
+
 
     @Test
     public void defineObjectiveTest() {
@@ -386,23 +358,8 @@ public class GameControllerTest {
         assertTrue(suguri.isWaitingOnPanel());
         assertEquals(panels.get(1), suguri.getCurrentPanel());
     }
-    @Test
-    public void stopWhenThePanelHasPlayersTest() throws Exception {
-        gameController.createNeutralPanel(0);
-        gameController.createDrawPanel(1);
-        IPanel expectedPanel = gameController.getPanelWithKey(1);
-        gameController.createSuguri();
-        IPlayer suguri = gameController.getPlayers().get(0);
-        gameController.createMarc();
-        IPlayer marc = gameController.getPlayers().get(1);
-        gameController.movePlayerTo(suguri, 0);
-        gameController.movePlayerTo(marc, 1);
-        // Connect the panels.
-        gameController.assignNextPanelsWithKey(0, 1);
-        //Initiate the game.
-        gameController.initiateGame();
-        gameController.movePlayer(suguri, 1);
-        assertTrue(suguri.isWaitingOnPanel());
-        assertEquals(expectedPanel, suguri.getCurrentPanel());
-    }
+
+    // Aquí había un test de cuando un jugador llega a un panel dónde ya había
+    // jugador. Se movio a ObserverTest
+
 }
