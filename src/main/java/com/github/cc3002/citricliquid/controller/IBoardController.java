@@ -1,6 +1,5 @@
 package com.github.cc3002.citricliquid.controller;
 
-import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import java.util.ArrayList;
@@ -85,5 +84,5 @@ public interface IBoardController {
      * @param player IPlayer.
      * @param key Int, key of the IPanel where player will be located.
      */
-    void movePlayerTo(IPlayer player, int key);
+    void movePlayerTo(IPlayer player, int key) throws PlayerController.NoSuchPlayerOnTheGameException;
 }

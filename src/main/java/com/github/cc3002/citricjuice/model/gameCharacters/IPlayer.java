@@ -177,4 +177,5 @@ public interface IPlayer extends ICharacter, IPlayerSubject {
      * @param panel IPanel.
      */
     void setNextPanelDecision(IPanel panel);
+
 }

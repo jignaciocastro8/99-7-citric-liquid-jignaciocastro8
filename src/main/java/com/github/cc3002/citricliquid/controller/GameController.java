@@ -7,7 +7,7 @@ import com.github.cc3002.citricliquid.model.NormaGoal;
 
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Hashtable;
 
 public class GameController implements IBoardController, IPlayerController, IUnitController, IGameController {
 
@@ -297,7 +297,12 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void movePlayerTo(IPlayer player, int key) {
-        this.boardController.movePlayerTo(player, key);
+        try {
+            this.playerController.isOnTheGame(player);
+            this.boardController.movePlayerTo(player, key);
+        } catch (PlayerController.NoSuchPlayerOnTheGameException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -367,7 +372,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
             // Produce the effect of the panel on the player.
             player.getCurrentPanel().activatedBy(player);
             // The player ends the moving process.
-            player.neutralState();
+            //player.neutralState();
         }
         // Recursion.
         else{
@@ -379,18 +384,11 @@ public class GameController implements IBoardController, IPlayerController, IUni
                 // Move player to the unique next panel.
                 int nextPanelKey = currentPanel.getNextPanels().get(0).getKey();
                 this.movePlayerTo(player, nextPanelKey);
-
-                // If the next panel is its own home panel or has more than one player on it, the player must stay there waiting.
-                if (player.getHomePanel() == currentPanel.getNextPanels().get(0) || player.getCurrentPanel().numberOfPLayers() > 1) {
-                    // Here the player must decide.
-                    player.waitOnPanel();
-                }
                 // Continuing the moving process.
                 movePlayer(player, steps - 1);
             }
             // More than one next panel case.
             else {
-                player.waitOnPanel();
                 // Here the player must decide which next panel to move to.
                 // IPanel decision = player.askForPanel(player.currentPanel().nexPanels());
             }
@@ -421,6 +419,15 @@ public class GameController implements IBoardController, IPlayerController, IUni
         return arr;
     }
 
+    /**
+     * Returns a roll from the turn owner.
+     *
+     * @return int.
+     */
+    @Override
+    public int rollTurnOwnerDice() {
+        return this.playerController.getTurnOwner().roll();
+    }
 
 
     /**
@@ -430,4 +437,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
     public void setSeed(int seed) {
         this.playerController.setSeed(seed);
     }
+
+
+    //static class NoSuchPlayerOnTheGameException extends Exception {}
 }

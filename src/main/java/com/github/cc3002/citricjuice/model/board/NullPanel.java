@@ -153,7 +153,7 @@ public class NullPanel implements IPanel {
      * Notifies the observer that the turn is over.
      */
     @Override
-    public void notifyTurnIsOver() {
+    public void notifyTurnIsOver(IPlayer player) {
 
     }
 

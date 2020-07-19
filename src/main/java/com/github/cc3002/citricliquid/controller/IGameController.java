@@ -4,6 +4,7 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public interface IGameController {
 
@@ -12,7 +13,7 @@ public interface IGameController {
      * @param key Int, key of the IPanel where player will be located.
      * @param player IPlayer.
      */
-    void movePlayerTo(IPlayer player, int key);
+    void movePlayerTo(IPlayer player, int key) throws PlayerController.NoSuchPlayerOnTheGameException;
 
     /**
      * Sets home panel of the player.
@@ -44,7 +45,7 @@ public interface IGameController {
      * @param player IPlayer, the player to move.
      * @param steps Int, the amount of steps.
      */
-    void movePlayer(IPlayer player, int steps);
+    void movePlayer(IPlayer player, int steps) throws PlayerController.NoSuchPlayerOnTheGameException;
 
     /**
      * Getter of the winner.
@@ -57,4 +58,12 @@ public interface IGameController {
      * @return Array with with names as strings.
      */
     ArrayList<String> getPlayersName();
+
+    /**
+     * Returns a roll from the turn owner.
+     * @return int.
+     */
+    int rollTurnOwnerDice();
+
+
 }

@@ -196,15 +196,19 @@ public class BoardController implements IBoardController, IBoardObserver{
     }
 
     public void movePlayer(IPlayer player, int steps) {
-
         if (steps == 0) {
+            // This action ends the turn.
             player.getCurrentPanel().activatedBy(player);
-            return;
+        }
+        // Recursion
+        else {
+            int key = player.getNextPanelDecision().getKey();
+            this.movePlayerTo(player, key);
+            this.movePlayer(player, steps - 1);
+
         }
 
-        int key = player.getNextPanelDecision().getKey();
-        this.movePlayerTo(player, key);
-        this.movePlayer(player, steps - 1);
+
     }
 
     /**

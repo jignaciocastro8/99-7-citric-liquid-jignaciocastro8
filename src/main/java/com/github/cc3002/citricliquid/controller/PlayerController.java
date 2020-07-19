@@ -7,6 +7,7 @@ import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.Play
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Random;
 
 public class PlayerController implements IPlayerController, IPlayerObserver {
@@ -24,6 +25,7 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
     private ArrayList<IPlayer> turnOrder;
     private IPlayer turnOwner;
     private long seed;
+
 
 
     public PlayerController() {
@@ -54,6 +56,7 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
             this.turnOwner = player;
         }
         this.turnOrder.add(player);
+
         return player;
     }
 
@@ -138,8 +141,9 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
      * Update the observer that the current turn is over.
      */
     @Override
-    public void updateTurnIsOver() {
+    public void updateTurnIsOver(IPlayer player) {
         this.nextTurn();
+        player.neutralState();
     }
 
     /**
@@ -209,7 +213,20 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
         this.chapter = (numberOfFinishedTurns / len) + 1;
     }
 
+
+
     /**
+     * Method that throws an exception if player is not on the game.
+     *
+     * @param player IPlayer.
+     */
+    public void isOnTheGame(IPlayer player) throws NoSuchPlayerOnTheGameException {
+        if (!this.players.contains(player)) {
+            throw new NoSuchPlayerOnTheGameException("There's not such player in the game");
+        }
+    }
+
+    /**"
      * Shuffles the players array.
      */
     private void createTurnsOrder() {
@@ -231,5 +248,12 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
      */
     public void setSeed(int seed) {
         this.seed = seed;
+    }
+
+
+    public static class NoSuchPlayerOnTheGameException extends Exception {
+        public NoSuchPlayerOnTheGameException(String message) {
+            super(message);
+        }
     }
 }

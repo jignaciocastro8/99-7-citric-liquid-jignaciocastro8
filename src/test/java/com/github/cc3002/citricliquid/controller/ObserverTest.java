@@ -109,12 +109,25 @@ public class ObserverTest {
         assertTrue(suguri.isWaitingOnPanel());
         assertEquals(expectedPanel, suguri.getCurrentPanel());
     }
+    /*
+    @Test
+    public void movePlayerToExceptionTest() {
+        PlayerController.NoSuchPlayerOnTheGameException ex = assertThrows(PlayerController.NoSuchPlayerOnTheGameException.class, () -> {
+            controller.movePlayerTo(controller.createSuguri(), 12);
+        });
+        String expectedErrMsg = "There's not such player in the game";
+        String actualErrMsg = ex.getMessage();
+        System.out.println(actualErrMsg);
+        assertTrue(actualErrMsg.contains(expectedErrMsg));
+    }
+
+     */
 
 
 
 
     @RepeatedTest(100)
-    public void movePlayerToTest() {
+    public void movePlayerToTest() throws PlayerController.NoSuchPlayerOnTheGameException {
         controller.createPlayer("Suguri", 4, 1, -1, 2);
         suguri = controller.getPlayers().get(0);
         // Some panels
@@ -148,4 +161,24 @@ public class ObserverTest {
         assertTrue(controller.getPanelWithKey(2).containsCharacter(suguri));
     }
 
+
+    @Test
+    public void completeMotionTest() {
+        // Test panels.
+        IPanel panel0 = controller.createNeutralPanel(0);
+        IPanel panel1 = controller.createNeutralPanel(1);
+        IPanel panel2 = controller.createNeutralPanel(2);
+        IPanel panel3 = controller.createNeutralPanel(3);
+        // Connect panels.
+        controller.assignNextPanelsWithKey(0,1);
+        controller.assignNextPanelsWithKey(1, 2, 3);
+        // Put suguri on the first panel.
+        controller.movePlayerTo(suguri, 0);
+        // Realisation of a complete motion of 3 steps.
+        int steps = 3;
+        controller.movePlayer(suguri, steps);
+        // Suguri must be waiting on the panel 1.
+        assertTrue(suguri.isWaitingOnPanel());
+        assertEquals(panel1, suguri.getCurrentPanel());
+    }
 }

@@ -9,7 +9,8 @@ public interface IPlayerObserver {
     void updateWinner(IPlayer player);
 
     /**
-     * Update the observer that the current turn is over.
+     * Update the observer that the current turn is over and player must be in neutral state.
      */
-    void updateTurnIsOver();
+    void updateTurnIsOver(IPlayer player);
+
 }

@@ -6,6 +6,7 @@ import com.github.cc3002.citricjuice.model.board.NullHomePanel;
 import com.github.cc3002.citricjuice.model.board.NullPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.playerState.*;
 import com.github.cc3002.citricliquid.controller.IPlayerObserver;
+import com.github.cc3002.citricliquid.controller.NullObserver;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     private boolean battleAnswer = false;
     private boolean defOrEvdAnswer = false;
     private IPanel nextPanelDecision = new NullPanel();
-    private IPlayerObserver observer;
+    private IPlayerObserver observer = new NullObserver();
 
     /**
     * Creates a Player with null HomePanel.
@@ -315,6 +316,9 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     public void setNextPanelDecision(IPanel panel) {
         this.nextPanelDecision = panel;
     }
+
+
+
 
     /**
      * Receive the attack and execute the player decision.

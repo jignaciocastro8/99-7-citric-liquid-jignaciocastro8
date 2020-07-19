@@ -26,7 +26,8 @@ public interface IPanelSubject {
 
     /**
      * Notifies the observer that the turn is over.
+     * @param player IPlayer that ends his/her turn.
      */
-    void notifyTurnIsOver();
+    void notifyTurnIsOver(IPlayer player);
 
 }

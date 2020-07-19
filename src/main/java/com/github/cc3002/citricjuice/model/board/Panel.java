@@ -3,6 +3,7 @@ package com.github.cc3002.citricjuice.model.board;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.controller.IBoardObserver;
 import com.github.cc3002.citricliquid.controller.IPlayerObserver;
+import com.github.cc3002.citricliquid.controller.NullObserver;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,8 +16,8 @@ public abstract class Panel implements IPanel {
   private ArrayList<IPanel> nextPanels = new ArrayList<>();
   private ArrayList<IPlayer> players = new ArrayList<>();
   private final int key;
-  private IBoardObserver boardObserver;
-  private IPlayerObserver playerObserver;
+  private IBoardObserver boardObserver = new NullObserver();
+  private IPlayerObserver playerObserver = new NullObserver();
 
 
   /**
@@ -126,7 +127,7 @@ public abstract class Panel implements IPanel {
    * @param player: the player that activates the panel.
    */
   public void activatedBy(IPlayer player) {
-    this.notifyTurnIsOver();
+    this.notifyTurnIsOver(player);
 
     this.activatedByParticular(player);
   }
@@ -142,8 +143,8 @@ public abstract class Panel implements IPanel {
    * Notifies the observer that the turn is over.
    */
   @Override
-  public void notifyTurnIsOver() {
-    this.playerObserver.updateTurnIsOver();
+  public void notifyTurnIsOver(IPlayer player) {
+    this.playerObserver.updateTurnIsOver(player);
   }
 
   /**

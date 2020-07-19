@@ -132,7 +132,7 @@ public abstract class AbstractCharacter implements ICharacter {
      */
     public void reduceWinsBy(int amount) {this.wins = Math.max(0, this.wins - amount);}
     /**
-     * Rolls the character's own dices represented by his/hers Random object.
+             * Rolls the character's own dices represented by his/hers Random object.
      * @return a number in {1,...,6}.
      */
     public int roll() {

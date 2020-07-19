@@ -5,6 +5,7 @@ import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public interface IPlayerController  {
     /**
@@ -84,4 +85,5 @@ public interface IPlayerController  {
      * Changes the turn owner to the next one.
      */
     void nextTurn();
+
 }
