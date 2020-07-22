@@ -134,7 +134,7 @@ public class GameView extends Application {
                     .setPosition(hDivision + i * 100, 100)
                     .setSize(100, 100)
                     .build();
-            playersNodes.add(peat);
+            //playersNodes.add(peat); GENERA ERROR.
             root.getChildren().add(peat.getNode());
         }
 
