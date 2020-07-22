@@ -15,6 +15,9 @@ public class MovableNode {
     private ImageView sprite;
     private int hPos;
     private int vPos;
+    private int horizontalMove = 50;
+    private int verticalMove = 50;
+
 
     /**
      * Creates a new movable component from an image.
@@ -99,16 +102,16 @@ public class MovableNode {
     private void setKeyboardTriggers(@NotNull KeyEvent event) {
         switch (event.getCode()) {
             case UP:
-                moveUp(imgHeight);
+                moveUp(verticalMove);
                 break;
             case DOWN:
-                moveDown(imgHeight);
+                moveDown(verticalMove);
                 break;
             case RIGHT:
-                moveRight(imgWidth);
+                moveRight(horizontalMove);
                 break;
             case LEFT:
-                moveLeft(imgWidth);
+                moveLeft(horizontalMove);
                 break;
             default:
                 break;

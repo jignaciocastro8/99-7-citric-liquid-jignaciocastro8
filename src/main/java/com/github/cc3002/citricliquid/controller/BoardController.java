@@ -180,7 +180,7 @@ public class BoardController implements IBoardController, IBoardObserver{
     }
 
     /**
-     * Puts the player on the panel board[key].
+     * Puts the player on the panel board[key], but don't apply the panel effect.
      *
      * @param player IPlayer.
      * @param key Int, key of the IPanel where player will be located.
@@ -217,5 +217,17 @@ public class BoardController implements IBoardController, IBoardObserver{
     @Override
     public void updateStopPlayer(IPlayer player) {
         player.waitOnPanel();
+    }
+    /*
+    Getter of the home panels on the game.
+     */
+    public ArrayList<IPanel> getHomePanels() {
+        ArrayList<IPanel> homePanels = new ArrayList<>();
+        for (IPanel panel : board.values()) {
+            if (panel.isHomePanel()) {
+                homePanels.add(panel);
+            }
+        }
+        return new ArrayList<>(homePanels);
     }
 }

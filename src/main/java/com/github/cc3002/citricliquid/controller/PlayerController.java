@@ -96,13 +96,33 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
     }
 
     /**
+     * Fast method to create kai.
+     *
+     * @return IPlayer
+     */
+    @Override
+    public IPlayer createKai() {
+        return this.createPlayer("Kai", 5, 1, 0, 0);
+    }
+
+    /**
+     * Fast method to create peat.
+     *
+     * @return IPlayer.
+     */
+    @Override
+    public IPlayer createPeat() {
+        return this.createPlayer("Peat", 3, 1, 1, 1);
+    }
+
+    /**
      * Getter of the player of the game.
      *
      * @return IPlayer[]
      */
     @Override
     public ArrayList<IPlayer> getPlayers() {
-        return this.players;
+        return new ArrayList<>(this.players);
     }
 
     /**
@@ -248,6 +268,35 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
      */
     public void setSeed(int seed) {
         this.seed = seed;
+    }
+
+    /**
+     * Getter of the player's info.
+     * @return StringBuilder.
+     */
+    public StringBuilder getPlayersInfo() {
+        StringBuilder sb = new StringBuilder("Player's information: \n");
+        for (IPlayer player : this.players) {
+            sb.append(player.getName()).append(": ").append("\n").append(player.getInfo()).append(", location: ").
+                    append(player.getCurrentPanel().getKey()).append("\n");
+        }
+        return sb;
+    }
+
+    /**
+     * Getter of game info.
+     * @return StringBuilder
+     */
+    public StringBuilder getGameInfo() {
+        StringBuilder sb = new StringBuilder("Game information: \n");
+        sb.append("Turn owner: ").append(turnOwner.getName()).append("\n");
+        StringBuilder turnOrderSb = new StringBuilder();
+        for (int i = 0; i < turnOrder.size(); i++) {
+            turnOrderSb.append(i + 1).append(": ").append(turnOrder.get(i).getName()).append(", ");
+        }
+        sb.append("Turn order: ").append(turnOrderSb.toString()).append("\n");
+        sb.append("Chapter: ").append(chapter);
+        return sb;
     }
 
 

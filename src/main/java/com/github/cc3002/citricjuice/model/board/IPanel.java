@@ -74,5 +74,11 @@ public interface IPanel extends IPanelSubject {
      * @return Int.
      */
     int numberOfPLayers();
+
+    /**
+     * True if this is a home panel, false if not.
+     * @return boolean.
+     */
+    boolean isHomePanel();
 }
 

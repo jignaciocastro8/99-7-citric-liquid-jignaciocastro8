@@ -24,4 +24,14 @@ public class BonusPanel extends Panel {
         int roll = player.roll();
         player.increaseStarsBy(Math.min(roll * player.getNormaLevel(), 3 * roll));
     }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
 }

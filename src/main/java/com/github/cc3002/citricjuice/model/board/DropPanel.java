@@ -25,4 +25,14 @@ public class DropPanel extends Panel {
         int roll = player.roll();
         player.reduceStarsBy(roll * player.getNormaLevel());
     }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
 }

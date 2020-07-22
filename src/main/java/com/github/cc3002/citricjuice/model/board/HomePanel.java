@@ -112,4 +112,13 @@ public class HomePanel extends Panel {
 
     }
 
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return true;
+    }
 }

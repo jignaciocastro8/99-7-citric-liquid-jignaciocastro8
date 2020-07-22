@@ -13,7 +13,7 @@ public abstract class AbstractCharacter implements ICharacter {
     protected int stars;
     protected int currentHP;
     protected int wins;
-
+    private int roll;
 
 
     /**
@@ -136,7 +136,8 @@ public abstract class AbstractCharacter implements ICharacter {
      * @return a number in {1,...,6}.
      */
     public int roll() {
-        return this.random.nextInt(6) + 1;
+        this.roll = this.random.nextInt(6) + 1;
+        return this.roll;
     }
     /**
      * Set's the seed for this player's random number generator.
@@ -161,7 +162,6 @@ public abstract class AbstractCharacter implements ICharacter {
                 currentHP == that.currentHP &&
                 wins == that.wins &&
                 Objects.equals(name, that.name);
-        //Objects.equals(random, that.random); NO SE NECESITA COMPARAR LOS RANDOM OBJECTS (?)
     }
 
     @Override
@@ -204,6 +204,25 @@ public abstract class AbstractCharacter implements ICharacter {
         character.receiveAtk(netAtk);
     }
 
-    // Everyone must be able to receive an attack. Abstract method.
+    /**
+     * Getter of the characters information.
+     *
+     * @return String.
+     */
+    @Override
+    public String getInfo() {
+        return "current hp : " + currentHP + ", " +
+                "atk: " + atk + ", " +
+                "def: " + def + ", " +
+                "evd: " + evd + ", " +
+                "stars: " + stars + ", " +
+                "wins: " + wins + ", " +
+                "roll: " + roll;
+    }
+
+    /**
+     * Abstract method. Everyone must be able to receive an attack.
+     * @param netAtk int.
+     */
     public abstract void receiveAtk(int netAtk);
 }

@@ -35,25 +35,15 @@ public class BoardBuilder {
     }
 
 
-    public void createHomePanels(GameController controller) throws FileNotFoundException {
 
-        int len = this.names.size();
-        for (int i = 0; i < len; i++) {
-            controller.setHomePanel(controller.createSuguri(), (HomePanel) controller.createHomePanel(0));
-            nodes.add(new BoardNode(350 + i * 100, 100, panelHeight, panelWidth, RESOURCE_PATH + "blueSqr.png").getNode());
-            Label label = new Label(this.names.get(i));
-            label.setLayoutX(350 + i * 100);
-            label.setLayoutY(50);
-            nodes.add(label);
-        }
-
-    }
-
-    public void createNodes(Group root) {
+    private void createNodes(Group root) {
         for (Node node : this.nodes) {
             root.getChildren().add(node);
         }
     }
 
 
+    public void createBoard() {
+
+    }
 }

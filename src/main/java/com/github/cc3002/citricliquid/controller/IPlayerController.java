@@ -41,6 +41,18 @@ public interface IPlayerController  {
     IPlayer createMarc();
 
     /**
+     * Fast method to create kai.
+     * @return IPlayer
+     */
+    IPlayer createKai();
+
+    /**
+     * Fast method to create peat.
+     * @return IPlayer.
+     */
+    IPlayer createPeat();
+
+    /**
      * Getter of the player of the game.
      * @return IPlayer[]
      */
@@ -85,5 +97,7 @@ public interface IPlayerController  {
      * Changes the turn owner to the next one.
      */
     void nextTurn();
+
+
 
 }

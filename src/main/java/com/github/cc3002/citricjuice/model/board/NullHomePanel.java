@@ -4,7 +4,7 @@ public class NullHomePanel extends HomePanel {
     /**
      * Creates a Home Panel.
      *
-     * @param key
+     * @param key int
      */
     public NullHomePanel(int key) {
         super(key);

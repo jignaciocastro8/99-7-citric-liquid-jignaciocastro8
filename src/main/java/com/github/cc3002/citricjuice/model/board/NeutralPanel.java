@@ -21,4 +21,14 @@ public class NeutralPanel extends Panel {
      */
     @Override
     public void activatedByParticular(IPlayer player) { }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
 }

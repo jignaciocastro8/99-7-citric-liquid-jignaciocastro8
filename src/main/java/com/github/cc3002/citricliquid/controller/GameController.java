@@ -7,7 +7,7 @@ import com.github.cc3002.citricliquid.model.NormaGoal;
 
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Random;
 
 public class GameController implements IBoardController, IPlayerController, IUnitController, IGameController {
 
@@ -64,6 +64,22 @@ public class GameController implements IBoardController, IPlayerController, IUni
     @Override
     public IPlayer createMarc() {
         return this.playerController.createMarc();
+    }
+
+    /**
+     * Fast method to create kai.
+     */
+    @Override
+    public IPlayer createKai() {
+        return this.playerController.createKai();
+    }
+
+    /**
+     * Fast method to create peat.
+     */
+    @Override
+    public IPlayer createPeat() {
+        return this.playerController.createPeat();
     }
 
     /**
@@ -429,6 +445,58 @@ public class GameController implements IBoardController, IPlayerController, IUni
         return this.playerController.getTurnOwner().roll();
     }
 
+    /**
+     * Getter of a string builder with player's info.
+     *
+     * @return StringBuilder.
+     */
+    @Override
+    public StringBuilder getPlayersInfo() {
+        return this.playerController.getPlayersInfo();
+    }
+
+    /**
+     * Getter of the game info.
+     *
+     * @return StringBuilder.
+     */
+    @Override
+    public StringBuilder getGameInfo() {
+        return this.playerController.getGameInfo();
+    }
+
+    /**
+     * Assigns home panels randomly. Throws and exception if the amount of players and home panels dont match.
+     */
+    @Override
+    public void assignHomePanels() throws PlayersAndHomePanelsDontMatchException {
+        ArrayList<IPanel> panels = boardController.getHomePanels();
+        ArrayList<IPlayer> players = playerController.getPlayers();
+        if (panels.size() != players.size()) {
+            throw new PlayersAndHomePanelsDontMatchException();
+        }
+        for (IPanel panel : panels) {
+                // Random player from the players array.
+                int ind = new Random().nextInt(players.size());
+                // Remove this player.
+                IPlayer player = players.remove(ind);
+                // Assign.
+                this.setHomePanel(player, (HomePanel) panel);
+        }
+    }
+
+    /**
+     * Puts all the players on theirs home panel
+     */
+    @Override
+    public void putPlayersOnHomePanel() {
+        ArrayList<IPlayer> players = playerController.getPlayers();
+        for (IPlayer player : players) {
+            int key = player.getHomePanel().getKey();
+            this.movePlayerTo(player, key);
+        }
+    }
+
 
     /**
      * Setter of the seed for random testing.
@@ -436,6 +504,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     public void setSeed(int seed) {
         this.playerController.setSeed(seed);
+    }
+
+    public static class PlayersAndHomePanelsDontMatchException extends Exception {
     }
 
 

@@ -22,4 +22,14 @@ public class EncounterPanel extends Panel {
     public void activatedByParticular(IPlayer player) {
         // AQUI DEBE EMPEZAR UNA BATALLA.
     }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
 }

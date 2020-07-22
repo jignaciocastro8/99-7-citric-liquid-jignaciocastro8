@@ -362,4 +362,29 @@ public class GameControllerTest {
     // Aquí había un test de cuando un jugador llega a un panel dónde ya había
     // jugador. Se movio a ObserverTest
 
+
+
+    @Test
+    public void assignHomePanelsTest() throws GameController.PlayersAndHomePanelsDontMatchException {
+        // Create panels.
+        ArrayList<IPanel> homePanels = new ArrayList<>();
+        homePanels.add(gameController.createHomePanel(0));
+        homePanels.add(gameController.createHomePanel(1));
+        homePanels.add(gameController.createHomePanel(2));
+        homePanels.add(gameController.createHomePanel(3));
+        // Create players.
+        ArrayList<IPlayer> players = new ArrayList<>();
+        players.add(gameController.createSuguri());
+        players.add(gameController.createMarc());
+        players.add(gameController.createPeat());
+        players.add(gameController.createKai());
+        // Test
+        gameController.assignHomePanels();
+        for (IPlayer player : players) {
+            assertTrue(homePanels.contains(player.getHomePanel()));
+        }
+
+    }
+
+
 }

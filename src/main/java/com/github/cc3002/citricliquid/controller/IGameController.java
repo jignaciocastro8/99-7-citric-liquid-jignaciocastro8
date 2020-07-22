@@ -65,5 +65,25 @@ public interface IGameController {
      */
     int rollTurnOwnerDice();
 
+    /**
+     * Getter of a string builder with player's info.
+     * @return StringBuilder.
+     */
+    StringBuilder getPlayersInfo();
 
+    /**
+     * Getter of the game info.
+     * @return StringBuilder.
+     */
+    StringBuilder getGameInfo();
+
+    /**
+     * Assigns home panels randomly.
+     */
+    void assignHomePanels() throws GameController.PlayersAndHomePanelsDontMatchException;
+
+    /**
+     * Puts all the players on theirs home panel
+     */
+    void putPlayersOnHomePanel();
 }

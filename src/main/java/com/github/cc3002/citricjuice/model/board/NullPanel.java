@@ -120,6 +120,16 @@ public class NullPanel implements IPanel {
     }
 
     /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
+
+    /**
      * Attaches the panel to a player observer.
      *
      * @param observer IPlayerObserver.
