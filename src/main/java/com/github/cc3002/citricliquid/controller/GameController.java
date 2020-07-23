@@ -1,11 +1,8 @@
 package com.github.cc3002.citricliquid.controller;
-
 import com.github.cc3002.citricjuice.model.board.*;
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.model.NormaGoal;
-
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -495,6 +492,16 @@ public class GameController implements IBoardController, IPlayerController, IUni
             int key = player.getHomePanel().getKey();
             this.movePlayerTo(player, key);
         }
+    }
+
+    /**
+     * Getter of the players current panel key.
+     *
+     * @return int.
+     */
+    @Override
+    public ArrayList<Integer> getPlayersPosition() {
+        return this.playerController.getPlayersPosition();
     }
 
 

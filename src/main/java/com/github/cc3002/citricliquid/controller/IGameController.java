@@ -86,4 +86,10 @@ public interface IGameController {
      * Puts all the players on theirs home panel
      */
     void putPlayersOnHomePanel();
+
+    /**
+     * Getter of the players current panel key. The order is the creation order of the players.
+     * @return int.
+     */
+    ArrayList<Integer> getPlayersPosition();
 }

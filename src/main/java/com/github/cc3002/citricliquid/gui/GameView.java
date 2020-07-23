@@ -2,8 +2,6 @@ package com.github.cc3002.citricliquid.gui;
 
 import com.github.cc3002.citricliquid.controller.GameController;
 import com.github.cc3002.citricliquid.gui.nodes.BoardNode;
-import com.github.cc3002.citricliquid.gui.nodes.MovableNode;
-import com.github.cc3002.citricliquid.gui.nodes.MovableNodeBuilder;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
 import java.util.*;
 
@@ -27,7 +24,11 @@ public class GameView extends Application {
     private int hDivision = 450;
     private double fontSize = 15;
 
-    private ArrayList<MovableNode> playersNodes;
+    // Esto se puede hacer array. ###################3333
+    private Hashtable<Integer, int[]> panelPosition = new Hashtable<>();
+    // ##############################
+    private ArrayList<BoardNode> playersNodes = new ArrayList<>();
+    private ArrayList<Integer> currentPanel = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -71,32 +72,9 @@ public class GameView extends Application {
         primaryStage.show();
     }
 
-    /**
-     * Timer that updates position of the players.
-     */
-    private void startPositionTimer() {
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                updatePosition();
-            }
-        };
-        timer.start();
-    }
 
-    /**
-     * Modifies position of nodes that represent the image of the players on the game.
-     */
-    private void updatePosition() {
-        /*
-        for (MovableNode node : playersNodes) {
-            node.getNode().setX();
-            node.getNode().setY();
-        }
 
-         */
-        // AQUÍ QUEDÉ: 21-07
-    }
+
 
 
     // Setters of images and labels
@@ -123,18 +101,33 @@ public class GameView extends Application {
      */
     private void setUpPlayers(Scene scene, Group root) throws FileNotFoundException, GameController.PlayersAndHomePanelsDontMatchException {
         // Create players
-        List<String> names = Arrays.asList("Peat", "Suguri", "Marc", "Kai");
+        ArrayList<String> names = new ArrayList<>();
         controller.createSuguri();
+        names.add("Suguri");
         controller.createMarc();
+        names.add("Marc");
         controller.createKai();
+        names.add("Kai");
         controller.createPeat();
+        names.add("Peat");
         // Put images.
         for (int i = 0; i < names.size(); i++) {
+            // Players image movable nodes.
+            BoardNode peat = new BoardNode(hDivision + i * 100, 100,
+                    100, 100, RESOURCE_PATH + names.get(i) + ".png");
+            // Add nodes to the node dictionary.
+            ArrayList<BoardNode> arr = new ArrayList<>();
+            playersNodes.add(peat);
+            /*
             var peat = new MovableNodeBuilder(scene).setImagePath(RESOURCE_PATH + names.get(i) + ".png")
                     .setPosition(hDivision + i * 100, 100)
                     .setSize(100, 100)
                     .build();
+
+             */
             //playersNodes.add(peat); GENERA ERROR.
+
+            // Put node.
             root.getChildren().add(peat.getNode());
         }
 
@@ -157,41 +150,119 @@ public class GameView extends Application {
         root.getChildren().add(playerInfo);
         return playerInfo;
     }
-    /*
-    Setter of the images of the panels.
+
+    /**
+     * Create panels one by one.
+     * @param root Group.
+     * @throws FileNotFoundException e
+     * @throws GameController.PlayersAndHomePanelsDontMatchException e
      */
     private void setUpBoard(Group root) throws FileNotFoundException, GameController.PlayersAndHomePanelsDontMatchException {
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(100);
-        list.add(400);
-        // Two large lines.
-        for (int i = 0; i < 5; i++) {
-            for (int n : list){
-                root.getChildren().add(new BoardNode(hDivision + i * 150, n, 100, 100,
-                        RESOURCE_PATH + "blueSqr.png").getNode());
-            }
-        }
-        // One short and central line.
-        for (int i = 0; i < 2; i++) {
-            root.getChildren().add(new BoardNode(hDivision + 150 + i * 300, 250, 100, 100,
-                    RESOURCE_PATH + "blueSqr.png").getNode());
-        }
-        // Create home panels.
+
+        // Home panel 0:
         controller.createHomePanel(0);
-        controller.createBonusPanel(1);
-        controller.createBossPanel(2);
-        controller.createDropPanel(3);
+        root.getChildren().add(new BoardNode(hDivision, 100, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(0, new int[]{hDivision, 100});
+        // Home panel 4.
         controller.createHomePanel(4);
-        controller.createEncounterPanel(5);
-        controller.createEncounterPanel(6);
+        root.getChildren().add(new BoardNode(hDivision + 600, 100, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(4, new int[]{hDivision + 600, 100});
+        // Home panel 7:
         controller.createHomePanel(7);
-        controller.createDropPanel(8);
-        controller.createBossPanel(9);
-        controller.createBonusPanel(10);
+        root.getChildren().add(new BoardNode(hDivision, 400, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(7, new int[]{hDivision, 400});
+        // Home panel 11:
         controller.createHomePanel(11);
+        root.getChildren().add(new BoardNode(hDivision + 600, 400, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(7, new int[]{hDivision + 600, 400});
+
+        // Bonus panel 1:
+        controller.createBonusPanel(1);
+        root.getChildren().add(new BoardNode(hDivision + 150, 100, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(1, new int[]{hDivision + 150, 100});
+        // Bonus panel 10:
+        controller.createBonusPanel(10);
+        root.getChildren().add(new BoardNode(hDivision + 450, 400, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(10, new int[]{hDivision + 450, 400});
+        // Boss panel 2:
+        controller.createBossPanel(2);
+        root.getChildren().add(new BoardNode(hDivision + 300, 100, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(2, new int[]{hDivision + 300, 100});
+        // Boss panel 9:
+        controller.createBossPanel(9);
+        root.getChildren().add(new BoardNode(hDivision + 300, 400, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(9, new int[]{hDivision + 300, 400});
+        // Drop panel 3:
+        controller.createDropPanel(3);
+        root.getChildren().add(new BoardNode(hDivision + 450, 100, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(3, new int[]{hDivision + 450, 100});
+        // Drop panel 8:
+        controller.createDropPanel(8);
+        root.getChildren().add(new BoardNode(hDivision + 150, 400, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(8, new int[]{hDivision + 150, 400});
+        // Encounter panel 5:
+        controller.createEncounterPanel(5);
+        root.getChildren().add(new BoardNode(hDivision + 150, 250, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(5, new int[]{hDivision + 150, 250});
+        // Encounter panel 6:
+        controller.createEncounterPanel(6);
+        root.getChildren().add(new BoardNode(hDivision + 450, 250, 100, 100,
+                RESOURCE_PATH + "blueSqr.png").getNode());
+        panelPosition.put(6, new int[]{hDivision + 450, 250});
+
+
+
+
     }
 
     // Timers
+
+    /**
+     * Timer that updates position of the players.
+     */
+    private void startPositionTimer() {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updatePosition();
+            }
+        };
+        timer.start();
+    }
+
+    /**
+     * Modifies position of nodes that represent the image of the players on the game.
+     */
+
+    // ESTO TIRA ERROR...
+    private void updatePosition() {
+        updatePanelDic();
+        int size = currentPanel.size();
+        for (int i = 0; i < size; i++) {
+            int newPanel = currentPanel.get(i);
+            int[] newPosition = panelPosition.get(newPanel);
+            playersNodes.get(i).updatePosition(newPosition[0], newPosition[1]);
+        }
+
+    }
+
+    /**
+     * Use the controller to update the array of current panels of the players.
+     */
+    private void updatePanelDic() {
+      currentPanel = controller.getPlayersPosition();
+    }
 
     /**
      * Info label timer. Updates the player's information.

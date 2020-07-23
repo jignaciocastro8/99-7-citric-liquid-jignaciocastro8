@@ -299,6 +299,18 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
         return sb;
     }
 
+    /**
+     * Getter of players current panel key.
+     * @return Array.
+     */
+    public ArrayList<Integer> getPlayersPosition() {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (IPlayer player : players) {
+            arr.add(player.getCurrentPanel().getKey());
+        }
+        return arr;
+    }
+
 
     public static class NoSuchPlayerOnTheGameException extends Exception {
         public NoSuchPlayerOnTheGameException(String message) {

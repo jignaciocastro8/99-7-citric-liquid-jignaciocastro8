@@ -43,4 +43,32 @@ public class BoardNode {
     public ImageView getNode() {
         return this.img;
     }
+
+    /**
+     * Updates the position of the img.
+     * @param hPos float.
+     * @param vPos float.
+     */
+    public void updatePosition(float hPos, float vPos) {
+        this.img.setX(hPos);
+        this.img.setY(vPos);
+    }
+    /**
+     * Setter of horizontal position of this node.
+     * @param hPos float.
+     * @return this.
+     */
+    public BoardNode sethPos(float hPos) {
+        this.img.setX(hPos);
+        return this;
+    }
+    /**
+     * Setter of vertical position of this node.
+     * @param vPos float.
+     * @return this.
+     */
+    public BoardNode setvPos(float vPos) {
+        this.img.setY(vPos);
+        return this;
+    }
 }
