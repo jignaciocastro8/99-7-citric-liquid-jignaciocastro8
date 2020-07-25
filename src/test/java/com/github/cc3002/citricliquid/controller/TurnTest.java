@@ -113,4 +113,9 @@ public class TurnTest {
 
     }
 
+    @Test
+    public void rollAndMoveTest() {
+
+    }
+
 }

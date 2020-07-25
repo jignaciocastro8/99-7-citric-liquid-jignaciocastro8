@@ -92,4 +92,9 @@ public interface IGameController {
      * @return int.
      */
     ArrayList<Integer> getPlayersPosition();
+
+    /**
+     * Gets the turn owner roll and move the turn owner.
+     */
+    void moveTurnOwner();
 }

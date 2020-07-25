@@ -13,5 +13,9 @@ public interface IWaitTurnState {
      */
     boolean isWaiting();
 
+    /**
+     * Handles the state action.
+     */
+    void handle();
 
 }

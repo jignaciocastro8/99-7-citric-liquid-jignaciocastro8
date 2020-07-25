@@ -1,19 +1,14 @@
 package com.github.cc3002.citricliquid.gameFlux;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.controller.GameController;
 
-public class EvdOrDefState implements IWaitTurnState {
+public class InitiateTurnState implements IWaitTurnState {
 
-    private IPlayer player;
-
-    /**
-     * This class represents a state for asking the player for an action (evd or def).
-     * @param player IPlayer, the player to ask.
-     */
-    public EvdOrDefState(IPlayer player) {
-        this.player = player;
+    GameController controller;
+    public InitiateTurnState(GameController controller) {
+        this.controller = controller;
     }
-
     /**
      * Ask the player. For now it does nothing.
      * It should set the players battle answer field.
@@ -30,7 +25,7 @@ public class EvdOrDefState implements IWaitTurnState {
      */
     @Override
     public boolean isWaiting() {
-        return true;
+        return false;
     }
 
     /**
@@ -38,7 +33,6 @@ public class EvdOrDefState implements IWaitTurnState {
      */
     @Override
     public void handle() {
-
+        controller.moveTurnOwner();
     }
-
 }

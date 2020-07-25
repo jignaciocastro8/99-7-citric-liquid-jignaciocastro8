@@ -17,6 +17,16 @@ public abstract class AbstractCharacter implements ICharacter {
 
 
     /**
+     * Getter of the character's roll.
+     *
+     * @return int.
+     */
+    @Override
+    public int getRoll() {
+        return this.roll;
+    }
+
+    /**
      * Creates a general character.
      * @param name: name of the character.
      * @param hp: initial and maximum amount of hit points of the character.

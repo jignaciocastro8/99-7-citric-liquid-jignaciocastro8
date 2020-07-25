@@ -2,6 +2,10 @@ package com.github.cc3002.citricliquid.controller;
 import com.github.cc3002.citricjuice.model.board.*;
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.gameFlux.IWaitTurnState;
+import com.github.cc3002.citricliquid.gameFlux.InitiateTurnState;
+import com.github.cc3002.citricliquid.gameFlux.NeutralWaitState;
+import com.github.cc3002.citricliquid.gameFlux.NextPanelState;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 import java.util.ArrayList;
 import java.util.Random;
@@ -11,6 +15,9 @@ public class GameController implements IBoardController, IPlayerController, IUni
     private UnitController unitController;
     private PlayerController playerController;
     private BoardController boardController;
+
+    // The state.
+    IWaitTurnState state = new NeutralWaitState();
 
     /**
      * Creates a GameController.
@@ -345,8 +352,10 @@ public class GameController implements IBoardController, IPlayerController, IUni
      * Initiates the turn system. It requires a minimum of two players.
      */
     @Override
-    public void initiateGame() {
+    public void initiateGame() throws PlayerController.NoPlayersException {
         this.playerController.initiateGame();
+        this.state = new InitiateTurnState(this);
+        this.state.handle();
     }
 
     /**
@@ -393,7 +402,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
             player.moving();
             IPanel currentPanel = player.getCurrentPanel();
             // One next panel case.
-            if (player.getCurrentPanel().numberOfNextPanels() == 1) {
+            if (currentPanel.numberOfNextPanels() == 1) {
                 // Move player to the unique next panel.
                 int nextPanelKey = currentPanel.getNextPanels().get(0).getKey();
                 this.movePlayerTo(player, nextPanelKey);
@@ -403,6 +412,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
             // More than one next panel case.
             else {
                 // Here the player must decide which next panel to move to.
+                this.state = new NextPanelState(player, currentPanel.getNextPanels());
                 // IPanel decision = player.askForPanel(player.currentPanel().nexPanels());
             }
         }
@@ -497,11 +507,20 @@ public class GameController implements IBoardController, IPlayerController, IUni
     /**
      * Getter of the players current panel key.
      *
-     * @return int.
+     * @return Array.
      */
     @Override
     public ArrayList<Integer> getPlayersPosition() {
         return this.playerController.getPlayersPosition();
+    }
+
+    /**
+     * Gets the turn owner roll and move the turn owner.
+     */
+    @Override
+    public void moveTurnOwner() {
+        int steps = getTurnOwner().getRoll();
+        movePlayer(getTurnOwner(), steps);
     }
 
 

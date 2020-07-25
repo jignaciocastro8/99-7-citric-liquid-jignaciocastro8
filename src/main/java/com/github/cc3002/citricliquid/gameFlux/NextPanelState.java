@@ -34,4 +34,12 @@ public class NextPanelState implements IWaitTurnState {
     public boolean isWaiting() {
         return true;
     }
+
+    /**
+     * Handles the state action.
+     */
+    @Override
+    public void handle() {
+
+    }
 }

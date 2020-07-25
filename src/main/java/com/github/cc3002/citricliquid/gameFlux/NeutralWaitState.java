@@ -18,4 +18,12 @@ public class NeutralWaitState implements IWaitTurnState {
     public boolean isWaiting() {
         return false;
     }
+
+    /**
+     * Handles the state action.
+     */
+    @Override
+    public void handle() {
+
+    }
 }

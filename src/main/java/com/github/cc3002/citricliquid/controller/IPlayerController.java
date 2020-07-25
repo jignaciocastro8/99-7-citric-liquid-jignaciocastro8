@@ -85,7 +85,7 @@ public interface IPlayerController  {
     /**
      * Initiate the game.
      */
-    void initiateGame();
+    void initiateGame() throws PlayerController.NoPlayersException;
 
     /**
      * Getter of the turn owner.

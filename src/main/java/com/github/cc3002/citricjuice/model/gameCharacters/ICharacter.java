@@ -97,6 +97,12 @@ public interface ICharacter {
      */
     String getInfo();
 
+    /**
+     * Getter of the character's roll.
+     * @return int.
+     */
+    int getRoll();
+
 
 
     /*

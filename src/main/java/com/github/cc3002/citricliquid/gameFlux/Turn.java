@@ -27,6 +27,7 @@ public class Turn implements ITurn {
             turnOwner.recoveryState();
         }
         turnOwner.increaseStarsBy(Math.floorDiv(chapter, 5) + 1);
+        //if (turnOwner.)
     }
 
     /**

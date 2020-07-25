@@ -180,19 +180,22 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
      * Initiate the game.
      */
     @Override
-    public void initiateGame() {
+    public void initiateGame() throws NoPlayersException {
         // Start chapters.
         this.chapter = 1;
         // Start number of turns.
         this.numberOfFinishedTurns = 0;
-        if (this.getPlayers().size() > 0 ) {
-            // Create a random order for the turns.
-            createTurnsOrder();
-            // Initiate the states of the players.
-            this.initiatePlayerState();
-            // The first turn initiate.
-            this.turnOwner = turnOrder.get(0);
+        if (this.getPlayers().size() == 0) {
+            throw new NoPlayersException();
         }
+        // Create a random order for the turns.
+        createTurnsOrder();
+        // Initiate the states of the players.
+        this.initiatePlayerState();
+        // The first turn initiate.
+        //this.turnOrder = new ArrayList<>(this.players);
+        this.turnOwner = turnOrder.get(0);
+
     }
 
     /**
@@ -316,5 +319,8 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
         public NoSuchPlayerOnTheGameException(String message) {
             super(message);
         }
+    }
+
+    public static class NoPlayersException extends Exception {
     }
 }
