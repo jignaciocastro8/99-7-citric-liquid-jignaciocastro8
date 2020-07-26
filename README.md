@@ -180,9 +180,9 @@ able to play the game, is not fullfilled. But, changing a line in the program al
 players just increasing and decreasing the stars count until one of the player reaches the amount of
 stars to win the game.
 
-# **Implementations added:**
+# **Implementations added**:
 
-- **Observer pattern: ** The GameController object has three controllers that acts as an observer
+- **Observer pattern**:  The GameController object has three controllers that acts as an observer
 that observes the model objects. Controllers classes implements oobverser interfaces and the game
 objects, such as Player and Panel, implements observable interfraces.
 - **View: ** We assume that the board is fixed by the program, the board is just a loop where the players
@@ -192,6 +192,6 @@ by the program and are fixed, the roll button start the turn (create a set a new
 owner of the moment. There are a label on the view that print a message refering to the game current
 state.
 
-# **Instructions: **
+# **Instructions**: 
 
--**Roll button: ** Roll and moves the player owner.
+-**Roll button**: Roll and moves the player owner.
