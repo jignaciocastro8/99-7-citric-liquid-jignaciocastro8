@@ -172,5 +172,26 @@ correct one.
 
 - **TurnTest** : Tests the partial implementation of the turn phases.
 
+# **Third version**
 
+In this version some changes are made in order to fit some required patterns and fix problems of the
+previous version. The view is implemented in a shallow way and the principal objective, actually be
+able to play the game, is not fullfilled. But, changing a line in the program allows to move the 
+players just increasing and decreasing the stars count until one of the player reaches the amount of
+stars to win the game.
 
+# **Implementations added:**
+
+- **Observer pattern: ** The GameController object has three controllers that acts as an observer
+that observes the model objects. Controllers classes implements oobverser interfaces and the game
+objects, such as Player and Panel, implements observable interfraces.
+- **View: ** We assume that the board is fixed by the program, the board is just a loop where the players
+are putted on the corners. Also, there are not home panels with more than one next panel (in fact no panel
+has more than one next panel) because the program can't deal with these case. There are 4 players  created
+by the program and are fixed, the roll button start the turn (create a set a new phase) with the turn
+owner of the moment. There are a label on the view that print a message refering to the game current
+state.
+
+# **Instructions: **
+
+-**Roll button: ** Roll and moves the player owner.
