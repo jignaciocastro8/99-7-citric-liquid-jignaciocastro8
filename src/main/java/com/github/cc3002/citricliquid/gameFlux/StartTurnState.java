@@ -1,13 +1,12 @@
 package com.github.cc3002.citricliquid.gameFlux;
 
-import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.controller.GameController;
 
-public class InitiateTurnState implements IWaitTurnState {
+public class StartTurnState extends TurnState implements ITurnState {
 
-    GameController controller;
-    public InitiateTurnState(GameController controller) {
-        this.controller = controller;
+
+    public StartTurnState() {
+        super("New Turn");
     }
     /**
      * Ask the player. For now it does nothing.
@@ -33,6 +32,9 @@ public class InitiateTurnState implements IWaitTurnState {
      */
     @Override
     public void handle() {
+        controller.getTurnOwner().increaseStarsBy(Math.floorDiv(controller.getChapter(), 5) + 1);
         controller.moveTurnOwner();
     }
+
+
 }

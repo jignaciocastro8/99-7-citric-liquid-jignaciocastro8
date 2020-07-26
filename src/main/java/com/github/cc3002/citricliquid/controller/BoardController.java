@@ -4,11 +4,13 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.board.panelFactory.*;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.gameFlux.BattleOrNotState;
+import com.github.cc3002.citricliquid.gameFlux.NextPanelState;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class BoardController implements IBoardController, IBoardObserver{
+public class BoardController extends ParticularController implements IBoardController, IBoardObserver{
 
     private IPanelFactory bonusPanelFactory = new BonusPanelFactory();
     private IPanelFactory bossPanelFactory = new BossPanelFactory();
@@ -218,6 +220,30 @@ public class BoardController implements IBoardController, IBoardObserver{
     public void updateStopPlayer(IPlayer player) {
         player.waitOnPanel();
     }
+
+    /**
+     * Update meaning that a battle might start.
+     *
+     * @param player IPlayer, the player to ask.
+     * @param enemy  IPlayer, the enemy.
+     */
+    @Override
+    public void playersMeetUpdate(IPlayer player, IPlayer enemy) {
+        player.waitOnPanel();
+        this.centralController.setState(new BattleOrNotState(player, enemy));
+    }
+
+    /**
+     * Update meaning that the panel has more than one next panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void multipleNextPanelsUpdate(IPlayer player) {
+        player.waitOnPanel();
+        this.centralController.setState(new NextPanelState(player));
+    }
+
     /*
     Getter of the home panels on the game.
      */

@@ -1,8 +1,9 @@
 package com.github.cc3002.citricliquid.gameFlux;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.controller.GameController;
 
-public class EvdOrDefState implements IWaitTurnState {
+public class EvdOrDefState extends TurnState implements ITurnState {
 
     private IPlayer player;
 
@@ -11,6 +12,7 @@ public class EvdOrDefState implements IWaitTurnState {
      * @param player IPlayer, the player to ask.
      */
     public EvdOrDefState(IPlayer player) {
+        super("Evade or defend?");
         this.player = player;
     }
 
@@ -38,6 +40,16 @@ public class EvdOrDefState implements IWaitTurnState {
      */
     @Override
     public void handle() {
+
+    }
+
+    /**
+     * Setter of the controller (context) of the state.
+     *
+     * @param gameController GameController.
+     */
+    @Override
+    public void setController(GameController gameController) {
 
     }
 

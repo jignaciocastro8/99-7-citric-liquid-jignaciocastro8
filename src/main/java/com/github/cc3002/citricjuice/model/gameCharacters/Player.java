@@ -439,4 +439,13 @@ public class Player extends AbstractCharacter implements IPlayer, BattleInterfac
     public void notifyWinner() {
         this.observer.updateWinner(this);
     }
+
+    /**
+     * Return character's info plus the norma level.
+     * @return String.
+     */
+    @Override
+    public String getInfo() {
+        return super.getInfo() + ", Norma: " + this.normaLevel;
+    }
 }

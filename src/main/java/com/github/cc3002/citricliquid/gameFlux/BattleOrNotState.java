@@ -2,18 +2,17 @@ package com.github.cc3002.citricliquid.gameFlux;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 
-public class BattleOrNotState implements IWaitTurnState {
+public class BattleOrNotState extends TurnState implements ITurnState {
 
-    IPlayer playerToAsk;
-    IPlayer enemy;
-
+    private boolean answer;
+    private IPlayer player;
+    private IPlayer enemy;
     /**
      * This class represents the waiting for a battle answer state.
-     * @param player IPlayer, player to be ask.
-     * @param enemy IPlayer, the enemy.
      */
     public BattleOrNotState(IPlayer player, IPlayer enemy) {
-        this.playerToAsk = player;
+        super("Want to battle?");
+        this.player = player;
         this.enemy = enemy;
     }
 
@@ -42,4 +41,6 @@ public class BattleOrNotState implements IWaitTurnState {
     public void handle() {
 
     }
+
+
 }

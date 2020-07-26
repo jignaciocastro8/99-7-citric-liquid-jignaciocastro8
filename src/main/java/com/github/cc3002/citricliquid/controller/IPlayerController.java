@@ -98,6 +98,4 @@ public interface IPlayerController  {
      */
     void nextTurn();
 
-
-
 }

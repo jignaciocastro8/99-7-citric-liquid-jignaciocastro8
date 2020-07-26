@@ -4,13 +4,13 @@ import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.IPlayerFactory;
 import com.github.cc3002.citricjuice.model.gameCharacters.charactersFactory.PlayerFactory;
+import com.github.cc3002.citricliquid.gameFlux.StopOrNotOnHomePanelState;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Random;
 
-public class PlayerController implements IPlayerController, IPlayerObserver {
+public class PlayerController extends ParticularController implements IPlayerController, IPlayerObserver {
 
     private ArrayList<IPlayer> players;
 
@@ -25,7 +25,6 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
     private ArrayList<IPlayer> turnOrder;
     private IPlayer turnOwner;
     private long seed;
-
 
 
     public PlayerController() {
@@ -159,11 +158,24 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
 
     /**
      * Update the observer that the current turn is over.
+     * Gives the central controller the notification that the turn is over.
      */
     @Override
     public void updateTurnIsOver(IPlayer player) {
+        // This changes the turn owner.
         this.nextTurn();
         player.neutralState();
+    }
+
+    /**
+     * Update meaning that the player is on his/hers home panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void playerOnHomePanelUpdate(IPlayer player) {
+        this.centralController.setState(new StopOrNotOnHomePanelState());
+        player.waitOnPanel();
     }
 
     /**
@@ -193,8 +205,9 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
         // Initiate the states of the players.
         this.initiatePlayerState();
         // The first turn initiate.
-        //this.turnOrder = new ArrayList<>(this.players);
         this.turnOwner = turnOrder.get(0);
+        //this.turnOrder = new ArrayList<>(this.players);
+
 
     }
 
@@ -227,6 +240,8 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
 
     /**
      * Changes the turn owner to the next one.
+     * Increases by one the number of finished turns.
+     * Increases by one the number of chapters.
      */
     @Override
     public void nextTurn() {
@@ -256,8 +271,8 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
         Random random = new Random(this.seed);
         ArrayList<IPlayer> arrayList = new ArrayList<>(this.getPlayers());
         ArrayList<IPlayer> newArrayList = new ArrayList<>();
-        final int len = arrayList.size();
-        for (int i = 0; i<len; i++) {
+        int len = arrayList.size();
+        for (int i = 0; i < len; i++) {
             int ind = random.nextInt(arrayList.size());
             newArrayList.add(arrayList.get(ind));
             arrayList.remove(ind);
@@ -279,7 +294,7 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
      */
     public StringBuilder getPlayersInfo() {
         StringBuilder sb = new StringBuilder("Player's information: \n");
-        for (IPlayer player : this.players) {
+        for (IPlayer player : this.turnOrder) {
             sb.append(player.getName()).append(": ").append("\n").append(player.getInfo()).append(", location: ").
                     append(player.getCurrentPanel().getKey()).append("\n");
         }
@@ -298,12 +313,18 @@ public class PlayerController implements IPlayerController, IPlayerObserver {
             turnOrderSb.append(i + 1).append(": ").append(turnOrder.get(i).getName()).append(", ");
         }
         sb.append("Turn order: ").append(turnOrderSb.toString()).append("\n");
-        sb.append("Chapter: ").append(chapter);
+        sb.append("Chapter: ").append(chapter).append("\n");
+        String winner = "No winner yet";
+        if (this.winnerFlag) {
+            winner = this.winner.getName();
+        }
+        sb.append("Winner: ").append(winner);
         return sb;
     }
 
     /**
      * Getter of players current panel key.
+     * The order of the positions is the order in which the players are created.
      * @return Array.
      */
     public ArrayList<Integer> getPlayersPosition() {

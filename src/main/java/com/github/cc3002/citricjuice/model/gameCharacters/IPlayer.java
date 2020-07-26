@@ -178,4 +178,9 @@ public interface IPlayer extends ICharacter, IPlayerSubject {
      */
     void setNextPanelDecision(IPanel panel);
 
+    /**
+     * Return character's info plus the norma level.
+     * @return String.
+     */
+    String getInfo();
 }

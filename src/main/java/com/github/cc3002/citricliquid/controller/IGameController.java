@@ -2,9 +2,9 @@ package com.github.cc3002.citricliquid.controller;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.gameFlux.ITurnState;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public interface IGameController {
 
@@ -97,4 +97,21 @@ public interface IGameController {
      * Gets the turn owner roll and move the turn owner.
      */
     void moveTurnOwner();
+
+    /**
+     * Set the state of the controller to startTurnState.
+     */
+    void setState(ITurnState state);
+
+    /**
+     * Getter of the name of the state.
+     * @return String.
+     */
+    String getStateName();
+
+    /**
+     * Setter of the try to continue answer of the controller state.
+     * @param flag boolean.
+     */
+    void setTryToContinue(boolean flag);
 }

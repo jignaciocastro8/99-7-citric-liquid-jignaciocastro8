@@ -16,6 +16,7 @@ public abstract class Panel implements IPanel {
   private ArrayList<IPanel> nextPanels = new ArrayList<>();
   private ArrayList<IPlayer> players = new ArrayList<>();
   private final int key;
+  // Observers.
   private IBoardObserver boardObserver = new NullObserver();
   private IPlayerObserver playerObserver = new NullObserver();
 
@@ -77,33 +78,71 @@ public abstract class Panel implements IPanel {
     }
   }
 
+
+
   /**
    * Adds a new Player to this panel's set of players.
-   * Notifies the observer if the player must stops its motion because of this panel current information.
+   * Notifies the observer if the player must stops its motion because of this panel current information:
+   * There are players on the panel.
+   * This panel is the player's home panel.
+   * This panel has more than one next panel.
    * @param player: the player to be added.
    */
   public void addPlayer(IPlayer player) {
+    // Here we assume that the player to battle with is the first on the panel list of players.
     this.players.add(player);
-    if (this.players.size() > 1 || player.getHomePanel().equals(this) || this.nextPanels.size() > 1) {
-      this.notifyStopPlayer(player);
+    // Another player on the panel.
+    if (this.getPlayers().size() > 1) {
+      IPlayer enemy = this.players.get(0);
+      this.notifyPlayersMeet(player, enemy);
+    }
+    // This is the player's home panel. (the easiest one)
+    if (player.getHomePanel().equals(this)) {
+      this.notifyPlayerOnHomePanel(player);
+    }
+    // This panel has more than one next panel.
+
+    if (this.nextPanels.size() > 1) {
+      this.notifyMultipleNextPanels(player);
     }
 
+
+
+  }
+
+  /**
+   * Notifies that the player is on his/hers home panel.
+   *
+   * @param player IPlayer.
+   */
+  @Override
+  public void notifyPlayerOnHomePanel(IPlayer player) {
+    this.playerObserver.playerOnHomePanelUpdate(player);
   }
 
   /**
    * Notifies the observer that there are more than one players
    * on this panel.
    * @param player IPlayer, the player that enters the panel.
+   * @param enemy IPlayer, the enemy.
    */
   @Override
-  public void notifyStopPlayer(IPlayer player) {
-    this.boardObserver.updateStopPlayer(player);
+  public void notifyPlayersMeet(IPlayer player, IPlayer enemy) {
+    this.boardObserver.playersMeetUpdate(player, enemy);
   }
-
+  /**
+   * Notifies that this panel has more than one next panel.
+   *
+   * @param player IPlayer.
+   */
+  @Override
+  public void notifyMultipleNextPanels(IPlayer player) {
+    this.boardObserver.multipleNextPanelsUpdate(player);
+  }
   /**
    * Attaches the panel to an observer.
    *
-   * @param observer
+   * @param observer IBoardObserver.
    */
   @Override
   public void attach(IBoardObserver observer) {
@@ -128,7 +167,6 @@ public abstract class Panel implements IPanel {
    */
   public void activatedBy(IPlayer player) {
     this.notifyTurnIsOver(player);
-
     this.activatedByParticular(player);
   }
 

@@ -2,10 +2,13 @@ package com.github.cc3002.citricliquid.gui;
 
 import com.github.cc3002.citricliquid.controller.GameController;
 import com.github.cc3002.citricliquid.controller.PlayerController;
+import com.github.cc3002.citricliquid.gameFlux.StartTurnState;
 import com.github.cc3002.citricliquid.gui.nodes.BoardNode;
 import com.github.cc3002.citricliquid.gui.nodes.LabelBuilder;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -49,7 +52,7 @@ public class GameView extends Application {
         setUpBoard(root);
 
         // Create players
-        setUpPlayers(scene, root);
+        setUpPlayers(root);
 
         // Initiate game
         controller.initiateGame();
@@ -62,11 +65,18 @@ public class GameView extends Application {
         Label gameInfo = setUpGameInfoLabel(root);
         setUpGameInfoTimer(gameInfo);
 
+        // State info label.
+        Label stateName = setUpStateLabel(root);
+        updateStateTimer(stateName);
+
+        // Stop or not on home panel button.
+        setUpStopOnHomePanelButton(root);
+
         // Roll button
         setupRollButton(root);
 
         // Position timer.
-        startPositionTimer();
+        updatePositionTimer();
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -78,6 +88,20 @@ public class GameView extends Application {
 
 
     // Setters of images and labels
+
+    /**
+     * Setter of the state label.
+     * @param root Group.
+     * @return Label.
+     */
+    private Label setUpStateLabel(Group root) {
+        Label stateName = new Label();
+        stateName.setFont(new Font(fontSize));
+        stateName.setLayoutX(50);
+        stateName.setLayoutY(50);
+        root.getChildren().add(stateName);
+        return stateName;
+    }
 
     /**
      * Setter of the game info label. Creates a label, the timer is in charge of the updating.
@@ -95,12 +119,11 @@ public class GameView extends Application {
 
     /**
      * Creates and puts images of the players.
-     * @param scene Scene
      * @param root Group
      * @throws FileNotFoundException e
      */
-    private void setUpPlayers(Scene scene, Group root) throws FileNotFoundException, GameController.PlayersAndHomePanelsDontMatchException {
-        // Create players. The order matters.
+    private void setUpPlayers(Group root) throws FileNotFoundException, GameController.PlayersAndHomePanelsDontMatchException {
+        // Create players. The order of the creation is the order in which the view receive the players information.
         ArrayList<String> names = new ArrayList<>();
         controller.createSuguri();
         names.add("Suguri");
@@ -126,15 +149,17 @@ public class GameView extends Application {
         controller.assignHomePanels();
         // Put players on theirs home panel (not in the view).
         controller.putPlayersOnHomePanel();
+
         // Update the current position on the view.
-        currentPanel = controller.getPlayersPosition();
-        updatePlayersPosition();
+        //currentPanel = controller.getPlayersPosition();
+        //updatePlayersPosition();
     }
 
     /**
      * Put the players image on the current panel.
      */
     private void updatePlayersPosition() {
+        currentPanel = controller.getPlayersPosition();
         int size = playersNodes.size();
         for (int i = 0; i < size; i++) {
             int ind = currentPanel.get(i);
@@ -151,7 +176,7 @@ public class GameView extends Application {
         Label playerInfo = new Label();
         playerInfo.setFont(new Font(fontSize));
         playerInfo.setLayoutX(50);
-        playerInfo.setLayoutY(200);
+        playerInfo.setLayoutY(250);
         root.getChildren().add(playerInfo);
         return playerInfo;
     }
@@ -160,7 +185,6 @@ public class GameView extends Application {
      * Create panels one by one.
      * @param root Group.
      * @throws FileNotFoundException e
-     * @throws GameController.PlayersAndHomePanelsDontMatchException e
      */
     private void setUpBoard(Group root) throws FileNotFoundException {
 
@@ -236,38 +260,57 @@ public class GameView extends Application {
 
         // Encounter panel 5:
         controller.createEncounterPanel(5);
-        root.getChildren().add(new BoardNode(hDivision + 150, 250, 100, 100,
+        root.getChildren().add(new BoardNode(hDivision, 250, 100, 100,
                 RESOURCE_PATH + "blueSqr.png").getNode());
-        panelPosition.put(5, new int[]{hDivision + 150, 250});
-        root.getChildren().add(new LabelBuilder("Encounter Panel 5", hDivision + 150, 250 - indDelta).build());
+        panelPosition.put(5, new int[]{hDivision, 250});
+        root.getChildren().add(new LabelBuilder("Encounter Panel 5", hDivision, 250 - indDelta).build());
 
         // Encounter panel 6:
         controller.createEncounterPanel(6);
-        root.getChildren().add(new BoardNode(hDivision + 450, 250, 100, 100,
+        root.getChildren().add(new BoardNode(hDivision + 600, 250, 100, 100,
                 RESOURCE_PATH + "blueSqr.png").getNode());
-        panelPosition.put(6, new int[]{hDivision + 450, 250});
-        root.getChildren().add(new LabelBuilder("Encounter Panel 6", hDivision + 450, 250 - indDelta).build());
+        panelPosition.put(6, new int[]{hDivision + 600, 250});
+        root.getChildren().add(new LabelBuilder("Encounter Panel 6", hDivision + 600, 250 - indDelta).build());
 
         // Connect panels.
         controller.assignNextPanelsWithKey(0, 1);
         controller.assignNextPanelsWithKey(1, 2);
 
-        controller.assignNextPanelsWithKey(4, 3);
-        controller.assignNextPanelsWithKey(3, 2);
+        controller.assignNextPanelsWithKey(2, 3);
+        controller.assignNextPanelsWithKey(3, 4);
 
-        controller.assignNextPanelsWithKey(7, 8);
-        controller.assignNextPanelsWithKey(8, 9);
+        controller.assignNextPanelsWithKey(4, 6);
+        controller.assignNextPanelsWithKey(6, 11);
 
         controller.assignNextPanelsWithKey(11, 10);
         controller.assignNextPanelsWithKey(10, 9);
+        controller.assignNextPanelsWithKey(9, 8);
+        controller.assignNextPanelsWithKey(8, 7);
+
+        controller.assignNextPanelsWithKey(7, 5);
+        controller.assignNextPanelsWithKey(5, 0);
     }
 
     // Timers
 
     /**
+     * Timer of the state name.
+     * @param stateLabel Label.
+     */
+    private void updateStateTimer(Label stateLabel) {
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                stateLabel.setText(controller.getStateName());
+            }
+        };
+        timer.start();
+    }
+
+    /**
      * Timer that updates position of the players.
      */
-    private void startPositionTimer() {
+    private void updatePositionTimer() {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -317,14 +360,32 @@ public class GameView extends Application {
     private void setupRollButton(Group root) {
         Button button = new Button("Roll: No roll yet");
         button.setLayoutX(50);
-        button.setLayoutY(400);
+        button.setLayoutY(450);
         button.setFocusTraversable(false);
         button.setOnAction(event -> {
-            int roll = controller.rollTurnOwnerDice();
-            button.setText("Roll: " + roll);
+            controller.rollTurnOwnerDice();
+            button.setText("Roll: " + controller.getTurnOwner().getRoll());
+            controller.setState(new StartTurnState());
         });
 
         root.getChildren().add(button);
+    }
+
+    /**
+     * Setter of the stop or not in the home panel button.
+     * @param root Group.
+     */
+    private void setUpStopOnHomePanelButton(Group root) {
+        Button yesButton = new Button("Yes");
+        yesButton.setLayoutX(200);
+        yesButton.setLayoutY(50);
+        yesButton.setOnAction(event -> controller.setTryToContinue(true));
+        Button noButton = new Button("No");
+        noButton.setLayoutX(250);
+        noButton.setLayoutY(50);
+        noButton.setOnAction(event -> controller.setTryToContinue(false));
+        root.getChildren().add(yesButton);
+        root.getChildren().add(noButton);
     }
 
 

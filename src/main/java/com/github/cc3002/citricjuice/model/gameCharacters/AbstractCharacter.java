@@ -222,9 +222,6 @@ public abstract class AbstractCharacter implements ICharacter {
     @Override
     public String getInfo() {
         return "current hp : " + currentHP + ", " +
-                "atk: " + atk + ", " +
-                "def: " + def + ", " +
-                "evd: " + evd + ", " +
                 "stars: " + stars + ", " +
                 "wins: " + wins + ", " +
                 "roll: " + roll;

@@ -18,6 +18,27 @@ public class NullObserver implements IBoardObserver, IPlayerObserver {
     }
 
     /**
+     * Update meaning that a battle might start.
+     *
+     * @param player IPlayer, the player to ask.
+     * @param enemy  IPlayer, the enemy.
+     */
+    @Override
+    public void playersMeetUpdate(IPlayer player, IPlayer enemy) {
+
+    }
+
+    /**
+     * Update meaning that the panel has more than one next panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void multipleNextPanelsUpdate(IPlayer player) {
+
+    }
+
+    /**
      * Updates the observer winner data.
      *
      * @param player
@@ -34,6 +55,16 @@ public class NullObserver implements IBoardObserver, IPlayerObserver {
      */
     @Override
     public void updateTurnIsOver(IPlayer player) {
+
+    }
+
+    /**
+     * Update meaning that the player is on his/hers home panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void playerOnHomePanelUpdate(IPlayer player) {
 
     }
 

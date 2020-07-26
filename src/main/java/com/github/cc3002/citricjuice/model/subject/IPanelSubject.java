@@ -18,16 +18,29 @@ public interface IPanelSubject {
     void attach(IBoardObserver observer);
 
     /**
-     * Notifies the observer that the player must stop because of the panel information.
+     * Notifies that a player meets another player on this panel.
      *
      * @param player IPlayer, the player that enters the panel.
+     * @param enemy IPlayer, the enemy.
      */
-    void notifyStopPlayer(IPlayer player);
+    void notifyPlayersMeet(IPlayer player, IPlayer enemy);
 
     /**
      * Notifies the observer that the turn is over.
      * @param player IPlayer that ends his/her turn.
      */
     void notifyTurnIsOver(IPlayer player);
+
+    /**
+     * Notifies that the player is on his/hers home panel.
+     * @param player IPlayer.
+     */
+    void notifyPlayerOnHomePanel(IPlayer player);
+
+    /**
+     * Notifies that this panel has more than one next panel.
+     * @param player IPlayer.
+     */
+    void notifyMultipleNextPanels(IPlayer player);
 
 }

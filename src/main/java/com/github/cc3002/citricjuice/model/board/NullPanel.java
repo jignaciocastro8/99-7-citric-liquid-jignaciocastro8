@@ -150,20 +150,42 @@ public class NullPanel implements IPanel {
     }
 
     /**
-     * Notifies the observer that the player must stop because of the panel information.
+     * Notifies that a player meets another player on this panel.
      *
      * @param player IPlayer, the player that enters the panel.
+     * @param enemy  IPlayer, the enemy.
      */
     @Override
-    public void notifyStopPlayer(IPlayer player) {
+    public void notifyPlayersMeet(IPlayer player, IPlayer enemy) {
 
     }
+
 
     /**
      * Notifies the observer that the turn is over.
      */
     @Override
     public void notifyTurnIsOver(IPlayer player) {
+
+    }
+
+    /**
+     * Notifies that the player is on his/hers home panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void notifyPlayerOnHomePanel(IPlayer player) {
+
+    }
+
+    /**
+     * Notifies that this panel has more than one next panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void notifyMultipleNextPanels(IPlayer player) {
 
     }
 

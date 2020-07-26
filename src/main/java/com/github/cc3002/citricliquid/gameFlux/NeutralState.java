@@ -1,6 +1,8 @@
 package com.github.cc3002.citricliquid.gameFlux;
 
-public class NeutralWaitState implements IWaitTurnState {
+import com.github.cc3002.citricliquid.controller.GameController;
+
+public class NeutralState extends StartTurnState implements ITurnState {
     /**
      * Ask the player. For now it does nothing.
      */
@@ -24,6 +26,16 @@ public class NeutralWaitState implements IWaitTurnState {
      */
     @Override
     public void handle() {
+
+    }
+
+    /**
+     * Setter of the controller (context) of the state.
+     *
+     * @param gameController GameController.
+     */
+    @Override
+    public void setController(GameController gameController) {
 
     }
 }

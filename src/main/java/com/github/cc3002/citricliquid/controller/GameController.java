@@ -2,9 +2,8 @@ package com.github.cc3002.citricliquid.controller;
 import com.github.cc3002.citricjuice.model.board.*;
 import com.github.cc3002.citricjuice.model.gameCharacters.ICharacter;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
-import com.github.cc3002.citricliquid.gameFlux.IWaitTurnState;
-import com.github.cc3002.citricliquid.gameFlux.InitiateTurnState;
-import com.github.cc3002.citricliquid.gameFlux.NeutralWaitState;
+import com.github.cc3002.citricliquid.gameFlux.ITurnState;
+import com.github.cc3002.citricliquid.gameFlux.NeutralState;
 import com.github.cc3002.citricliquid.gameFlux.NextPanelState;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
     private BoardController boardController;
 
     // The state.
-    IWaitTurnState state = new NeutralWaitState();
+    ITurnState state = new NeutralState();
 
     /**
      * Creates a GameController.
@@ -26,7 +25,17 @@ public class GameController implements IBoardController, IPlayerController, IUni
         unitController = new UnitController();
         playerController = new PlayerController();
         boardController = new BoardController();
+        attach();
 
+    }
+
+    /**
+     * Attach the central controller (this) to the particular controllers.
+     * This allows the particular controllers to update the central controller state.
+     */
+    private void attach() {
+        playerController.setCentralController(this);
+        boardController.setCentralController(this);
     }
     /**
      * Create a player.
@@ -354,8 +363,6 @@ public class GameController implements IBoardController, IPlayerController, IUni
     @Override
     public void initiateGame() throws PlayerController.NoPlayersException {
         this.playerController.initiateGame();
-        this.state = new InitiateTurnState(this);
-        this.state.handle();
     }
 
     /**
@@ -370,10 +377,11 @@ public class GameController implements IBoardController, IPlayerController, IUni
 
     /**
      * Changes the turn owner to the next one.
+     * The mediator class needs this.
      */
     @Override
     public void nextTurn() {
-        this.playerController.nextTurn();
+        playerController.nextTurn();
     }
 
     /**
@@ -384,21 +392,26 @@ public class GameController implements IBoardController, IPlayerController, IUni
      */
     @Override
     public void movePlayer(IPlayer player, int steps) {
+
         // Waiting case.
+
         if (player.isWaitingOnPanel()) {
             // If the player is waiting, stops moving.
+
+            // This line makes some test fail but it allows to "play".
+            player.moving();
             return;
         }
+
         // Ends the walk case.
         if (steps == 0) {
-            // Produce the effect of the panel on the player.
+            // Produce the effect of the panel on the player ending the turn. the panel ends the player motion.
             player.getCurrentPanel().activatedBy(player);
-            // The player ends the moving process.
-            //player.neutralState();
         }
+
+
         // Recursion.
-        else{
-            // The player starts moving process.
+        else {
             player.moving();
             IPanel currentPanel = player.getCurrentPanel();
             // One next panel case.
@@ -412,7 +425,7 @@ public class GameController implements IBoardController, IPlayerController, IUni
             // More than one next panel case.
             else {
                 // Here the player must decide which next panel to move to.
-                this.state = new NextPanelState(player, currentPanel.getNextPanels());
+                //this.state = new NextPanelState(player);
                 // IPanel decision = player.askForPanel(player.currentPanel().nexPanels());
             }
         }
@@ -521,6 +534,39 @@ public class GameController implements IBoardController, IPlayerController, IUni
     public void moveTurnOwner() {
         int steps = getTurnOwner().getRoll();
         movePlayer(getTurnOwner(), steps);
+    }
+
+    /**
+     * Setter of the controller state.
+     * Also sets the state controller to this.
+     * Triggers the state effect.
+     * @param state state.
+     */
+    @Override
+    public void setState(ITurnState state) {
+        this.state = state;
+        state.setController(this);
+        state.handle();
+    }
+
+    /**
+     * Getter of the name of the state.
+     *
+     * @return String.
+     */
+    @Override
+    public String getStateName() {
+        return state.getName();
+    }
+
+    /**
+     * Setter of the try to continue answer of the controller state.
+     *
+     * @param flag boolean.
+     */
+    @Override
+    public void setTryToContinue(boolean flag) {
+        state.setTryToContinue(flag);
     }
 
 

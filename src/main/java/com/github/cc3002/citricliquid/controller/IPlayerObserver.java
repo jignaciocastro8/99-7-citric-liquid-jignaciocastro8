@@ -13,4 +13,9 @@ public interface IPlayerObserver {
      */
     void updateTurnIsOver(IPlayer player);
 
+    /**
+     * Update meaning that the player is on his/hers home panel.
+     * @param player IPlayer.
+     */
+    void playerOnHomePanelUpdate(IPlayer player);
 }
