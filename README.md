@@ -185,7 +185,7 @@ stars to win the game.
 - **Observer pattern**:  The GameController object has three controllers that acts as an observer
 that observes the model objects. Controllers classes implements oobverser interfaces and the game
 objects, such as Player and Panel, implements observable interfraces.
-- **View: ** We assume that the board is fixed by the program, the board is just a loop where the players
+- **View**: We assume that the board is fixed by the program, the board is just a loop where the players
 are putted on the corners. Also, there are not home panels with more than one next panel (in fact no panel
 has more than one next panel) because the program can't deal with these case. There are 4 players  created
 by the program and are fixed, the roll button start the turn (create a set a new phase) with the turn
