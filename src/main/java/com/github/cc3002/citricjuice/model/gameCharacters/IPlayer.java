@@ -3,9 +3,10 @@ package com.github.cc3002.citricjuice.model.gameCharacters;
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.playerState.IPlayerState;
+import com.github.cc3002.citricjuice.model.subject.IPlayerSubject;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
-public interface IPlayer extends ICharacter {
+public interface IPlayer extends ICharacter, IPlayerSubject {
     /**
      * Sets the home panel of the player.
      * @param panel: a HomePanel panel.
@@ -176,4 +177,10 @@ public interface IPlayer extends ICharacter {
      * @param panel IPanel.
      */
     void setNextPanelDecision(IPanel panel);
+
+    /**
+     * Return character's info plus the norma level.
+     * @return String.
+     */
+    String getInfo();
 }

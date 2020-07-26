@@ -91,6 +91,18 @@ public interface ICharacter {
      */
     int getEvd();
 
+    /**
+     * Getter of the characters information.
+     * @return String.
+     */
+    String getInfo();
+
+    /**
+     * Getter of the character's roll.
+     * @return int.
+     */
+    int getRoll();
+
 
 
     /*

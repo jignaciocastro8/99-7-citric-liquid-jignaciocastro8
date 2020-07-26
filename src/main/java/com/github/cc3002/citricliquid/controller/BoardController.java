@@ -4,11 +4,13 @@ import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.board.IPanel;
 import com.github.cc3002.citricjuice.model.board.panelFactory.*;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.gameFlux.BattleOrNotState;
+import com.github.cc3002.citricliquid.gameFlux.NextPanelState;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class BoardController implements IBoardController {
+public class BoardController extends ParticularController implements IBoardController, IBoardObserver{
 
     private IPanelFactory bonusPanelFactory = new BonusPanelFactory();
     private IPanelFactory bossPanelFactory = new BossPanelFactory();
@@ -44,6 +46,7 @@ public class BoardController implements IBoardController {
     public IPanel createHomePanel(int key) {
         IPanel panel = homePanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -54,6 +57,7 @@ public class BoardController implements IBoardController {
     public IPanel createBonusPanel(int key) {
         IPanel panel = bonusPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -64,6 +68,7 @@ public class BoardController implements IBoardController {
     public IPanel createBossPanel(int key) {
         IPanel panel = bossPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -74,6 +79,7 @@ public class BoardController implements IBoardController {
     public IPanel createDrawPanel(int key) {
         IPanel panel = drawPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -84,6 +90,7 @@ public class BoardController implements IBoardController {
     public IPanel createDropPanel(int key) {
         IPanel panel = dropPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -94,6 +101,7 @@ public class BoardController implements IBoardController {
     public IPanel createEncounterPanel(int key) {
         IPanel panel = encounterPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -104,6 +112,7 @@ public class BoardController implements IBoardController {
     public IPanel createNeutralPanel(int key) {
         IPanel panel = neutralPanelFactory.createWithKey(key);
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
     /**
@@ -116,6 +125,7 @@ public class BoardController implements IBoardController {
         // Get a new key.
         int key = this.getMaxKey() + 1;
         this.board.put(key, panel);
+        panel.attach(this);
         return panel;
     }
 
@@ -169,5 +179,81 @@ public class BoardController implements IBoardController {
             if (key >= maxKey) {maxKey = key;}
         }
         return maxKey;
+    }
+
+    /**
+     * Puts the player on the panel board[key], but don't apply the panel effect.
+     *
+     * @param player IPlayer.
+     * @param key Int, key of the IPanel where player will be located.
+     */
+    @Override
+    public void movePlayerTo(IPlayer player, int key) {
+        // Delete player from previous panel.
+        player.getCurrentPanel().removePlayer(player);
+        // Set the new current panel of the player,
+        player.setCurrentPanel(this.board.get(key));
+        // Put the player on its new panel.
+        this.board.get(key).addPlayer(player);
+    }
+
+    public void movePlayer(IPlayer player, int steps) {
+        if (steps == 0) {
+            // This action ends the turn.
+            player.getCurrentPanel().activatedBy(player);
+        }
+        // Recursion
+        else {
+            int key = player.getNextPanelDecision().getKey();
+            this.movePlayerTo(player, key);
+            this.movePlayer(player, steps - 1);
+
+        }
+
+
+    }
+
+    /**
+     * Updates the game state in order of a panel notification.
+     */
+    @Override
+    public void updateStopPlayer(IPlayer player) {
+        player.waitOnPanel();
+    }
+
+    /**
+     * Update meaning that a battle might start.
+     *
+     * @param player IPlayer, the player to ask.
+     * @param enemy  IPlayer, the enemy.
+     */
+    @Override
+    public void playersMeetUpdate(IPlayer player, IPlayer enemy) {
+        player.waitOnPanel();
+        this.centralController.setState(new BattleOrNotState(player, enemy));
+    }
+
+    /**
+     * Update meaning that the panel has more than one next panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void multipleNextPanelsUpdate(IPlayer player) {
+        player.waitOnPanel();
+        this.centralController.setState(new NextPanelState(player));
+    }
+
+    /*
+    Getter of the home panels on the game.
+     */
+    public ArrayList<IPanel> getHomePanels() {
+        ArrayList<IPanel> homePanels = new ArrayList<>();
+        for (IPanel panel : board.values()) {
+            if (panel.isHomePanel()) {
+                homePanels.add(panel);
+            }
+        }
+        return new ArrayList<>(homePanels);
     }
 }

@@ -19,7 +19,17 @@ public class DrawPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(IPlayer player) {
+    public void activatedByParticular(IPlayer player) {
 
+    }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
     }
 }

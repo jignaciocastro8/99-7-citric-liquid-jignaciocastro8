@@ -1,6 +1,8 @@
 package com.github.cc3002.citricjuice.model.board;
 
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.controller.IBoardObserver;
+import com.github.cc3002.citricliquid.controller.IPlayerObserver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -116,4 +118,76 @@ public class NullPanel implements IPanel {
     public int numberOfPLayers() {
         return 0;
     }
+
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
+    }
+
+    /**
+     * Attaches the panel to a player observer.
+     *
+     * @param observer IPlayerObserver.
+     */
+    @Override
+    public void attach(IPlayerObserver observer) {
+
+    }
+
+    /**
+     * Attaches the panel to an observer.
+     *
+     * @param observer
+     */
+    @Override
+    public void attach(IBoardObserver observer) {
+
+    }
+
+    /**
+     * Notifies that a player meets another player on this panel.
+     *
+     * @param player IPlayer, the player that enters the panel.
+     * @param enemy  IPlayer, the enemy.
+     */
+    @Override
+    public void notifyPlayersMeet(IPlayer player, IPlayer enemy) {
+
+    }
+
+
+    /**
+     * Notifies the observer that the turn is over.
+     */
+    @Override
+    public void notifyTurnIsOver(IPlayer player) {
+
+    }
+
+    /**
+     * Notifies that the player is on his/hers home panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void notifyPlayerOnHomePanel(IPlayer player) {
+
+    }
+
+    /**
+     * Notifies that this panel has more than one next panel.
+     *
+     * @param player IPlayer.
+     */
+    @Override
+    public void notifyMultipleNextPanels(IPlayer player) {
+
+    }
+
+
 }

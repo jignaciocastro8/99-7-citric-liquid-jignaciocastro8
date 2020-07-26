@@ -38,7 +38,7 @@ public class HomePanel extends Panel {
      * @param player: a Player.
      */
     @Override
-    public void activatedBy(IPlayer player) {
+    public void activatedByParticular(IPlayer player) {
         player.setCurrentHP(player.getCurrentHP() + 1);
         normaCheck(player);
     }
@@ -112,4 +112,13 @@ public class HomePanel extends Panel {
 
     }
 
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return true;
+    }
 }

@@ -19,7 +19,17 @@ public class EncounterPanel extends Panel {
      * @param player: the player that activates the panel.
      */
     @Override
-    public void activatedBy(IPlayer player) {
+    public void activatedByParticular(IPlayer player) {
+        // AQUI DEBE EMPEZAR UNA BATALLA.
+    }
 
+    /**
+     * True if this is a home panel, false if not.
+     *
+     * @return boolean.
+     */
+    @Override
+    public boolean isHomePanel() {
+        return false;
     }
 }

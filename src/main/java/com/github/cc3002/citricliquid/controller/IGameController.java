@@ -2,6 +2,7 @@ package com.github.cc3002.citricliquid.controller;
 
 import com.github.cc3002.citricjuice.model.board.HomePanel;
 import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
+import com.github.cc3002.citricliquid.gameFlux.ITurnState;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public interface IGameController {
      * @param key Int, key of the IPanel where player will be located.
      * @param player IPlayer.
      */
-    void movePlayerTo(IPlayer player, int key);
+    void movePlayerTo(IPlayer player, int key) throws PlayerController.NoSuchPlayerOnTheGameException;
 
     /**
      * Sets home panel of the player.
@@ -27,11 +28,6 @@ public interface IGameController {
      */
     int getChapter();
 
-
-    /**
-     * Initiates the turn system. It requires a minimum of two players.
-     */
-    void initiateGame() ;
 
     /**
      * Getter of the turn owner.
@@ -49,11 +45,73 @@ public interface IGameController {
      * @param player IPlayer, the player to move.
      * @param steps Int, the amount of steps.
      */
-    void movePlayer(IPlayer player, int steps);
+    void movePlayer(IPlayer player, int steps) throws PlayerController.NoSuchPlayerOnTheGameException;
 
     /**
      * Getter of the winner.
      * @return IPlayer.
      */
     IPlayer getWinner();
+
+    /**
+     * Returns the names of the players on the game.
+     * @return Array with with names as strings.
+     */
+    ArrayList<String> getPlayersName();
+
+    /**
+     * Returns a roll from the turn owner.
+     * @return int.
+     */
+    int rollTurnOwnerDice();
+
+    /**
+     * Getter of a string builder with player's info.
+     * @return StringBuilder.
+     */
+    StringBuilder getPlayersInfo();
+
+    /**
+     * Getter of the game info.
+     * @return StringBuilder.
+     */
+    StringBuilder getGameInfo();
+
+    /**
+     * Assigns home panels randomly.
+     */
+    void assignHomePanels() throws GameController.PlayersAndHomePanelsDontMatchException;
+
+    /**
+     * Puts all the players on theirs home panel
+     */
+    void putPlayersOnHomePanel();
+
+    /**
+     * Getter of the players current panel key. The order is the creation order of the players.
+     * @return int.
+     */
+    ArrayList<Integer> getPlayersPosition();
+
+    /**
+     * Gets the turn owner roll and move the turn owner.
+     */
+    void moveTurnOwner();
+
+    /**
+     * Set the state of the controller to startTurnState.
+     */
+    void setState(ITurnState state);
+
+    /**
+     * Getter of the name of the state.
+     * @return String.
+     */
+    String getStateName();
+
+    /**
+     * Setter of the try to continue answer of the controller state.
+     * @param flag boolean.
+     */
+    void setTryToContinue(boolean flag);
 }

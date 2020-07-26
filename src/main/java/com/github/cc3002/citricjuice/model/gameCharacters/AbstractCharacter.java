@@ -13,8 +13,18 @@ public abstract class AbstractCharacter implements ICharacter {
     protected int stars;
     protected int currentHP;
     protected int wins;
+    private int roll;
 
 
+    /**
+     * Getter of the character's roll.
+     *
+     * @return int.
+     */
+    @Override
+    public int getRoll() {
+        return this.roll;
+    }
 
     /**
      * Creates a general character.
@@ -132,11 +142,12 @@ public abstract class AbstractCharacter implements ICharacter {
      */
     public void reduceWinsBy(int amount) {this.wins = Math.max(0, this.wins - amount);}
     /**
-     * Rolls the character's own dices represented by his/hers Random object.
+             * Rolls the character's own dices represented by his/hers Random object.
      * @return a number in {1,...,6}.
      */
     public int roll() {
-        return this.random.nextInt(6) + 1;
+        this.roll = this.random.nextInt(6) + 1;
+        return this.roll;
     }
     /**
      * Set's the seed for this player's random number generator.
@@ -161,7 +172,6 @@ public abstract class AbstractCharacter implements ICharacter {
                 currentHP == that.currentHP &&
                 wins == that.wins &&
                 Objects.equals(name, that.name);
-        //Objects.equals(random, that.random); NO SE NECESITA COMPARAR LOS RANDOM OBJECTS (?)
     }
 
     @Override
@@ -204,6 +214,22 @@ public abstract class AbstractCharacter implements ICharacter {
         character.receiveAtk(netAtk);
     }
 
-    // Everyone must be able to receive an attack. Abstract method.
+    /**
+     * Getter of the characters information.
+     *
+     * @return String.
+     */
+    @Override
+    public String getInfo() {
+        return "current hp : " + currentHP + ", " +
+                "stars: " + stars + ", " +
+                "wins: " + wins + ", " +
+                "roll: " + roll;
+    }
+
+    /**
+     * Abstract method. Everyone must be able to receive an attack.
+     * @param netAtk int.
+     */
     public abstract void receiveAtk(int netAtk);
 }

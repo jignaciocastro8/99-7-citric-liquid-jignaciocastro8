@@ -5,8 +5,9 @@ import com.github.cc3002.citricjuice.model.gameCharacters.IPlayer;
 import com.github.cc3002.citricliquid.model.NormaGoal;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
-public interface IPlayerController {
+public interface IPlayerController  {
     /**
      * Creates a player. Stats of the player:
      * @param name Name.
@@ -40,6 +41,18 @@ public interface IPlayerController {
     IPlayer createMarc();
 
     /**
+     * Fast method to create kai.
+     * @return IPlayer
+     */
+    IPlayer createKai();
+
+    /**
+     * Fast method to create peat.
+     * @return IPlayer.
+     */
+    IPlayer createPeat();
+
+    /**
      * Getter of the player of the game.
      * @return IPlayer[]
      */
@@ -57,5 +70,32 @@ public interface IPlayerController {
      * @param objective NormaGoal type.
      */
     void setPLayerObjective(IPlayer player, NormaGoal objective);
+
+    /**
+     * Updates the observer winner data.
+     */
+    void updateWinner(IPlayer player);
+
+    /**
+     * Getter of the game chapter.
+     * @return int.
+     */
+    int getChapter();
+
+    /**
+     * Initiate the game.
+     */
+    void initiateGame() throws PlayerController.NoPlayersException;
+
+    /**
+     * Getter of the turn owner.
+     * @return IPlayer.
+     */
+    IPlayer getTurnOwner();
+
+    /**
+     * Changes the turn owner to the next one.
+     */
+    void nextTurn();
 
 }
