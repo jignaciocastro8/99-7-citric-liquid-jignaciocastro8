@@ -7,8 +7,6 @@ import com.github.cc3002.citricliquid.gui.nodes.BoardNode;
 import com.github.cc3002.citricliquid.gui.nodes.LabelBuilder;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
